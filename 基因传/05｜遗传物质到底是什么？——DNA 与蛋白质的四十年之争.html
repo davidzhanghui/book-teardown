@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light dark">
+  <script>
+    (function(){try{var t=localStorage.getItem('md2html-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();
+  </script>
   <title>05｜遗传物质到底是什么？——DNA 与蛋白质的四十年之争</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,8 +26,12 @@
       --accent: #D97757;
       --accent-hover: #C56843;
       --accent-soft: #FBEEE6;
-      --accent-border: #F0D5C4;
+      --accent-border: rgba(var(--accent-rgb), .25);
       --accent-strong: #A85533;
+      --on-accent: #FFFFFF;
+      --accent-rgb: 217,119,87;
+      --bg-rgb: 250,250,247;
+      --shadow-rgb: 20,14,8;
       --border: #E5E4DC;
       --border-strong: #CDCDC4;
       --code-bg: #F5F2EC;
@@ -44,9 +51,9 @@
       --decision: #6D28D9;
       --decision-soft: #F5F3FF;
       --decision-border: #DDD6FE;
-      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
-      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
-      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --shadow-sm: 0 1px 2px rgba(var(--shadow-rgb), 0.04);
+      --shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.04), 0 4px 12px rgba(var(--shadow-rgb), 0.06);
+      --shadow-lg: 0 8px 24px rgba(var(--shadow-rgb), 0.10);
       --radius: 12px;
       --radius-sm: 8px;
       --radius-lg: 16px;
@@ -60,6 +67,7 @@
 
     [data-theme="dark"] {
       --bg: #1A1714;
+      --bg-rgb: 26,23,20;
       --surface: #221E1A;
       --surface-2: #2A2520;
       --surface-3: #322C26;
@@ -69,12 +77,122 @@
       --accent: #E89572;
       --accent-hover: #F2A87F;
       --accent-soft: #3A2A22;
-      --accent-border: #5A3D2E;
       --accent-strong: #F5B493;
+      --on-accent: #FFFFFF;
+      --accent-rgb: 232,149,114;
       --border: #2E2924;
       --border-strong: #463F38;
       --code-bg: #1E1B17;
       --code-text: #E8E2D8;
+      --shadow-rgb: 0,0,0;
+    }
+
+    /* ---- 浅色主题（移植自 mail-archive 纸本配色） ---- */
+    [data-theme="moss"] {
+      --bg: #f3f1e9; --bg-rgb: 243,241,233;
+      --surface: #faf9f4; --surface-2: #f6f4ec; --surface-3: #ebe8db;
+      --text: #2b2a23; --text-muted: #565448; --text-subtle: #98947f;
+      --accent: #3d5c47; --accent-hover: #2f4a38; --accent-strong: #2f4a38;
+      --accent-soft: #e8ece5; --accent-rgb: 61,92,71; --on-accent: #f5f3ea;
+      --border: #e3dfd0; --border-strong: #d3cebb;
+      --code-bg: #f6f4ec; --code-text: #36342b;
+      --shadow-rgb: 60,55,35;
+    }
+    [data-theme="claret"] {
+      --bg: #f4efe7; --bg-rgb: 244,239,231;
+      --surface: #fbf8f3; --surface-2: #f7f2ea; --surface-3: #ece4db;
+      --text: #2d2622; --text-muted: #5b4f45; --text-subtle: #9a8d80;
+      --accent: #8b3229; --accent-hover: #63211c; --accent-strong: #63211c;
+      --accent-soft: #f5e7e3; --accent-rgb: 139,50,41; --on-accent: #f7f0e9;
+      --border: #e5dcd2; --border-strong: #d8cabb;
+      --code-bg: #f7f2ea; --code-text: #3a3029;
+      --shadow-rgb: 62,50,42;
+    }
+    [data-theme="indigo"] {
+      --bg: #f0f2f1; --bg-rgb: 240,242,241;
+      --surface: #f9faf9; --surface-2: #f4f6f5; --surface-3: #e6eae9;
+      --text: #22262b; --text-muted: #4d545c; --text-subtle: #8b939c;
+      --accent: #33506e; --accent-hover: #24384f; --accent-strong: #24384f;
+      --accent-soft: #e6eaf0; --accent-rgb: 51,80,110; --on-accent: #eef2f7;
+      --border: #dde2e4; --border-strong: #ccd3d6;
+      --code-bg: #f4f6f5; --code-text: #2c333a;
+      --shadow-rgb: 40,50,60;
+    }
+    [data-theme="umber"] {
+      --bg: #f6f0e3; --bg-rgb: 246,240,227;
+      --surface: #fbf7ee; --surface-2: #f8f3e8; --surface-3: #ece3d2;
+      --text: #2f2a20; --text-muted: #5a5040; --text-subtle: #9c8e75;
+      --accent: #8a5a2b; --accent-hover: #6b441c; --accent-strong: #6b441c;
+      --accent-soft: #f2e9dd; --accent-rgb: 138,90,43; --on-accent: #f8f1e4;
+      --border: #e6dcc8; --border-strong: #d8c9b0;
+      --code-bg: #f8f3e8; --code-text: #3b3427;
+      --shadow-rgb: 62,52,34;
+    }
+    [data-theme="mulberry"] {
+      --bg: #f3eff1; --bg-rgb: 243,239,241;
+      --surface: #fbf9fa; --surface-2: #f6f2f4; --surface-3: #eae4eb;
+      --text: #2a2529; --text-muted: #544c56; --text-subtle: #948a97;
+      --accent: #6b4a72; --accent-hover: #513555; --accent-strong: #513555;
+      --accent-soft: #efe8f1; --accent-rgb: 107,74,114; --on-accent: #f4eff4;
+      --border: #e2dae3; --border-strong: #d3c8d6;
+      --code-bg: #f6f2f4; --code-text: #352e37;
+      --shadow-rgb: 54,44,56;
+    }
+    [data-theme="graphite"] {
+      --bg: #f2f2ef; --bg-rgb: 242,242,239;
+      --surface: #fafaf8; --surface-2: #f5f5f3; --surface-3: #e9e9e4;
+      --text: #26262a; --text-muted: #4f4f4a; --text-subtle: #8c8c86;
+      --accent: #4a4a46; --accent-hover: #33332f; --accent-strong: #33332f;
+      --accent-soft: #eaeae5; --accent-rgb: 74,74,70; --on-accent: #f4f4f1;
+      --border: #e0e0da; --border-strong: #c9c9c2;
+      --code-bg: #f5f5f3; --code-text: #33332f;
+      --shadow-rgb: 45,45,42;
+    }
+    [data-theme="teal"] {
+      --bg: #edf2f1; --bg-rgb: 237,242,241;
+      --surface: #f8fbfa; --surface-2: #f3f7f6; --surface-3: #e4ecea;
+      --text: #20282a; --text-muted: #47585a; --text-subtle: #849798;
+      --accent: #2f6367; --accent-hover: #1f4749; --accent-strong: #1f4749;
+      --accent-soft: #e3eeed; --accent-rgb: 47,99,103; --on-accent: #eaf2f1;
+      --border: #dae5e3; --border-strong: #c8d6d4;
+      --code-bg: #f3f7f6; --code-text: #2a3538;
+      --shadow-rgb: 35,50,52;
+    }
+
+    /* ---- 深色主题 ---- */
+    [data-theme="midnight"] {
+      --bg: #23211c; --bg-rgb: 35,33,28;
+      --surface: #2b2924; --surface-2: #302e28; --surface-3: #34322c;
+      --text: #ded7c6; --text-muted: #b7ae9a; --text-subtle: #8a8271;
+      --accent: #a98a54; --accent-hover: #8b7043; --accent-strong: #d9bd86;
+      --accent-soft: #3a3226; --accent-rgb: 169,138,84; --on-accent: #211f1a;
+      --border: #3a372f; --border-strong: #45413a;
+      --code-bg: #302e28; --code-text: #cfc7b4;
+      --shadow-rgb: 0,0,0;
+    }
+    [data-theme="dusk"] {
+      --bg: #1b1f2a; --bg-rgb: 27,31,42;
+      --surface: #222735; --surface-2: #262b3a; --surface-3: #2b3140;
+      --text: #d5dbe8; --text-muted: #a9b2c6; --text-subtle: #7f8899;
+      --accent: #6f8fc4; --accent-hover: #5876ab; --accent-strong: #a3bcdf;
+      --accent-soft: #2a3346; --accent-rgb: 111,143,196; --on-accent: #171b24;
+      --border: #303747; --border-strong: #383f50;
+      --code-bg: #262b3a; --code-text: #c6cdde;
+      --shadow-rgb: 0,0,0;
+    }
+    [data-theme="forest"] {
+      --bg: #1c211d; --bg-rgb: 28,33,29;
+      --surface: #232925; --surface-2: #272e29; --surface-3: #2c342e;
+      --text: #d3dbd2; --text-muted: #a8b3a8; --text-subtle: #7c877c;
+      --accent: #7fa87f; --accent-hover: #648c64; --accent-strong: #a7cba7;
+      --accent-soft: #2a362b; --accent-rgb: 127,168,127; --on-accent: #161a16;
+      --border: #313a33; --border-strong: #39433b;
+      --code-bg: #272e29; --code-text: #c4cdc3;
+      --shadow-rgb: 0,0,0;
+    }
+
+    /* 深色组共用：功能色与阴影强度（--shadow-rgb 由各主题决定色相） */
+    [data-theme="dark"], [data-theme="midnight"], [data-theme="dusk"], [data-theme="forest"] {
       --info: #93C5FD;
       --info-soft: #1E2A3D;
       --info-border: #2A4365;
@@ -90,9 +208,9 @@
       --decision: #C4B5FD;
       --decision-soft: #2A1F40;
       --decision-border: #4A3870;
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
-      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
-      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+      --shadow-sm: 0 1px 2px rgba(var(--shadow-rgb), 0.25);
+      --shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.25), 0 4px 12px rgba(var(--shadow-rgb), 0.35);
+      --shadow-lg: 0 8px 24px rgba(var(--shadow-rgb), 0.45);
     }
 
     /* ============================================================
@@ -118,7 +236,7 @@
       top: -100px; left: 8px;
       padding: 10px 16px;
       background: var(--accent);
-      color: #fff;
+      color: var(--on-accent);
       text-decoration: none;
       border-radius: var(--radius-sm);
       font-weight: 500;
@@ -149,12 +267,30 @@
       position: sticky;
       top: 0;
       z-index: var(--z-topbar);
-      background: rgba(250, 250, 247, 0.85);
+      background: rgba(var(--bg-rgb), 0.85);
       backdrop-filter: saturate(180%) blur(12px);
       -webkit-backdrop-filter: saturate(180%) blur(12px);
       border-bottom: 1px solid var(--border);
     }
-    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .theme-wrap { position: relative; }
+    .theme-pop {
+      display: none; position: absolute; right: 0; top: calc(100% + 8px);
+      min-width: 168px; padding: 6px; z-index: var(--z-drawer);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); box-shadow: var(--shadow-lg);
+    }
+    .theme-pop.open { display: block; }
+    .theme-group { margin: 6px 10px 2px; font-size: 11px; color: var(--text-subtle); }
+    .theme-item {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 7px 10px; border: 0; background: none; cursor: pointer;
+      font-family: inherit; font-size: 13.5px; color: var(--text);
+      border-radius: 6px; text-align: left;
+    }
+    .theme-item:hover { background: var(--surface-2); }
+    .theme-item.on { color: var(--accent-strong); font-weight: 600; }
+    .theme-item i { width: 12px; height: 12px; border-radius: 50%; flex: none;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
     .topbar-inner {
       max-width: 1280px;
       margin: 0 auto;
@@ -503,7 +639,7 @@
       z-index: 1;
       transition: background-color 0.15s, color 0.15s, transform 0.15s;
     }
-    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step.done .step-num { background: var(--accent); color: var(--on-accent); }
     .step-body { padding-top: 6px; min-width: 0; }
     .step-body h3 {
       margin: 0 0 6px;
@@ -543,7 +679,7 @@
     .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
     .callout-body p:last-child { margin-bottom: 0; }
     .callout-body code { background: rgba(0,0,0,0.04); }
-    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+    :is([data-theme="dark"], [data-theme="midnight"], [data-theme="dusk"], [data-theme="forest"]) .callout-body code { background: rgba(255,255,255,0.06); }
 
     .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
     .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
@@ -667,7 +803,7 @@
     .compare-card.recommended::before {
       content: var(--rec-label, "★ Recommended");
       position: absolute; top: -10px; right: 14px;
-      background: var(--accent); color: #fff;
+      background: var(--accent); color: var(--on-accent);
       padding: 2px 10px; border-radius: 999px;
       font-size: 11px; font-weight: 600;
     }
@@ -904,21 +1040,21 @@
       .doc-footer { break-before: avoid; }
     }
   </style>
-<!-- NAV-INJECT:START -->
-<style>
-  .doc-header .back-home { display: table;
-    margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
-    color: var(--accent-strong); text-decoration: none;
-    background: var(--accent-soft); border: 1px solid var(--accent-border);
-    border-bottom: 1px solid var(--accent-border); border-radius: 999px;
-    transition: color .15s, border-color .15s; }
-  .doc-header .back-home:hover { color: var(--accent-hover);
-    border-color: var(--accent); border-bottom-color: var(--accent); }
-</style>
-<!-- NAV-INJECT:END -->
-  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
-  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+  <!-- NAV-INJECT:START -->
+  <style>
+    .doc-header .back-home { display: table;
+      margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+      color: var(--accent-strong); text-decoration: none;
+      background: var(--accent-soft); border: 1px solid var(--accent-border);
+      border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+      transition: color .15s, border-color .15s; }
+    .doc-header .back-home:hover { color: var(--accent-hover);
+      border-color: var(--accent); border-bottom-color: var(--accent); }
+  </style>
+  <!-- NAV-INJECT:END -->
+        <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <!-- SEO-INJECT:START -->
   <meta name="description" content="上一篇，我们跟着科学家把基因「安放」到了染色体上。但故事没有结束，反而变得更棘手了。">
   <link rel="canonical" href="https://book-teardown.vercel.app/%E5%9F%BA%E5%9B%A0%E4%BC%A0/05%EF%BD%9C%E9%81%97%E4%BC%A0%E7%89%A9%E8%B4%A8%E5%88%B0%E5%BA%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E2%80%94%E2%80%94DNA%20%E4%B8%8E%E8%9B%8B%E7%99%BD%E8%B4%A8%E7%9A%84%E5%9B%9B%E5%8D%81%E5%B9%B4%E4%B9%8B%E4%BA%89.html">
@@ -956,6 +1092,7 @@
     <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
     <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
     <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.68-.44-1.12a1.68 1.68 0 0 1 1.68-1.68h2.09A5.46 5.46 0 0 0 22 10.92C21.97 5.81 17.5 2 12 2z"/></symbol>
     <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
     <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
@@ -986,9 +1123,27 @@
         <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
         </button>
-        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
-          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
-        </button>
+        <div class="theme-wrap">
+          <button class="icon-btn" id="theme-btn" onclick="toggleThemePop(event)" title="切换主题" aria-label="切换主题" aria-haspopup="true">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-palette"/></svg>
+          </button>
+          <div class="theme-pop" id="theme-pop" role="menu" aria-label="切换主题">
+            <p class="theme-group">浅色</p>
+            <button class="theme-item" data-t="light" onclick="setTheme('light')"><i style="background:#D97757"></i>暖阳 · 默认</button>
+            <button class="theme-item" data-t="moss" onclick="setTheme('moss')"><i style="background:#3d5c47"></i>墨绿</button>
+            <button class="theme-item" data-t="claret" onclick="setTheme('claret')"><i style="background:#8b3229"></i>酒红</button>
+            <button class="theme-item" data-t="indigo" onclick="setTheme('indigo')"><i style="background:#33506e"></i>藏蓝</button>
+            <button class="theme-item" data-t="umber" onclick="setTheme('umber')"><i style="background:#8a5a2b"></i>赭石</button>
+            <button class="theme-item" data-t="mulberry" onclick="setTheme('mulberry')"><i style="background:#6b4a72"></i>紫檀</button>
+            <button class="theme-item" data-t="graphite" onclick="setTheme('graphite')"><i style="background:#4a4a46"></i>松烟</button>
+            <button class="theme-item" data-t="teal" onclick="setTheme('teal')"><i style="background:#2f6367"></i>孔雀</button>
+            <p class="theme-group">深色</p>
+            <button class="theme-item" data-t="dark" onclick="setTheme('dark')"><i style="background:#E89572"></i>暗夜 · 默认</button>
+            <button class="theme-item" data-t="midnight" onclick="setTheme('midnight')"><i style="background:#a98a54"></i>夜读</button>
+            <button class="theme-item" data-t="dusk" onclick="setTheme('dusk')"><i style="background:#6f8fc4"></i>暮蓝</button>
+            <button class="theme-item" data-t="forest" onclick="setTheme('forest')"><i style="background:#7fa87f"></i>深林</button>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -1034,7 +1189,7 @@
           </span>
           <span class="doc-meta-item">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
-            更新于 2026-09-19
+            更新于 2026-09-23
           </span>
           <span class="doc-meta-item">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
@@ -1206,30 +1361,58 @@ graph TD
   <script>
     // ---------- Theme ----------
     const STORAGE_KEY = "md2html-theme";
+    const DARK_THEMES = new Set(["dark", "midnight", "dusk", "forest"]);
     function currentTheme() { return document.documentElement.dataset.theme || "light"; }
-    function applyThemeIcon() {
-      const use = document.getElementById("theme-icon-use");
-      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
-    }
+    function isDarkTheme() { return DARK_THEMES.has(currentTheme()); }
     (function restoreTheme() {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) document.documentElement.dataset.theme = saved;
     })();
+    function markThemeItem() {
+      document.querySelectorAll(".theme-item").forEach(b =>
+        b.classList.toggle("on", b.dataset.t === currentTheme()));
+    }
+    function toggleThemePop(e) {
+      e.stopPropagation();
+      markThemeItem();
+      document.getElementById("theme-pop").classList.toggle("open");
+    }
+    function setTheme(t) {
+      document.documentElement.dataset.theme = t;
+      localStorage.setItem(STORAGE_KEY, t);
+      markThemeItem();
+      const pop = document.getElementById("theme-pop");
+      if (pop) pop.classList.remove("open");
+      renderMermaid();
+    }
+    document.addEventListener("click", e => {
+      const pop = document.getElementById("theme-pop");
+      if (pop && pop.classList.contains("open") && !e.target.closest(".theme-wrap"))
+        pop.classList.remove("open");
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        const pop = document.getElementById("theme-pop");
+        if (pop) pop.classList.remove("open");
+      }
+    });
 
     // ---------- Mermaid ----------
     const diagramSources = new Map();
     function initMermaid() {
-      const isDark = currentTheme() === "dark";
+      const isDark = isDarkTheme();
+      const cs = getComputedStyle(document.documentElement);
+      const cv = n => cs.getPropertyValue(n).trim();
       mermaid.initialize({
         startOnLoad: false,
         theme: isDark ? "dark" : "default",
         themeVariables: {
-          primaryColor: isDark ? "#3A2A22" : "#FBEEE6",
-          primaryTextColor: isDark ? "#F5F0E8" : "#1A1A1A",
-          primaryBorderColor: isDark ? "#E89572" : "#D97757",
-          lineColor: isDark ? "#9A938A" : "#6B6B66",
-          secondaryColor: isDark ? "#2A2520" : "#F5F5F0",
-          tertiaryColor: isDark ? "#221E1A" : "#FFFFFF",
+          primaryColor: cv("--accent-soft"),
+          primaryTextColor: cv("--text"),
+          primaryBorderColor: cv("--accent"),
+          lineColor: cv("--text-subtle"),
+          secondaryColor: cv("--surface-2"),
+          tertiaryColor: cv("--surface"),
           fontFamily: "Inter, system-ui, sans-serif",
         },
       });
@@ -1256,14 +1439,6 @@ graph TD
       });
       try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
     }
-    function toggleTheme() {
-      const next = currentTheme() === "light" ? "dark" : "light";
-      document.documentElement.dataset.theme = next;
-      localStorage.setItem(STORAGE_KEY, next);
-      applyThemeIcon();
-      renderMermaid();
-    }
-
     // ---------- TOC drawer (mobile) ----------
     function openToc()  { document.body.classList.add("toc-open"); }
     function closeToc() { document.body.classList.remove("toc-open"); }
@@ -1355,7 +1530,7 @@ graph TD
 
     // ---------- Boot ----------
     document.addEventListener("DOMContentLoaded", () => {
-      applyThemeIcon();
+      markThemeItem();
       injectAnchors();
       injectCopyButtons();
       renderMermaid();

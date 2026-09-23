@@ -191,8 +191,33 @@ def inject(path: Path, block: str):
 
 # ---------------------------------------------------------------- OG 封面
 
+FONT_CANDIDATES = [
+    "/System/Library/Fonts/Hiragino Sans GB.ttc",                 # macOS
+    "/System/Library/Fonts/PingFang.ttc",                         # macOS
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",     # Linux (Noto)
+    "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",             # Linux (文泉驿)
+    "C:/Windows/Fonts/msyh.ttc",                                  # Windows 微软雅黑
+    "C:/Windows/Fonts/simhei.ttf",                                # Windows 黑体
+]
+
+
+def _load_font(size, index=0):
+    """按候选顺序加载中文字体；全部失败退回 PIL 默认字体（中文将无法渲染）。"""
+    from PIL import ImageFont
+    for p in FONT_CANDIDATES:
+        if not os.path.exists(p):
+            continue
+        for idx in (index, 0):
+            try:
+                return ImageFont.truetype(p, size, index=idx)
+            except OSError:
+                continue
+    print("warning: 未找到可用中文字体，回退到 PIL 默认字体（中文将无法渲染）")
+    return ImageFont.load_default()
+
+
 def gen_og_image():
-    from PIL import Image, ImageDraw, ImageFont
+    from PIL import Image, ImageDraw
     out = ROOT / OG_IMAGE
     out.parent.mkdir(exist_ok=True)
     W, H = 1200, 630
@@ -200,9 +225,8 @@ def gen_og_image():
     dr = ImageDraw.Draw(img)
     dr.rectangle([0, 0, 24, H], fill="#D97757")
     dr.rectangle([0, H - 24, W, H], fill="#D97757")
-    font_path = "/System/Library/Fonts/Hiragino Sans GB.ttc"
-    f_big = ImageFont.truetype(font_path, 92, index=1)
-    f_sm = ImageFont.truetype(font_path, 40, index=0)
+    f_big = _load_font(92, index=1)
+    f_sm = _load_font(40)
     dr.ellipse([72, 84, 100, 112], fill="#D97757")
     dr.text((120, 78), "BOOK TEARDOWN", font=f_sm, fill="#A85533")
     dr.text((72, 220), "拆书", font=f_big, fill="#1A1A1A")
