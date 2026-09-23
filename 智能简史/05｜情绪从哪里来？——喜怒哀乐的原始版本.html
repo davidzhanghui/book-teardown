@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '★ 推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>05｜情绪从哪里来？——喜怒哀乐的原始版本</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: #F0D5C4;
+      --accent-strong: #A85533;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
+      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
+      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-border: #5A3D2E;
+      --accent-strong: #F5B493;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .diagram-caption.diagram-offline {
+      color: var(--accent-strong);
+      border-top-color: var(--accent-border);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .diagram-caption.diagram-offline .icon { width: 15px; height: 15px; flex: none; }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: #fff;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  </style>
+<!-- NAV-INJECT:START -->
+<style>
+  .doc-header .back-home { display: table;
+    margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+    color: var(--accent-strong); text-decoration: none;
+    background: var(--accent-soft); border: 1px solid var(--accent-border);
+    border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+    transition: color .15s, border-color .15s; }
+  .doc-header .back-home:hover { color: var(--accent-hover);
+    border-color: var(--accent); border-bottom-color: var(--accent); }
+</style>
+<!-- NAV-INJECT:END -->
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<!-- SEO-INJECT:START -->
+  <meta name="description" content="情绪不是文明的装饰，而是最古老的决策系统。">
+  <link rel="canonical" href="https://book-teardown.vercel.app/%E6%99%BA%E8%83%BD%E7%AE%80%E5%8F%B2/05%EF%BD%9C%E6%83%85%E7%BB%AA%E4%BB%8E%E5%93%AA%E9%87%8C%E6%9D%A5%EF%BC%9F%E2%80%94%E2%80%94%E5%96%9C%E6%80%92%E5%93%80%E4%B9%90%E7%9A%84%E5%8E%9F%E5%A7%8B%E7%89%88%E6%9C%AC.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Book Teardown · 拆书">
+  <meta property="og:title" content="05｜情绪从哪里来？——喜怒哀乐的原始版本">
+  <meta property="og:description" content="情绪不是文明的装饰，而是最古老的决策系统。">
+  <meta property="og:url" content="https://book-teardown.vercel.app/%E6%99%BA%E8%83%BD%E7%AE%80%E5%8F%B2/05%EF%BD%9C%E6%83%85%E7%BB%AA%E4%BB%8E%E5%93%AA%E9%87%8C%E6%9D%A5%EF%BC%9F%E2%80%94%E2%80%94%E5%96%9C%E6%80%92%E5%93%80%E4%B9%90%E7%9A%84%E5%8E%9F%E5%A7%8B%E7%89%88%E6%9C%AC.html">
+  <meta property="og:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="05｜情绪从哪里来？——喜怒哀乐的原始版本">
+  <meta name="twitter:description" content="情绪不是文明的装饰，而是最古老的决策系统。">
+  <meta name="twitter:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta property="article:published_time" content="2026-09-23">
+  <meta property="article:modified_time" content="2026-09-23">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"05｜情绪从哪里来？——喜怒哀乐的原始版本","description":"情绪不是文明的装饰，而是最古老的决策系统。","inLanguage":"zh-CN","datePublished":"2026-09-23","dateModified":"2026-09-23","author":{"@type":"Organization","name":"Book Teardown · 拆书"},"isPartOf":{"@type":"Book","name":"智能简史"},"mainEntityOfPage":"https://book-teardown.vercel.app/%E6%99%BA%E8%83%BD%E7%AE%80%E5%8F%B2/05%EF%BD%9C%E6%83%85%E7%BB%AA%E4%BB%8E%E5%93%AA%E9%87%8C%E6%9D%A5%EF%BC%9F%E2%80%94%E2%80%94%E5%96%9C%E6%80%92%E5%93%80%E4%B9%90%E7%9A%84%E5%8E%9F%E5%A7%8B%E7%89%88%E6%9C%AC.html","image":"https://book-teardown.vercel.app/assets/og-cover.png","relatedLink":["https://book-teardown.vercel.app/%E6%99%BA%E8%83%BD%E7%AE%80%E5%8F%B2/04%EF%BD%9C%E5%A4%A7%E8%84%91%E7%BB%99%E4%B8%96%E7%95%8C%E8%B4%B4%E4%B8%8A%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E6%A0%87%E7%AD%BE%EF%BC%9A%E2%80%9C%E5%A5%BD%E2%80%9D%E4%B8%8E%E2%80%9C%E5%9D%8F%E2%80%9D.html","https://book-teardown.vercel.app/%E6%99%BA%E8%83%BD%E7%AE%80%E5%8F%B2/06%EF%BD%9C%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%9B%99%E5%85%89%EF%BC%9A%E5%8A%A8%E7%89%A9%E5%A6%82%E4%BD%95%E7%AC%AC%E4%B8%80%E6%AC%A1%E6%8A%8A%E2%80%9C%E4%B8%A4%E4%BB%B6%E4%BA%8B%E2%80%9D%E8%81%94%E7%B3%BB%E8%B5%B7%E6%9D%A5%EF%BC%9F.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"拆书","item":"https://book-teardown.vercel.app/"},{"@type":"ListItem","position":2,"name":"智能简史","item":"https://book-teardown.vercel.app/%E6%99%BA%E8%83%BD%E7%AE%80%E5%8F%B2/"},{"@type":"ListItem","position":3,"name":"05｜情绪从哪里来？——喜怒哀乐的原始版本","item":"https://book-teardown.vercel.app/%E6%99%BA%E8%83%BD%E7%AE%80%E5%8F%B2/05%EF%BD%9C%E6%83%85%E7%BB%AA%E4%BB%8E%E5%93%AA%E9%87%8C%E6%9D%A5%EF%BC%9F%E2%80%94%E2%80%94%E5%96%9C%E6%80%92%E5%93%80%E4%B9%90%E7%9A%84%E5%8E%9F%E5%A7%8B%E7%89%88%E6%9C%AC.html"}]}]}</script>
+<!-- SEO-INJECT:END -->
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="目录" title="目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" style="color:var(--accent)" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>笔记</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="https://github.com/davidzhanghui/book-teardown" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="目录">
+      <div class="toc-head">
+        <p class="toc-title">目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a href="#一先说结论" class="lvl-2">一、先说结论</a>
+        <a href="#二我们先理解一个问题" class="lvl-2">二、我们先理解一个问题</a>
+        <a href="#三作者到底提出了什么观点" class="lvl-2">三、作者到底提出了什么观点？</a>
+        <a href="#四把这个观点翻译成人话" class="lvl-2">四、把这个观点翻译成人话</a>
+        <a href="#五为什么会这样" class="lvl-2">五、为什么会这样？</a>
+        <a href="#六举一个现实生活中的例子" class="lvl-2">六、举一个现实生活中的例子</a>
+        <a href="#七回到书中重新理解" class="lvl-2">七、回到书中重新理解</a>
+        <a href="#八这个观点背后还有什么" class="lvl-2">八、这个观点背后还有什么？</a>
+        <a href="#九这个观点有问题吗" class="lvl-2">九、这个观点有问题吗？</a>
+        <a href="#十今天再看这个观点" class="lvl-2">十、今天再看这个观点</a>
+        <a href="#十一这一篇真正应该记住什么" class="lvl-2">十一、这一篇真正应该记住什么？</a>
+        <a href="#十二留一个问题" class="lvl-2">十二、留一个问题</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+      <a class="back-home" href="index.html">← 返回《智能简史》系列目录</a>
+
+        <span class="doc-eyebrow">NOTES</span>
+        <h1 class="doc-title">05｜情绪从哪里来？——喜怒哀乐的原始版本</h1>
+        <p class="doc-subtitle">情绪是文明的装饰，还是古老的计算机制？</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            05｜情绪从哪里来？——喜怒哀乐的原始版本.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            更新于 2026-09-19
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            ~16 分钟阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<hr />
+<h2 id="一先说结论">一、先说结论</h2>
+<div class="highlight">
+  <span class="highlight-label">要点</span>
+<p><strong>情绪不是文明的装饰，而是最古老的决策系统。</strong></p>
+<p>班尼特认为，多巴胺、血清素、去甲肾上腺素这类"情绪分子"，在第一次突破时就已出现，甚至比大脑本身还要古老——它们的祖先，可以追溯到单细胞生命用来感知环境、调节状态的化学物质。它们最初的工作不是"让你有感受"，而是<strong>用身体状态快速告诉动物：现在该做什么</strong>。</p>
+<p>所以情绪的本质不是"感觉"，而是<strong>一套基于内稳态（homeostasis）的快速行动指令</strong>。饿、怕、累、满足——它们都是身体在说："去补充""去躲开""去停下""可以了"。</p>
+<p>（注意：本篇只讲"情绪 = 原始决策系统"。至于多巴胺如何作为<strong>学习信号</strong>、如何计算"预测误差"，那要等到第二次突破，本书第 08 篇再讲。）</p>
+<hr />
+</div>
+<h2 id="二我们先理解一个问题">二、我们先理解一个问题</h2>
+<p>先请你回想一个场景。</p>
+<p>凌晨一点，你还在刷手机。你已经困得眼睛发酸，明天还要早起。理性很清楚：<strong>该睡了。</strong> 但你就是放不下。你甚至能一边刷一边骂自己。</p>
+<p>再想另一个场景。你和家人因为一件小事吵了起来。事后你冷静下来，知道"那句话根本不值得吵"。可在当时，你的语气、心跳、语速，全都不是你控制的。</p>
+<p>这两个场景有一个共同点：<strong>你"知道"什么是对的，但你没按它做。</strong></p>
+<p>为什么？因为我们习惯把"情绪"和"理性"想成两股力量：理性是好的，情绪是捣乱的。情绪像是一个应该被驯服的野兽。</p>
+<p>但班尼特要问一个更基础的问题：</p>
+<aside class="callout callout-info">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">引文</p>
+    <p><strong>如果情绪真的只会添乱，进化为什么没把它淘汰掉？</strong></p>
+  </div>
+</aside>
+<p>它可是活了几亿年的东西。比语言古老，比文字古老，比理性思考古老得多。一个如此古老、普遍、又强大的机制，如果只是"文明的装饰"，说不通。</p>
+<p>所以真正的问题是：<strong>情绪，到底在替我们解决什么必须解决的问题？</strong></p>
+<hr />
+<h2 id="三作者到底提出了什么观点">三、作者到底提出了什么观点？</h2>
+<p>班尼特的答案是：<strong>情绪是一套"身体状态管理 + 快速行动选择"的系统。</strong> 拆开来讲有四层。</p>
+<p><strong>第一层：情绪分子比大脑古老。</strong> 多巴胺、血清素、去甲肾上腺素、谷氨酸、乙酰胆碱这些"神经递质/神经调质"，在功能上并不专属于神经系统。它们在单细胞生物、植物、甚至细菌的信号系统里都能找到远亲或类似机制。<strong>换句话说，"用化学物质来调节状态、响应环境"这件事，比神经元之间的突触古老得多。</strong> 神经系统只是把这套古老的化学品，借过来当成了内部通信的语言。</p>
+<p><strong>第二层：情绪服务的核心目标是内稳态。</strong> 内稳态就是"把身体维持在一个适合活着的范围里"：体温、血糖、水分、盐分、氧气。偏离了这个范围，就得纠正；纠正的驱动力，就是情绪。<strong>饿 = 能量低，去补充；渴 = 水低，去找水；怕 = 有威胁，去躲避；累 = 该休息了。</strong></p>
+<p><strong>第三层：情绪是"快速、全局、跨系统"的行动指令。</strong> 理性的特点是慢、局部、需要信息。情绪的特点是快、全局、不需要信息。恐惧一上来，心跳、呼吸、瞳孔、血流、注意力<strong>同时</strong>被改写——它不是一个念头，而是一次全身状态的切换。<strong>它买的不是"正确"，而是"及时"。</strong></p>
+<p><strong>第四层：情绪是一台"古老的决策器"，不等于"感受"。</strong> 这是班尼特框架里很关键的一点：从功能上说，情绪首先是一套输出行动的机制。它带来的主观感受（"我好难受"）可能很晚才出现，甚至未必是所有动物都有的。<strong>先把情绪当机制看，再看它是否伴随体验。</strong></p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>情绪（原始版）</th>
+<th>身体/环境状态</th>
+<th>它让你做什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>饥饿</td>
+<td>能量不足</td>
+<td>去找吃的，把注意力转向食物</td>
+</tr>
+<tr>
+<td>饱足</td>
+<td>能量充足</td>
+<td>停下来，把注意力转向别的</td>
+</tr>
+<tr>
+<td>恐惧</td>
+<td>有威胁</td>
+<td>逃跑 / 僵住 / 战斗</td>
+</tr>
+<tr>
+<td>压力</td>
+<td>资源紧张、不确定</td>
+<td>提高警觉，优先处理威胁</td>
+</tr>
+<tr>
+<td>满足 / 平静</td>
+<td>需求被满足</td>
+<td>放松，允许休息与恢复</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>请注意：<strong>这张表里没有"快乐"或"悲伤"这种高级情绪，只有状态和行动。</strong></p>
+<hr />
+<h2 id="四把这个观点翻译成人话">四、把这个观点翻译成人话</h2>
+<p>我们用<strong>手机电量</strong>来理解情绪。</p>
+<p>手机电量 100% 时，你不会想它；电量 20%，弹出一个黄色的低电量提醒；电量 5%，屏幕变红、震动、弹窗、甚至自动进入省电模式。</p>
+<p>请问：这个提醒"聪明"吗？它不理解你在干什么，不知道你正等一个重要电话，也不知道前面的地图导航有多重要。它只做一件事：<strong>根据一个内部状态（电量），触发一个全局的、优先级的行动信号（赶紧充电）。</strong></p>
+<p>情绪就是这套系统。而且它比手机做得更狠：</p>
+<ul>
+<li>它不只弹窗，它<strong>改写你的全部注意力</strong>。饿了的时候，满街都是饭馆；不饿的时候，你根本看不见它们。</li>
+<li>它不只提醒你，它<strong>改变你的身体</strong>。害怕的时候，你还没想清楚，心跳已经快了、手心已经出汗了。</li>
+<li>它不只告诉你"缺什么"，它<strong>直接推动你去补</strong>。它给的不是报告，是冲动。</li>
+</ul>
+<p>这就解释了那个最初的困惑：<strong>为什么你困得不行却停不下来刷手机？</strong> 因为在那一刻，"再刷一条"带来的即时状态改善，压过了"明早会很困"这个远期、抽象、需要模拟才能感知的坏处。<strong>情绪系统天生偏向"现在"</strong>——因为在它诞生的年代，"现在"几乎就是全部。</p>
+<hr />
+<h2 id="五为什么会这样">五、为什么会这样？</h2>
+<p>把因果链完整走一遍：</p>
+<p><strong>前提</strong>：生命必须把内部状态维持在可生存的范围内（内稳态）。</p>
+<p><strong>原因</strong>：维持内稳态需要"检测偏离"和"纠正偏离"；如果每次都要"想清楚"，太慢，而且早期生命根本没有"想"这个东西。</p>
+<p><strong>过程</strong>：身体演化出一套化学信号，把内部状态的变化（能量低、缺水、受伤、缺氧）直接翻译成全局的、带优先级的行动倾向；这套信号先以分子形式存在，后来被神经系统接管、放大和细化。</p>
+<p><strong>结果</strong>：情绪成为一种<strong>基于身体状态的快速决策系统</strong>——它先告诉你"该干什么"，理性再决定"具体怎么干"。</p>
+<figure class="diagram">
+  <pre class="mermaid">
+graph TD
+    A[身体状态偏离内稳态<br/>能量低 / 缺水 / 有威胁] --> B["古老化学信号被激活<br/>多巴胺 / 血清素 / 去甲肾上腺素等"]
+    B --> C["全局改写: 注意力 / 心跳 / 血流 / 唤醒度"]
+    C --> D[产生带方向的行为倾向]
+    D --> E["饥饿→去找吃的<br/>恐惧→逃跑或僵住<br/>压力→优先处理威胁"]
+    E --> F[行为改变身体状态]
+    F --> A
+
+</pre>
+  <figcaption class="diagram-caption">关系示意图</figcaption>
+</figure>
+<p>注意最后一步：<strong>这是一个循环。</strong> 情绪不是一次性事件，而是"状态—行动—新状态"的持续调节。这也是为什么情绪会起伏、会消退、会转移。</p>
+<hr />
+<h2 id="六举一个现实生活中的例子">六、举一个现实生活中的例子</h2>
+<p>我们用<strong>"饿怒"（hangry）</strong>和<strong>家庭里的情绪信号</strong>来说。</p>
+<p><strong>先说"饿怒"。</strong> 你一定见过：某个平时脾气很好的人，一饿就变得暴躁，说话带刺，为一点小事发火。吃完饭后，立刻恢复温和。</p>
+<p>他变了吗？没有。他的观点变了吗？也没有。变的是<strong>血糖。</strong></p>
+<p>当血糖偏低，身体进入"能量告急"状态，这套古老系统开始上调警觉和攻击性——因为对远古的动物来说，"能量不足"往往意味着"处境危险"。于是它给出的行动指令是：<strong>提高唤醒度、准备争夺资源、对任何阻碍都不耐烦。</strong></p>
+<p>然后，最精妙的部分来了：<strong>大脑会把这种身体状态，归因到眼前的人或事上。</strong> 你并不知道自己在"为血糖发火"，你只知道"他这句话太过分了"。<strong>情绪系统给出状态，理性系统负责编一个看起来合理的故事。</strong></p>
+<p><strong>再说家庭。</strong> 你有没有发现，很多家庭的争吵，从来不是从"讲道理"开始的，而是从一个人进门时的<strong>状态</strong>开始的：脸色、语速、摔门的力度。其他家庭成员不看他"说了什么"，而是先感受他"处于什么状态"。</p>
+<p>这就是最古老的沟通方式：<strong>用身体状态广播"我现在危险/安全"。</strong> 在一个群体里，这比语言快得多，也省得多。一个人紧张，全家紧张；一个人放松，全家落地。</p>
+<p><strong>情绪从来不是私人事件，它是一套会被同类接收到的公开信号。</strong> 这也是它为什么必须"外显"——脸上的表情、声音的调子、身体姿态，都是给别人的状态更新。</p>
+<hr />
+<h2 id="七回到书中重新理解">七、回到书中重新理解</h2>
+<p>班尼特在这里要打破一个我们习以为常的等级秩序。</p>
+<p>我们习惯这样排：<strong>理性 &gt; 情绪 &gt; 本能。</strong> 情绪夹在中间，既不如理性高级，又比本能文明一点。甚至有句流行的话叫"情绪是理性的敌人"。</p>
+<p>班尼特的重新排序是：<strong>内稳态 → 情绪（状态决策）→ 理性（认知决策）→ 语言。</strong></p>
+<p>在这个排序里，情绪不是理性的敌人，而是<strong>理性的地基</strong>。原因有三：</p>
+<p><strong>第一，理性需要一个"目标"，而目标来自情绪。</strong> 你为什么要努力工作？因为你想让家人过得好——"想让他们好"本身是一个被在意的东西，而"在意"是情绪系统的产物。<strong>没有情绪，理性就不知道要往哪走。</strong></p>
+<p><strong>第二，理性需要一个"优先级"，而优先级来自情绪。</strong> 一天有无数件事，先做哪件？理性的计算需要时间，效率太低。是情绪快速地告诉你"这个更急""那个更重要"。<strong>没有情绪，理性会被无限的选择瘫痪。</strong></p>
+<p><strong>第三，理性本身就依赖身体状态。</strong> 睡眠不足、血糖过低、长期压力——这些都会直接损害判断力。<strong>你没法在一个失控的身体里，运行一个优秀的理性。</strong></p>
+<p>所以班尼特那句话可以这样理解：<strong>情绪不是文明在理性之外额外装饰的一层，它是最早的、也是最底层的决策层。</strong> 后来长出的理性，是盖在它上面的。</p>
+<p>这也解释了那个最初的困惑：<strong>为什么"知道该睡"却停不下来刷手机？</strong> 因为在进化的账本里，"现在爽一下"是一件实实在在的事，"明早困"只是一个需要模拟才能感受到的抽象，而模拟能力（第三次突破）在这套情绪系统诞生之后很久才出现。<strong>情绪比模拟古老得多，所以它天然不听模拟的话。</strong></p>
+<hr />
+<h2 id="八这个观点背后还有什么">八、这个观点背后还有什么？</h2>
+<p><strong>第一，它把"情绪"重新定义成了"评价 + 行动倾向"，而非"感觉"。</strong> 这是一个功能主义立场：一个系统只要在做"根据状态快速选择行为"这件事，就算有情绪，不管它有没有主观体验。这个定义的优点是能用进化和工程的语言谈情绪；代价是它把"感受"这件事悬置了（见争议）。</p>
+<p><strong>第二，它建立了"身体先行"的隐含前提。</strong> 班尼特反复强调身体状态先于认知：<strong>你不是先觉得"危险"再心跳加速，很多时候是身体先进入警戒，你才发现"我有点紧张"。</strong> 这个顺序对自我认知冲击很大——你以为你在指挥身体，很多时候是身体在提醒你。</p>
+<p><strong>第三，它把情绪和"内稳态"绑在一起，于是情绪有了明确的"正确性标准"。</strong> 一个情绪如果有助于恢复内稳态，它就是"功能正常"的；如果长期误报（比如对无害的东西持续恐惧），它就成了一种"故障"——这正是今天焦虑症、惊恐障碍的框架。</p>
+<p><strong>第四，它为"情绪为什么会被算法劫持"埋下伏笔。</strong> 如果情绪是"根据状态快速给行动指令"，那么只要能操纵你感知到的状态，就能操纵你的行为。<strong>这一层在后面讲 AI 和互联网时会反复出现。</strong></p>
+<hr />
+<h2 id="九这个观点有问题吗">九、这个观点有问题吗？</h2>
+<aside class="callout callout-warn">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">争议</p>
+<p><strong>第一，这是全书争议最大的一章之一：基本情绪到底存不存在。</strong> 以保罗·埃克曼（Paul Ekman）为代表的一派认为，恐惧、愤怒、快乐、悲伤、厌恶、惊讶等基本情绪是普遍、先天、可跨文化识别的（他早期的跨文化研究是重要证据）。而以丽莎·费尔德曼·巴雷特（Lisa Feldman Barrett）为代表的"情绪建构论"认为：情绪不是天生刻在脑里的固定模块，而是大脑用过去的经验、概念和语言<strong>现场建构</strong>出来的；不同文化、不同个体对同一生理状态的加工可以完全不同，并不存在能靠面部或生理信号稳定识别的"基本情绪"。<strong>这场争论至今没有定论</strong>，班尼特采用的显然是偏"基本/进化"的叙事。</p>
+<p><strong>第二，情绪的"神经定位"也远没有定论。</strong> 过去流行的说法是"杏仁核管恐惧""伏隔核管快乐"，但近二十年的研究越来越显示：情绪很少对应单一脑区，而是多个大尺度网络的动态组合。<strong>说"某个分子 = 某种情绪"，是很粗的近似。</strong></p>
+<p><strong>第三，把情绪说成"决策系统"，可能低估了主观感受的地位。</strong> 如果情绪只是一套行动选择机制，那它和"恒温器"有什么区别？很多人会坚持：<strong>疼痛之所以是疼痛，恰恰在于它"疼"，而不只是它让你缩手。</strong> 班尼特的框架能很好地解释功能，却对"感受"保持沉默——这是一种选择，也是一种遗漏。</p>
+<p><strong>第四，拟人化和还原的双重风险。</strong> 说"细菌在趋利避害""植物在感受压力"，很容易滑向两个极端：要么把一切都拟人化（"植物也会害怕"），要么把人类情绪完全还原（"爱情不过是多巴胺"）。<strong>前者不科学，后者也不公平</strong>——因为从"分子机制"到"人的体验"，中间隔着好几次突破，不能一步抹平。</p>
+<p><strong>第五，把多巴胺、血清素直接叫"情绪分子"，本身就是一种简化。</strong> 这些分子的功能极其多样，涉及运动、睡眠、消化、免疫。<strong>把它们标签成某一种情绪的化学，是通俗化的说法，不是精确的科学表述。</strong> 这也是本系列要提醒的：本书很多"分子=功能"的对应，是为了讲述方便。</p>
+<hr />
+  </div>
+</aside>
+<h2 id="十今天再看这个观点">十、今天再看这个观点</h2>
+<p>以下是基于班尼特思想的现代延伸，不是他在书里的原话。</p>
+<p>情绪如果真的是"根据身体状态快速下达的行动指令"，那么今天最值得警惕的一件事就是：<strong>我们正生活在一个前所未有的、精准刺激这套系统的环境里。</strong></p>
+<ul>
+<li>社交媒体的红点、震动、未读数字，制造的是"状态偏离"的错觉；</li>
+<li>无限下滑的信息流，提供的是永不枯竭的"再刷一下就有新东西"；</li>
+<li>短促的高唤醒内容，把"警觉—奖励"的循环压缩到以秒计；</li>
+<li>而"关掉通知、放下手机"这类行为，需要的是长期模拟能力（第三次突破）——<strong>正好是情绪系统最不擅长的那一层。</strong></li>
+</ul>
+<p>这带来一个必须区分的结论：</p>
+<p><strong>班尼特说的是"情绪是古老的、功能性的决策系统"；而现代延伸是"这套系统的输入端口，如今大部分已经外包给了产品设计者"。</strong> 前者是科学观察，后者是当代处境判断。</p>
+<p>对个人有一条很实用的用法：<strong>不要只处理"念头"，要处理"身体"。</strong> 当你情绪失控时，深呼吸、走动、喝水、睡觉，往往比"想开点"更有效——因为你在调整的，本来就是一套身体状态系统，而不是一个逻辑推理程序。</p>
+<p>对组织也有一条：<strong>情绪不是"干扰决策的噪音"，而是"决策所需的状态输入"。</strong> 一个长期让员工处于高压、缺觉、饥饿、恐惧状态的团队，不是"更拼"，而是<strong>理性系统被持续降级</strong>。管理情绪，本质上是在管理决策质量。</p>
+<hr />
+<h2 id="十一这一篇真正应该记住什么">十一、这一篇真正应该记住什么？</h2>
+<ol>
+<li>
+<p><strong>情绪是最古老的决策系统，不是文明的装饰。</strong> 它用身体状态，快速给出"现在该干什么"的指令。</p>
+</li>
+<li>
+<p><strong>情绪分子比大脑古老。</strong> 多巴胺、血清素、去甲肾上腺素这类化学信号，其祖先可追溯到单细胞时代的信号机制。</p>
+</li>
+<li>
+<p><strong>情绪的地基是内稳态。</strong> 饿、渴、怕、累、满足——本质都是身体在偏离或回归"适合活着"的范围。</p>
+</li>
+<li>
+<p><strong>情绪先于理性，理性是盖在情绪之上的。</strong> 目标、优先级、判断力，都依赖情绪与身体状态。</p>
+</li>
+<li>
+<p><strong>"基本情绪是否存在"仍有激烈争论。</strong> 埃克曼的普遍情绪观与巴雷特的建构论至今对峙，本章采用的是偏进化、偏功能的一派叙事。</p>
+</li>
+</ol>
+<hr />
+<h2 id="十二留一个问题">十二、留一个问题</h2>
+<aside class="callout callout-info">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">引文</p>
+    <p>如果情绪本来是一套"身体告诉你去做什么"的古老系统，
+那么当算法抢在你身体之前，精确地预测并满足你的每一个状态需求时——
+你还会听见自己的身体在说什么吗？</p>
+  </div>
+</aside>
+<hr />
+<p><strong>下一篇</strong>：好坏的判断有了，情绪的驱动也有了，但这套系统还不够——一只动物如果每次都要靠本能躲避危险，它只能在"已经遇到"之后才学会害怕。</p>
+<p>那么，动物是怎么第一次学会"提前预判"的？——当铃声响起，食物还没出现，狗为什么就开始分泌唾液？</p>
+<p>下一篇我们来讲学习的曙光：动物如何第一次把"两件事"联系起来。</p>
+<hr />
+<p><em>本系列基于 Max Bennett《A Brief History of Intelligence》整理，文中"班尼特认为/书中认为"均指作者观点；带"延伸"字样的段落为基于其思想的现代推演，不代表原作者。</em></p>
+<!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span><a href="#top">↑ 回到顶部</a></span>
+        <span>来源: 05｜情绪从哪里来？——喜怒哀乐的原始版本.md</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function applyThemeIcon() {
+      const use = document.getElementById("theme-icon-use");
+      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
+    }
+    (function restoreTheme() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+
+    // ---------- Mermaid ----------
+    const diagramSources = new Map();
+    function initMermaid() {
+      const isDark = currentTheme() === "dark";
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? "dark" : "default",
+        themeVariables: {
+          primaryColor: isDark ? "#3A2A22" : "#FBEEE6",
+          primaryTextColor: isDark ? "#F5F0E8" : "#1A1A1A",
+          primaryBorderColor: isDark ? "#E89572" : "#D97757",
+          lineColor: isDark ? "#9A938A" : "#6B6B66",
+          secondaryColor: isDark ? "#2A2520" : "#F5F5F0",
+          tertiaryColor: isDark ? "#221E1A" : "#FFFFFF",
+          fontFamily: "Inter, system-ui, sans-serif",
+        },
+      });
+    }
+    function notifyMermaidOffline() {
+      // mermaid.min.js 走 CDN；离线/被墙时把原因说清楚，而不是只留一段灰掉的源码。
+      document.querySelectorAll("figure.diagram").forEach(fig => {
+        if (fig.querySelector(".diagram-offline")) return;
+        const note = document.createElement("figcaption");
+        note.className = "diagram-caption diagram-offline";
+        note.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>'
+          + "<span>图表未渲染：Mermaid 需要联网从 CDN 加载，以上为原始源码</span>";
+        fig.appendChild(note);
+      });
+    }
+    async function renderMermaid() {
+      if (typeof mermaid === "undefined") { notifyMermaidOffline(); return; }
+      initMermaid();
+      const els = document.querySelectorAll(".mermaid");
+      els.forEach(el => {
+        if (!diagramSources.has(el)) diagramSources.set(el, el.textContent.trim());
+        el.textContent = diagramSources.get(el);
+        el.removeAttribute("data-processed");
+      });
+      try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
+    }
+    function toggleTheme() {
+      const next = currentTheme() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(STORAGE_KEY, next);
+      applyThemeIcon();
+      renderMermaid();
+    }
+
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Permalink");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      applyThemeIcon();
+      injectAnchors();
+      injectCopyButtons();
+      renderMermaid();
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+</body>
+</html>

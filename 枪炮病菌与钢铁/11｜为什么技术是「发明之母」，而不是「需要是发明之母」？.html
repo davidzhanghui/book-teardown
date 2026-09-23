@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '★ 推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>11｜为什么技术是「发明之母」，而不是「需要之母」？</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: #F0D5C4;
+      --accent-strong: #A85533;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
+      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
+      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-border: #5A3D2E;
+      --accent-strong: #F5B493;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .diagram-caption.diagram-offline {
+      color: var(--accent-strong);
+      border-top-color: var(--accent-border);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .diagram-caption.diagram-offline .icon { width: 15px; height: 15px; flex: none; }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: #fff;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  </style>
+<!-- NAV-INJECT:START -->
+<style>
+  .doc-header .back-home { display: table;
+    margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+    color: var(--accent-strong); text-decoration: none;
+    background: var(--accent-soft); border: 1px solid var(--accent-border);
+    border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+    transition: color .15s, border-color .15s; }
+  .doc-header .back-home:hover { color: var(--accent-hover);
+    border-color: var(--accent); border-bottom-color: var(--accent); }
+</style>
+<!-- NAV-INJECT:END -->
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<!-- SEO-INJECT:START -->
+  <meta name="description" content="戴蒙德的观点可以浓缩成一句反常识的话：不是需求逼出了技术，而是技术出现之后，才慢慢长出需求。">
+  <link rel="canonical" href="https://book-teardown.vercel.app/%E6%9E%AA%E7%82%AE%E7%97%85%E8%8F%8C%E4%B8%8E%E9%92%A2%E9%93%81/11%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8A%80%E6%9C%AF%E6%98%AF%E3%80%8C%E5%8F%91%E6%98%8E%E4%B9%8B%E6%AF%8D%E3%80%8D%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E9%9C%80%E8%A6%81%E6%98%AF%E5%8F%91%E6%98%8E%E4%B9%8B%E6%AF%8D%E3%80%8D%EF%BC%9F.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Book Teardown · 拆书">
+  <meta property="og:title" content="11｜为什么技术是「发明之母」，而不是「需要之母」？">
+  <meta property="og:description" content="戴蒙德的观点可以浓缩成一句反常识的话：不是需求逼出了技术，而是技术出现之后，才慢慢长出需求。">
+  <meta property="og:url" content="https://book-teardown.vercel.app/%E6%9E%AA%E7%82%AE%E7%97%85%E8%8F%8C%E4%B8%8E%E9%92%A2%E9%93%81/11%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8A%80%E6%9C%AF%E6%98%AF%E3%80%8C%E5%8F%91%E6%98%8E%E4%B9%8B%E6%AF%8D%E3%80%8D%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E9%9C%80%E8%A6%81%E6%98%AF%E5%8F%91%E6%98%8E%E4%B9%8B%E6%AF%8D%E3%80%8D%EF%BC%9F.html">
+  <meta property="og:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="11｜为什么技术是「发明之母」，而不是「需要之母」？">
+  <meta name="twitter:description" content="戴蒙德的观点可以浓缩成一句反常识的话：不是需求逼出了技术，而是技术出现之后，才慢慢长出需求。">
+  <meta name="twitter:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta property="article:published_time" content="2026-09-23">
+  <meta property="article:modified_time" content="2026-09-23">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"11｜为什么技术是「发明之母」，而不是「需要之母」？","description":"戴蒙德的观点可以浓缩成一句反常识的话：不是需求逼出了技术，而是技术出现之后，才慢慢长出需求。","inLanguage":"zh-CN","datePublished":"2026-09-23","dateModified":"2026-09-23","author":{"@type":"Organization","name":"Book Teardown · 拆书"},"isPartOf":{"@type":"Book","name":"枪炮病菌与钢铁"},"mainEntityOfPage":"https://book-teardown.vercel.app/%E6%9E%AA%E7%82%AE%E7%97%85%E8%8F%8C%E4%B8%8E%E9%92%A2%E9%93%81/11%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8A%80%E6%9C%AF%E6%98%AF%E3%80%8C%E5%8F%91%E6%98%8E%E4%B9%8B%E6%AF%8D%E3%80%8D%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E9%9C%80%E8%A6%81%E6%98%AF%E5%8F%91%E6%98%8E%E4%B9%8B%E6%AF%8D%E3%80%8D%EF%BC%9F.html","image":"https://book-teardown.vercel.app/assets/og-cover.png","relatedLink":["https://book-teardown.vercel.app/%E6%9E%AA%E7%82%AE%E7%97%85%E8%8F%8C%E4%B8%8E%E9%92%A2%E9%93%81/10%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%96%87%E5%AD%97%E5%8F%AA%E5%87%BA%E7%8E%B0%E5%9C%A8%E5%B0%91%E6%95%B0%E5%87%A0%E4%B8%AA%E7%A4%BE%E4%BC%9A%EF%BC%9F.html","https://book-teardown.vercel.app/%E6%9E%AA%E7%82%AE%E7%97%85%E8%8F%8C%E4%B8%8E%E9%92%A2%E9%93%81/12%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%AC%A7%E4%BA%9A%E5%A4%A7%E9%99%86%E6%98%AF%E4%B8%9C%E8%A5%BF%E5%90%91%E7%9A%84%EF%BC%8C%E8%BF%99%E4%B8%BA%E4%BB%80%E4%B9%88%E8%87%B3%E5%85%B3%E9%87%8D%E8%A6%81%EF%BC%9F.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"拆书","item":"https://book-teardown.vercel.app/"},{"@type":"ListItem","position":2,"name":"枪炮病菌与钢铁","item":"https://book-teardown.vercel.app/%E6%9E%AA%E7%82%AE%E7%97%85%E8%8F%8C%E4%B8%8E%E9%92%A2%E9%93%81/"},{"@type":"ListItem","position":3,"name":"11｜为什么技术是「发明之母」，而不是「需要之母」？","item":"https://book-teardown.vercel.app/%E6%9E%AA%E7%82%AE%E7%97%85%E8%8F%8C%E4%B8%8E%E9%92%A2%E9%93%81/11%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%8A%80%E6%9C%AF%E6%98%AF%E3%80%8C%E5%8F%91%E6%98%8E%E4%B9%8B%E6%AF%8D%E3%80%8D%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E3%80%8C%E9%9C%80%E8%A6%81%E6%98%AF%E5%8F%91%E6%98%8E%E4%B9%8B%E6%AF%8D%E3%80%8D%EF%BC%9F.html"}]}]}</script>
+<!-- SEO-INJECT:END -->
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="目录" title="目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" style="color:var(--accent)" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>笔记</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="https://github.com/davidzhanghui/book-teardown" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="目录">
+      <div class="toc-head">
+        <p class="toc-title">目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a href="#一先说结论" class="lvl-2">一、先说结论</a>
+        <a href="#二我们先理解一个问题" class="lvl-2">二、我们先理解一个问题</a>
+        <a href="#三作者到底提出了什么观点" class="lvl-2">三、作者到底提出了什么观点？</a>
+        <a href="#四把这个观点翻译成人话" class="lvl-2">四、把这个观点翻译成人话</a>
+        <a href="#五为什么会这样" class="lvl-2">五、为什么会这样？</a>
+        <a href="#六举一个现实生活中的例子" class="lvl-2">六、举一个现实生活中的例子</a>
+        <a href="#七回到书中重新理解" class="lvl-2">七、回到书中重新理解</a>
+        <a href="#八这个观点背后还有什么" class="lvl-2">八、这个观点背后还有什么？</a>
+        <a href="#九这个观点有问题吗" class="lvl-2">九、这个观点有问题吗？</a>
+        <a href="#十今天再看这个观点" class="lvl-2">十、今天再看这个观点</a>
+        <a href="#十一这一篇真正应该记住什么" class="lvl-2">十一、这一篇真正应该记住什么？</a>
+        <a href="#十二留一个问题" class="lvl-2">十二、留一个问题</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+      <a class="back-home" href="index.html">← 返回《枪炮病菌与钢铁》系列目录</a>
+
+        <span class="doc-eyebrow">NOTES</span>
+        <h1 class="doc-title">11｜为什么技术是「发明之母」，而不是「需要之母」？</h1>
+        <p class="doc-subtitle">一句我们从小听到大的谚语，可能正好说反了。</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            11｜为什么技术是「发明之母」，而不是「需要是发明之母」？.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            更新于 2026-09-19
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            ~8 分钟阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<hr />
+<h2 id="一先说结论">一、先说结论</h2>
+<div class="highlight">
+  <span class="highlight-label">要点</span>
+<p>戴蒙德的观点可以浓缩成一句反常识的话：<strong>不是需求逼出了技术，而是技术出现之后，才慢慢长出需求。</strong></p>
+<p>他认为，历史上大量发明在被造出来的时候，连发明者自己都说不清它有什么用。留声机、微波炉、便利贴这类东西，最初都不是为了满足某种明确的市场需求，而是先在实验室或工坊里冒出来，之后才被社会赋予用途。</p>
+<p>真正决定一项技术能否活下来的，不是它有多「被需要」，而是：社会是否愿意接纳它、它能不能扩散开来、以及会不会因为竞争压力而被大规模采用。技术还会自我催化——一项发明成了另一项发明的前提，积累越多，新发明出现得越快。</p>
+<hr />
+</div>
+<h2 id="二我们先理解一个问题">二、我们先理解一个问题</h2>
+<p>我们从小就被告知一句谚语：需要是发明之母。</p>
+<p>这句话之所以听起来毫无破绽，是因为我们总在用「结果」倒推「原因」：既然某样东西现在被广泛使用，那它当初一定是被巨大的需求推动出来的。</p>
+<p>但历史记录并不同意这个倒推。</p>
+<p>有些技术刚被发明时，用途极其有限，甚至被视为玩具；有些技术多年无人问津，直到某个条件改变才突然爆发；还有一些技术，明明已经被使用，后来却被整个社会主动放弃了。</p>
+<p>最耐人寻味的例子之一，是火器在日本的命运。历史记录显示，火器大约在 16 世纪传入日本，很快被大量仿制和使用；可是在政治格局变化之后，火枪的使用反而减少，刀剑重新成为身份与地位的象征。</p>
+<p>如果技术只由「有没有用」决定，这一幕就很难解释。<strong>它提示我们：技术能否被保留，取决于社会，而不只是取决于它本身。</strong></p>
+<hr />
+<h2 id="三作者到底提出了什么观点">三、作者到底提出了什么观点？</h2>
+<p>戴蒙德的核心主张是：把「需要是发明之母」反过来。</p>
+<p>他认为，<strong>发明往往先于需求出现</strong>，然后由社会来筛选它。至于一项技术最终是否被采纳，他列出四个关键因素：</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>因素</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>相对利益</td>
+<td>与现有做法相比，它在经济或军事上是否划算</td>
+</tr>
+<tr>
+<td>社会价值与声望</td>
+<td>它是否符合这个社会看重的东西，用它是加分的还是丢脸的</td>
+</tr>
+<tr>
+<td>既得利益</td>
+<td>它会不会威胁到某些群体的地位、收入或权力</td>
+</tr>
+<tr>
+<td>竞争压力</td>
+<td>周围的对手是否在用；不用，会不会吃亏</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>戴蒙德还提出第二个关键机制：<strong>技术的自我催化</strong>。技术不是一项一项孤立出现的，而是一层一层叠上去的。有了更好的材料，才能造出更好的机器；有了更好的机器，才能加工出更精密的零件。</p>
+<hr />
+<h2 id="四把这个观点翻译成人话">四、把这个观点翻译成人话</h2>
+<p>想象你家里那个「杂物抽屉」。</p>
+<p>里面堆着各种小工具：一根奇怪的转接头、一把很少用的扳手、一卷不知道从哪来的胶带。它们买回来的时候，你并没有明确的需求，只是觉得「将来可能有用」。</p>
+<p>某一天，灯坏了、管子漏了、家具要装，你突然发现抽屉里那根转接头正好派上用场。工具先存在，需求后出现。</p>
+<p>技术也是这样。<strong>人类社会的技术储备像一个巨大的杂物抽屉，很多发明静静地躺在里面，直到某个时刻被需要「唤醒」。</strong> 决定它有没有机会被唤醒的，往往不是它好不好，而是它在不在一个对的社会里。</p>
+<hr />
+<h2 id="五为什么会这样">五、为什么会这样？</h2>
+<figure class="diagram">
+  <pre class="mermaid">
+graph TD
+    A[一项新发明出现] --> B[最初用途不明或有限]
+    B --> C{社会是否愿意采纳}
+    C -->|采纳| D[扩散、改进、衍生新用途]
+    C -->|不采纳| E[被搁置或遗忘]
+    D --> F[与其他技术组合, 催生新发明]
+    F --> A
+    D --> G[竞争压力: 对手使用, 不跟进就吃亏]
+    G --> C
+    D --> H[社会价值与既得利益: 决定谁支持、谁抵制]
+    H --> C
+
+</pre>
+  <figcaption class="diagram-caption">关系示意图</figcaption>
+</figure>
+<p>这条回路的关键在于 <strong>C</strong>：发明只是进入系统的输入，社会才是那道闸门。而 <strong>F</strong> 说明技术会滚雪球——这正是欧亚社会越到后期跑得越快的原因之一。</p>
+<hr />
+<h2 id="六举一个现实生活中的例子">六、举一个现实生活中的例子</h2>
+<p>先看两个「玩具变刚需」的例子。</p>
+<p>微波炉的技术源头与雷达研究有关，最初并不是为了做饭；便利贴来自一次「失败」的胶水配方——粘性太弱，本该被淘汰，却恰好适合反复粘贴。两者都不是被明确需求催生的。</p>
+<p>再看手机。短信、摄像头、定位这些功能，在刚出现时都没有被预见到今天的样子：短信最初只是通话之外的附属服务，摄像头是手机的附加卖点。它们的价值，是社会在长期使用中一点点「发现」的。</p>
+<p>也有反过来的职场场景。一家公司上线了明显更好用的协作系统，却被老部门拖着不用——因为新系统会暴露旧流程的低效，动摇一些人的话语权，这就是<strong>既得利益</strong>在起作用。最后真正推动上线的，往往是竞争对手都在用，逼得不得不跟进，这就是<strong>竞争压力</strong>。</p>
+<p>技术的生死，常常就卡在这几道社会闸门上，而不是卡在它好不好用。</p>
+<hr />
+<h2 id="七回到书中重新理解">七、回到书中重新理解</h2>
+<p>现在再看戴蒙德的观点，会发现他并不是说需求毫无作用。他要纠正的是一种<strong>单线程的想象</strong>：以为先有需求、再有发明、然后自动普及。</p>
+<p>真实过程更接近：<strong>先有发明，遇到一个愿意接纳它的社会，扩散开来，被反复改进，最后反过来塑造出新的需求。</strong></p>
+<p>这也解释了为什么一个社会不必发明所有东西。它只要能接触到别人的技术，并且有足够的社会条件去采用和改进，就能快速追上来。技术在欧亚大陆的加速，很大程度上是「扩散 + 积累」的结果，而不只是「聪明人更多」。</p>
+<hr />
+<h2 id="八这个观点背后还有什么">八、这个观点背后还有什么？</h2>
+<p>第一层隐含前提：技术是一个<strong>生态系统</strong>，而不是孤立的点子。孤立看一项发明，很难解释它的命运；把它放进社会结构里，才看得清。</p>
+<p>第二层：技术被采纳与否，是一种<strong>社会选择</strong>，涉及利益、身份和权力，不只是效率问题。这也是戴蒙德与纯粹的经济决定论分道扬镳的地方。</p>
+<p>第三层：这与下一篇要讲的「大陆轴线」直接相接。技术要扩散，得先能移动；能移动，才谈得上积累和竞争。<strong>传播的通道，决定了技术能滚多大的雪球。</strong></p>
+<p>第四层：戴蒙德借此反对「伟大发明家史观」。个人才华当然重要，但他更关心的是，为什么某些社会持续地产出并采用新技术，而另一些社会不能。</p>
+<hr />
+<h2 id="九这个观点有问题吗">九、这个观点有问题吗？</h2>
+<aside class="callout callout-warn">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">争议</p>
+<p>有几个争议点。</p>
+<p>第一，<strong>有些技术确实是被明确的需求逼出来的。</strong> 军事技术是最典型的例子：战争压力、国家动员和大量资金，会直接推动研发。所以「需要是发明之母」并非全错，而是只说对了一部分。</p>
+<p>第二，<strong>存在滑向「技术自主论」的风险。</strong> 如果把技术说成自己长出来的、与需求无关，就容易忽略资本、国家和市场对研发方向的巨大塑造作用。现实中，谁投钱、谁定方向，往往决定哪些技术被优先发展。</p>
+<p>第三，<strong>日本火枪的例子，学界有不同解释。</strong> 有学者更强调政治统一、国家垄断武力、维护成本、火药质量等因素，而不是单纯的文化偏好。把它完全归因于社会价值观，可能过度简化。</p>
+<p>第四，<strong>「自我催化」很难被证伪。</strong> 当它能解释任何一个成功案例时，也就存在「事后都说得通」的风险。</p>
+<p>戴蒙德的贡献在于把一个被忽略的机制推到台前；但说他完全正确，同样需要谨慎。</p>
+<hr />
+  </div>
+</aside>
+<h2 id="十今天再看这个观点">十、今天再看这个观点</h2>
+<p>（以下为现代延伸，不是戴蒙德原文）</p>
+<p>在今天的 AI 与互联网里，戴蒙德的框架反而更明显了。</p>
+<p>很多基础能力在被做出来时，谁也不知道会用来做什么；真正的分野出现在「谁能把它接入生态、形成正反馈」。同一项技术，在不同的组织、市场和制度里，命运可能完全不同。</p>
+<p>这也提醒我们：技术竞争的关键，可能不是谁先想到，而是谁能更快地让技术被采用、被组合、被扩散。<strong>在这个意义上，社会本身也是一种技术——一种决定其他技术能否存活的技术。</strong></p>
+<hr />
+<h2 id="十一这一篇真正应该记住什么">十一、这一篇真正应该记住什么？</h2>
+<ol>
+<li>
+<p><strong>发明常常先于需求。</strong> 很多技术诞生时用途不明，甚至被视为玩具，是后来才被社会赋予价值的。</p>
+</li>
+<li>
+<p><strong>技术能否存活，取决于社会是否采纳。</strong> 相对利益、社会价值、既得利益和竞争压力，是四道关键闸门。</p>
+</li>
+<li>
+<p><strong>技术会自我催化。</strong> 一项发明成为另一项的前提，积累越多，新发明出现得越快。</p>
+</li>
+<li>
+<p><strong>不要把「需要」当作唯一答案。</strong> 需求确实能推动技术，但它解释不了为什么有些技术被放弃、有些被雪藏。</p>
+</li>
+<li>
+<p><strong>传播与采纳，和发明同样重要。</strong> 一个社会能借用、改进并扩散技术，比它能否原创更关键。</p>
+</li>
+</ol>
+<hr />
+<h2 id="十二留一个问题">十二、留一个问题</h2>
+<p>技术能不能扩散、扩散得有多快，除了社会愿不愿意接纳，还取决于一个更朴素的条件：它要经过的「路」好不好走。</p>
+<p>为什么欧亚大陆上的作物、牲畜、技术和文字，能够一路横向地传开，而非洲和美洲的很多东西，却常常传不了多远？</p>
+<p>下一篇，我们把镜头拉到整个地球，看一看大陆的形状：<strong>为什么欧亚大陆是东西向的，这为什么至关重要？</strong></p>
+<!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span><a href="#top">↑ 回到顶部</a></span>
+        <span>来源: 11｜为什么技术是「发明之母」，而不是「需要是发明之母」？.md</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function applyThemeIcon() {
+      const use = document.getElementById("theme-icon-use");
+      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
+    }
+    (function restoreTheme() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+
+    // ---------- Mermaid ----------
+    const diagramSources = new Map();
+    function initMermaid() {
+      const isDark = currentTheme() === "dark";
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? "dark" : "default",
+        themeVariables: {
+          primaryColor: isDark ? "#3A2A22" : "#FBEEE6",
+          primaryTextColor: isDark ? "#F5F0E8" : "#1A1A1A",
+          primaryBorderColor: isDark ? "#E89572" : "#D97757",
+          lineColor: isDark ? "#9A938A" : "#6B6B66",
+          secondaryColor: isDark ? "#2A2520" : "#F5F5F0",
+          tertiaryColor: isDark ? "#221E1A" : "#FFFFFF",
+          fontFamily: "Inter, system-ui, sans-serif",
+        },
+      });
+    }
+    function notifyMermaidOffline() {
+      // mermaid.min.js 走 CDN；离线/被墙时把原因说清楚，而不是只留一段灰掉的源码。
+      document.querySelectorAll("figure.diagram").forEach(fig => {
+        if (fig.querySelector(".diagram-offline")) return;
+        const note = document.createElement("figcaption");
+        note.className = "diagram-caption diagram-offline";
+        note.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>'
+          + "<span>图表未渲染：Mermaid 需要联网从 CDN 加载，以上为原始源码</span>";
+        fig.appendChild(note);
+      });
+    }
+    async function renderMermaid() {
+      if (typeof mermaid === "undefined") { notifyMermaidOffline(); return; }
+      initMermaid();
+      const els = document.querySelectorAll(".mermaid");
+      els.forEach(el => {
+        if (!diagramSources.has(el)) diagramSources.set(el, el.textContent.trim());
+        el.textContent = diagramSources.get(el);
+        el.removeAttribute("data-processed");
+      });
+      try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
+    }
+    function toggleTheme() {
+      const next = currentTheme() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(STORAGE_KEY, next);
+      applyThemeIcon();
+      renderMermaid();
+    }
+
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Permalink");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      applyThemeIcon();
+      injectAnchors();
+      injectCopyButtons();
+      renderMermaid();
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+</body>
+</html>

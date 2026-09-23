@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '★ 推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>02｜当生存问题解决，人类会追求什么？</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: #F0D5C4;
+      --accent-strong: #A85533;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
+      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
+      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-border: #5A3D2E;
+      --accent-strong: #F5B493;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .diagram-caption.diagram-offline {
+      color: var(--accent-strong);
+      border-top-color: var(--accent-border);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .diagram-caption.diagram-offline .icon { width: 15px; height: 15px; flex: none; }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: #fff;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  </style>
+<!-- NAV-INJECT:START -->
+<style>
+  .doc-header .back-home { display: table;
+    margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+    color: var(--accent-strong); text-decoration: none;
+    background: var(--accent-soft); border: 1px solid var(--accent-border);
+    border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+    transition: color .15s, border-color .15s; }
+  .doc-header .back-home:hover { color: var(--accent-hover);
+    border-color: var(--accent); border-bottom-color: var(--accent); }
+</style>
+<!-- NAV-INJECT:END -->
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<!-- SEO-INJECT:START -->
+  <meta name="description" content="赫拉利认为，当饥荒、瘟疫、战争从&quot;不可抗拒的命运&quot;变成&quot;可以管理的风险&quot;，人类不会就此满足，反而会把目光投向三个更野心勃勃的目标：长生不死、永远快乐、以及&quot;成神&quot;。他给这三件事起了一个名字——&quot;新人类议题&quot;。">
+  <link rel="canonical" href="https://book-teardown.vercel.app/%E6%9C%AA%E6%9D%A5%E7%AE%80%E5%8F%B2/02%EF%BD%9C%E5%BD%93%E7%94%9F%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%EF%BC%8C%E4%BA%BA%E7%B1%BB%E4%BC%9A%E8%BF%BD%E6%B1%82%E4%BB%80%E4%B9%88.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Book Teardown · 拆书">
+  <meta property="og:title" content="02｜当生存问题解决，人类会追求什么？">
+  <meta property="og:description" content="赫拉利认为，当饥荒、瘟疫、战争从&quot;不可抗拒的命运&quot;变成&quot;可以管理的风险&quot;，人类不会就此满足，反而会把目光投向三个更野心勃勃的目标：长生不死、永远快乐、以及&quot;成神&quot;。他给这三件事起了一个名字——&quot;新人类议题&quot;。">
+  <meta property="og:url" content="https://book-teardown.vercel.app/%E6%9C%AA%E6%9D%A5%E7%AE%80%E5%8F%B2/02%EF%BD%9C%E5%BD%93%E7%94%9F%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%EF%BC%8C%E4%BA%BA%E7%B1%BB%E4%BC%9A%E8%BF%BD%E6%B1%82%E4%BB%80%E4%B9%88.html">
+  <meta property="og:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="02｜当生存问题解决，人类会追求什么？">
+  <meta name="twitter:description" content="赫拉利认为，当饥荒、瘟疫、战争从&quot;不可抗拒的命运&quot;变成&quot;可以管理的风险&quot;，人类不会就此满足，反而会把目光投向三个更野心勃勃的目标：长生不死、永远快乐、以及&quot;成神&quot;。他给这三件事起了一个名字——&quot;新人类议题&quot;。">
+  <meta name="twitter:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta property="article:published_time" content="2026-09-23">
+  <meta property="article:modified_time" content="2026-09-23">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"02｜当生存问题解决，人类会追求什么？","description":"赫拉利认为，当饥荒、瘟疫、战争从\"不可抗拒的命运\"变成\"可以管理的风险\"，人类不会就此满足，反而会把目光投向三个更野心勃勃的目标：长生不死、永远快乐、以及\"成神\"。他给这三件事起了一个名字——\"新人类议题\"。","inLanguage":"zh-CN","datePublished":"2026-09-23","dateModified":"2026-09-23","author":{"@type":"Organization","name":"Book Teardown · 拆书"},"isPartOf":{"@type":"Book","name":"未来简史"},"mainEntityOfPage":"https://book-teardown.vercel.app/%E6%9C%AA%E6%9D%A5%E7%AE%80%E5%8F%B2/02%EF%BD%9C%E5%BD%93%E7%94%9F%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%EF%BC%8C%E4%BA%BA%E7%B1%BB%E4%BC%9A%E8%BF%BD%E6%B1%82%E4%BB%80%E4%B9%88.html","image":"https://book-teardown.vercel.app/assets/og-cover.png","relatedLink":["https://book-teardown.vercel.app/%E6%9C%AA%E6%9D%A5%E7%AE%80%E5%8F%B2/01%EF%BD%9C%E9%A5%A5%E8%8D%92%E3%80%81%E7%98%9F%E7%96%AB%E3%80%81%E6%88%98%E4%BA%89%E7%9C%9F%E7%9A%84%E8%A2%AB%E8%A7%A3%E5%86%B3%E4%BA%86%E5%90%97.html","https://book-teardown.vercel.app/%E6%9C%AA%E6%9D%A5%E7%AE%80%E5%8F%B2/03%EF%BD%9C%E8%BF%BD%E6%B1%82%E6%B0%B8%E7%94%9F%E5%92%8C%E5%BF%AB%E4%B9%90%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E5%8F%AF%E8%83%BD%E6%98%AF%E9%99%B7%E9%98%B1.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"拆书","item":"https://book-teardown.vercel.app/"},{"@type":"ListItem","position":2,"name":"未来简史","item":"https://book-teardown.vercel.app/%E6%9C%AA%E6%9D%A5%E7%AE%80%E5%8F%B2/"},{"@type":"ListItem","position":3,"name":"02｜当生存问题解决，人类会追求什么？","item":"https://book-teardown.vercel.app/%E6%9C%AA%E6%9D%A5%E7%AE%80%E5%8F%B2/02%EF%BD%9C%E5%BD%93%E7%94%9F%E5%AD%98%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%EF%BC%8C%E4%BA%BA%E7%B1%BB%E4%BC%9A%E8%BF%BD%E6%B1%82%E4%BB%80%E4%B9%88.html"}]}]}</script>
+<!-- SEO-INJECT:END -->
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="目录" title="目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" style="color:var(--accent)" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>笔记</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="https://github.com/davidzhanghui/book-teardown" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="目录">
+      <div class="toc-head">
+        <p class="toc-title">目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a href="#一先说结论" class="lvl-2">一、先说结论</a>
+        <a href="#二我们先理解一个问题" class="lvl-2">二、我们先理解一个问题</a>
+        <a href="#三作者到底提出了什么观点" class="lvl-2">三、作者到底提出了什么观点？</a>
+        <a href="#四把这个观点翻译成人话" class="lvl-2">四、把这个观点翻译成人话</a>
+        <a href="#五为什么会这样" class="lvl-2">五、为什么会这样？</a>
+        <a href="#六举一个现实生活中的例子" class="lvl-2">六、举一个现实生活中的例子</a>
+        <a href="#七回到书中重新理解" class="lvl-2">七、回到书中重新理解</a>
+        <a href="#八这个观点背后还有什么" class="lvl-2">八、这个观点背后还有什么？</a>
+        <a href="#九这个观点有问题吗" class="lvl-2">九、这个观点有问题吗？</a>
+        <a href="#十今天再看这个观点" class="lvl-2">十、今天再看这个观点</a>
+        <a href="#十一这一篇真正应该记住什么" class="lvl-2">十一、这一篇真正应该记住什么？</a>
+        <a href="#十二留一个问题" class="lvl-2">十二、留一个问题</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+      <a class="back-home" href="index.html">← 返回《未来简史》系列目录</a>
+
+        <span class="doc-eyebrow">NOTES</span>
+        <h1 class="doc-title">02｜当生存问题解决，人类会追求什么？</h1>
+        <p class="doc-subtitle">如果饿死、病死、战死不再是主要威胁，人类会把精力投向哪里？</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            02｜当生存问题解决，人类会追求什么.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            更新于 2026-09-19
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            ~11 分钟阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<hr />
+<h2 id="一先说结论">一、先说结论</h2>
+<div class="highlight">
+  <span class="highlight-label">要点</span>
+<p>赫拉利认为，当饥荒、瘟疫、战争从"不可抗拒的命运"变成"可以管理的风险"，人类不会就此满足，反而会把目光投向三个更野心勃勃的目标：<strong>长生不死、永远快乐、以及"成神"</strong>。他给这三件事起了一个名字——"新人类议题"。</p>
+<p>关键在于，赫拉利不是说这些是科幻幻想。他指出，它们已经在被资本和科技认真对待：有人投资延长寿命，有人研究如何直接调节幸福感，有人尝试改造基因、创造新的生命形式。换句话说，人类的下一个议程，可能不再是如何活下去，而是如何不再受普通人的限制。</p>
+<hr />
+</div>
+<h2 id="二我们先理解一个问题">二、我们先理解一个问题</h2>
+<p>先别急着评判这三个目标是否荒唐，我们试着做一次思想实验。</p>
+<p>假设你生活在一个食物充足、医疗可靠、治安稳定的城市。大概率饿不死、多数传染病有药可治、战争离你很远。那么，接下来你会为什么而活？</p>
+<p>答案看起来很多：赚钱、家庭、爱好、理想。但如果把这些具体目标一层层剥掉，你会发现它们背后往往指向三个更根本的愿望：<strong>活得久一点、过得好一点、变得更强一点。</strong></p>
+<p>个体如此，人类作为一个整体可能也是如此。于是问题就出现了：</p>
+<aside class="callout callout-info">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">引文</p>
+    <p>如果"活下来"已经不再是难题，人类会不会把"活得更久、更快乐、更有力量"从愿望升级成正式目标，甚至不惜动用最前沿的科技去实现它？</p>
+  </div>
+</aside>
+<p>赫拉利的判断是：会，而且已经开始。</p>
+<hr />
+<h2 id="三作者到底提出了什么观点">三、作者到底提出了什么观点？</h2>
+<p>在《未来简史》第一章里，赫拉利提出，人类历史上第一次，把三件事当作可以认真推进的"项目"，并称之为"新人类议题"。</p>
+<p>需要特别说明的是，这三个目标的真实含义，比字面上要克制一些。</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>目标</th>
+<th>通俗说法</th>
+<th>赫拉利所指的真实含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>长生不死</td>
+<td>永远不死</td>
+<td>把死亡当作可以延缓的技术问题，不断延长健康的寿命</td>
+</tr>
+<tr>
+<td>永远快乐</td>
+<td>天天开心</td>
+<td>不只是消除痛苦，而是追求一种可持续的、被科学调校过的幸福状态</td>
+</tr>
+<tr>
+<td>成神</td>
+<td>变成神</td>
+<td>获得创造和改造生命的能力，成为地球生命的设计者，而不只是使用者</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>赫拉利认为，这三者并不是孤立的愿望，而是同一条逻辑的三种表现：<strong>当人不再被生存束缚，就会试图突破自身的生理与生物极限。</strong></p>
+<p>他还强调，这些目标之所以值得认真对待，不是因为它们一定能实现，而是因为它们正在吸引真实的资金、人才和制度投入——一旦一件事被当成"工程"来做，它就不再只是幻想。</p>
+<hr />
+<h2 id="四把这个观点翻译成人话">四、把这个观点翻译成人话</h2>
+<p>用一句大白话概括赫拉利的判断：<strong>过去人类忙着不饿死，现在开始琢磨怎么不当普通人。</strong></p>
+<p>我们可以把人类的追求想象成一个需求阶梯：</p>
+<ul>
+<li>最底层：别饿死、别病死、别被打死；</li>
+<li>往上一层：活得健康、活得长久；</li>
+<li>再往上一层：活得开心、最好一直开心；</li>
+<li>最顶层：干脆改造自己，获得过去只有"神"才有的能力。</li>
+</ul>
+<p>有意思的是，这条阶梯和我们个人很像。年轻时为温饱发愁，温饱解决后开始养生、健身、买保险，再往后追求情绪价值、心理健康，最后有人开始研究基因、长寿、乃至"意识上传"。</p>
+<p>赫拉利想说的不是"人变贪心了"，而是：<strong>人的欲望会自动往上一格。</strong> 满足了低层的需求，高层的需求就会浮现，而且看起来同样理所当然。</p>
+<hr />
+<h2 id="五为什么会这样">五、为什么会这样？</h2>
+<p>赫拉利的推理可以拆成一条链：</p>
+<figure class="diagram">
+  <pre class="mermaid">
+graph TD
+    A[饥荒/瘟疫/战争被视为可控] --> B[死亡不再是天意, 而被看成技术故障]
+    B --> C[把延长生命当成可解决的工程问题]
+    C --> D[资本发现巨大的市场与利润]
+    D --> E[生物科技 + AI 加速投入]
+    E --> F[长生/幸福/成神从幻想变成研发方向]
+    F --> G[新人类议题正式进入公共议程]
+
+</pre>
+  <figcaption class="diagram-caption">关系示意图</figcaption>
+</figure>
+<p>这条链里最关键的两步，是 <strong>B</strong> 和 <strong>D</strong>。</p>
+<p>先说 B。一旦人们不再认为"死亡是命中注定"，而开始认为"死亡是身体这台机器的故障"，那么治病就不再以"恢复健康"为终点，而会顺势延伸到"能不能修得更久一点、更好一点"。医学的目标从"对抗疾病"滑向"对抗衰老本身"。</p>
+<p>再说 D。赫拉利指出，这些目标之所以能进入现实，不是靠哲学家的呼吁，而是因为背后有资本。只要足够多的人愿意为"多活几年""更快乐""更年轻"付钱，就会有人把它做成产品、做成产业。商业模式一旦成立，技术进步就会被按下加速键。</p>
+<hr />
+<h2 id="六举一个现实生活中的例子">六、举一个现实生活中的例子</h2>
+<p>最能说明这种趋势的，是<strong>医美与抗衰老产业</strong>，以及<strong>硅谷富豪的"续命"投资</strong>。这两件事其实是一枚硬币的两面：一边是大众市场，一边是尖端实验。</p>
+<p>先说医美与抗衰老。它早已不只是"整容"，而扩展为一个围绕"看上去更年轻、身体状态更好"的庞大产业：护肤品、医美项目、营养补剂、体检与健康管理。赫拉利引用数据称，现代人对"衰老"的态度发生了根本变化——过去它被接受为自然规律，现在它越来越像一种需要被干预的"症状"。</p>
+<p>再说高端的部分。据一些公开报道，部分科技行业的富豪投入大量资金，资助长寿与抗衰老研究，甚至有人公开表示，衰老应当被视为一种"可以治愈的疾病"。这些投入未必立刻兑现，但它们说明了一件事：<strong>"活得极长"正在从神话变成某些人认真下注的赛道。</strong></p>
+<p>把这两头放在一起看，逻辑就很清楚了：大众市场提供资金与需求，顶层实验提供想象力与技术突破，两者互相喂养，"长生"就这样从一个宗教式愿望，变成了一个产业命题。</p>
+<p>需要说明的是，赫拉利本人的论述更偏框架和警示，他不会简单地说"人类都在追求长生"，而是提醒：<strong>当"延长寿命"被当成生意，它首先被服务的，往往是付得起钱的人。</strong> 这一点，下一篇会重点展开。</p>
+<hr />
+<h2 id="七回到书中重新理解">七、回到书中重新理解</h2>
+<p>现在再回看赫拉利的第一章，就不只是"人类有三个新梦想"这么简单了。</p>
+<p>他真正想做的，是把这三个目标重新摆到"现代性"的框架里。过去的宗教告诉人：死亡、痛苦、渺小都是命中注定，你应当接受它、超越它（比如寄希望于来世）。而现代科技给出的回答是：<strong>这些不是命运，而是问题；既然是问题，就可以被解决。</strong></p>
+<p>赫拉利把这个转变看得很重。因为它意味着人类第一次集体承认：<strong>我们不满意自己的出厂设置，并且打算改。</strong> 长生针对的是生命的长度，幸福针对的是感受的质量，成神针对的是能力的边界——三者合起来，就是对"人是什么"的正面挑战。</p>
+<p>所以第一章不是科普，而是一个宣言式的观察：人类的议程变了，而这次要改的可能不只是环境，而是人自己。</p>
+<hr />
+<h2 id="八这个观点背后还有什么">八、这个观点背后还有什么？</h2>
+<p>这个观点背后藏着几个不那么显眼的前提。</p>
+<p><strong>第一，它默认"死亡是一个技术问题"。</strong> 这是一个非常强的假设。很多文化和宗教传统恰恰认为死亡是意义的来源，而不是待修的故障。赫拉利是从"技术可行性"的角度谈问题，他绕开了价值判断，但价值判断并没有消失。</p>
+<p><strong>第二，它把"幸福"当作可以被测量、被工程化的对象。</strong> 赫拉利在后面会指出，快乐其实是生化机制，可以被药物、刺激或算法调节。这既让"幸福工程"看起来可行，也埋下了一个大问题：如果快乐可以被直接制造，它还是我们想要的快乐吗？这个问题会在下一篇详细讨论。</p>
+<p><strong>第三，它暗示"力量优先于意义"。</strong> 先有改造世界的能力，意义的问题被推迟到后面。这正是全书第二部分"现代性的交易"的前奏：人类用放弃宇宙既定意义，换来了改造世界的力量。</p>
+<p><strong>第四，"成神"其实是对"人"这个概念的重新定义。</strong> 如果人可以被改造、被设计、被创造，那"人"就不再是一个固定物种，而是一个可以迭代的项目。这直接通向后面关于"神人"和物种分化的讨论。</p>
+<hr />
+<h2 id="九这个观点有问题吗">九、这个观点有问题吗？</h2>
+<aside class="callout callout-warn">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">争议</p>
+<p>要分三层来看：哪些有说服力，哪些有争议，哪些可能被过度简化。</p>
+<p><strong>有说服力的部分。</strong> 赫拉利观察到的事实方向基本清楚：延长寿命、抗衰老、情绪干预、基因编辑等领域确实在获得越来越多的关注与投资。历史记录显示，新技术往往先被少数人使用，再逐步扩散；而"人一旦有余力就会追求更好"也是一个被反复验证的规律。</p>
+<p><strong>有争议的部分。</strong> 关于这三个目标是否真的会成为"人类的共同议程"，学界存在不同解释。一些历史学家和文化研究者认为，不同社会的价值取向差异很大，宗教传统、集体主义文化可能并不把"长生"和"成神"当作值得追求的目标。把全人类都描述成在朝同一个方向狂奔，可能低估了文化和信仰的多样性。</p>
+<p><strong>可能被过度简化的部分。</strong> 第一，赫拉利倾向于把"人类"当成一个统一的行动者，但现实中的人类高度分裂：有人追求长生，也有人拒绝；有人投资抗衰老，也有人认为这是在加剧不平等。第二，他把技术趋势讲得相当确定，但从"有人在做"到"整个社会都在追求"，中间还隔着制度、伦理和市场的不确定性。第三，"永远快乐"这个目标本身就存在内在矛盾——赫拉利自己在书里也承认，快乐是会被适应的生化反应，这让"永远的快乐"在生理上就值得怀疑。</p>
+<p>所以更准确的说法是：赫拉利用"新人类议题"这个框架，敏锐地抓住了人类注意力转移的方向；但把它读成"全人类正在一致追求长生、快乐和成神"，则是一种过度整齐的概括。</p>
+<hr />
+  </div>
+</aside>
+<h2 id="十今天再看这个观点">十、今天再看这个观点</h2>
+<p>以下部分是基于赫拉利思想的现代延伸，不是他在书里的原话。</p>
+<p>赫拉利写作时，谈长生、幸福、成神还更像是"趋势预言"。放到今天看，它们已经进入了更具体的形态：长寿科技成为投资热点，AI 被用于药物研发与健康预测，消费级的健康监测设备普及，关于生殖与基因技术的伦理讨论不断出现。与此同时，"幸福"也越来越被当作一个可干预的指标——从心理健康 App 到情绪相关的产品，商业力量正认真经营"让人更快乐"这件事。</p>
+<p>这种延伸带来的新问题，比赫拉利当年面对的还要直接：<strong>当"优化自己"成为一门生意，它到底是解放，还是新的分层？</strong> 谁能买得起更好的体检、更好的药物、更好的"优化"？如果答案不均等，那么"人类追求长生、快乐、成神"这句话背后的"人类"，可能并不指所有人。这正是下一篇要拆的东西。</p>
+<hr />
+<h2 id="十一这一篇真正应该记住什么">十一、这一篇真正应该记住什么？</h2>
+<ol>
+<li>
+<p><strong>三大新目标：长生、快乐、成神。</strong> 赫拉利认为，生存问题一旦被视为可控，人类议程就会转向延长寿命、追求幸福和获得"神一般"的能力。</p>
+</li>
+<li>
+<p><strong>长生不是"永远不死"。</strong> 它的现实含义是把死亡当成技术问题，尽可能延长健康的寿命，而非追求神话式的永生。</p>
+</li>
+<li>
+<p><strong>快乐被当成可工程化的对象。</strong> "幸福工程"不只消除痛苦，还试图制造可持续的快乐——而这一点恰恰埋着陷阱。</p>
+</li>
+<li>
+<p><strong>成神是能力的升级，不是身份的自封。</strong> 它指人获得创造与改造生命的力量，从而不再只是生命的使用者，而成为设计者。</p>
+</li>
+<li>
+<p><strong>这不是幻想，而是有资本推动的方向。</strong> 医美、抗衰老、长寿投资等现实产业，正是这些目标进入议程的证据。</p>
+</li>
+</ol>
+<hr />
+<h2 id="十二留一个问题">十二、留一个问题</h2>
+<aside class="callout callout-info">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">引文</p>
+    <p>如果"活得久、更快乐、更强大"真的成为人类的正式目标，
+那么第一个要回答的问题或许不是"能不能做到"，
+而是——<strong>这些东西，最终会属于谁？</strong></p>
+  </div>
+</aside>
+<hr />
+<p><strong>下一篇</strong>：长生、幸福、成神，听起来都是好事。可赫拉利为什么反复提醒我们要警惕它们？因为在这三个美好的词背后，藏着不平等、失控和伦理的裂缝。</p>
+<p>下一篇我们就来拆开这个问题——<strong>追求永生和快乐，为什么可能是陷阱？</strong></p>
+<!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span><a href="#top">↑ 回到顶部</a></span>
+        <span>来源: 02｜当生存问题解决，人类会追求什么.md</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function applyThemeIcon() {
+      const use = document.getElementById("theme-icon-use");
+      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
+    }
+    (function restoreTheme() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+
+    // ---------- Mermaid ----------
+    const diagramSources = new Map();
+    function initMermaid() {
+      const isDark = currentTheme() === "dark";
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? "dark" : "default",
+        themeVariables: {
+          primaryColor: isDark ? "#3A2A22" : "#FBEEE6",
+          primaryTextColor: isDark ? "#F5F0E8" : "#1A1A1A",
+          primaryBorderColor: isDark ? "#E89572" : "#D97757",
+          lineColor: isDark ? "#9A938A" : "#6B6B66",
+          secondaryColor: isDark ? "#2A2520" : "#F5F5F0",
+          tertiaryColor: isDark ? "#221E1A" : "#FFFFFF",
+          fontFamily: "Inter, system-ui, sans-serif",
+        },
+      });
+    }
+    function notifyMermaidOffline() {
+      // mermaid.min.js 走 CDN；离线/被墙时把原因说清楚，而不是只留一段灰掉的源码。
+      document.querySelectorAll("figure.diagram").forEach(fig => {
+        if (fig.querySelector(".diagram-offline")) return;
+        const note = document.createElement("figcaption");
+        note.className = "diagram-caption diagram-offline";
+        note.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>'
+          + "<span>图表未渲染：Mermaid 需要联网从 CDN 加载，以上为原始源码</span>";
+        fig.appendChild(note);
+      });
+    }
+    async function renderMermaid() {
+      if (typeof mermaid === "undefined") { notifyMermaidOffline(); return; }
+      initMermaid();
+      const els = document.querySelectorAll(".mermaid");
+      els.forEach(el => {
+        if (!diagramSources.has(el)) diagramSources.set(el, el.textContent.trim());
+        el.textContent = diagramSources.get(el);
+        el.removeAttribute("data-processed");
+      });
+      try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
+    }
+    function toggleTheme() {
+      const next = currentTheme() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(STORAGE_KEY, next);
+      applyThemeIcon();
+      renderMermaid();
+    }
+
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Permalink");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      applyThemeIcon();
+      injectAnchors();
+      injectCopyButtons();
+      renderMermaid();
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+</body>
+</html>

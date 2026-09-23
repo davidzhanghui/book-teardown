@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /*.md$
+Disallow: /tools/
+
+Sitemap: https://book-teardown.vercel.app/sitemap.xml

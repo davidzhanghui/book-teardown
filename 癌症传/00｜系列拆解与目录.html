@@ -1,0 +1,1546 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '★ 推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>《众病之王：癌症传》深度解读系列</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: #F0D5C4;
+      --accent-strong: #A85533;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
+      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
+      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-border: #5A3D2E;
+      --accent-strong: #F5B493;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .diagram-caption.diagram-offline {
+      color: var(--accent-strong);
+      border-top-color: var(--accent-border);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .diagram-caption.diagram-offline .icon { width: 15px; height: 15px; flex: none; }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: #fff;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  </style>
+<!-- NAV-INJECT:START -->
+<style>
+  .doc-header .back-home { display: table;
+    margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+    color: var(--accent-strong); text-decoration: none;
+    background: var(--accent-soft); border: 1px solid var(--accent-border);
+    border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+    transition: color .15s, border-color .15s; }
+  .doc-header .back-home:hover { color: var(--accent-hover);
+    border-color: var(--accent); border-bottom-color: var(--accent); }
+</style>
+<!-- NAV-INJECT:END -->
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<!-- SEO-INJECT:START -->
+  <meta name="description" content="癌症是什么？这个问题听起来简单，却困扰了人类两千多年。">
+  <link rel="canonical" href="https://book-teardown.vercel.app/%E7%99%8C%E7%97%87%E4%BC%A0/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Book Teardown · 拆书">
+  <meta property="og:title" content="《众病之王：癌症传》深度解读系列">
+  <meta property="og:description" content="癌症是什么？这个问题听起来简单，却困扰了人类两千多年。">
+  <meta property="og:url" content="https://book-teardown.vercel.app/%E7%99%8C%E7%97%87%E4%BC%A0/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="《众病之王：癌症传》深度解读系列">
+  <meta name="twitter:description" content="癌症是什么？这个问题听起来简单，却困扰了人类两千多年。">
+  <meta name="twitter:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta property="article:published_time" content="2026-09-23">
+  <meta property="article:modified_time" content="2026-09-23">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"《众病之王：癌症传》深度解读系列","description":"癌症是什么？这个问题听起来简单，却困扰了人类两千多年。","inLanguage":"zh-CN","datePublished":"2026-09-23","dateModified":"2026-09-23","author":{"@type":"Organization","name":"Book Teardown · 拆书"},"isPartOf":{"@type":"Book","name":"癌症传"},"mainEntityOfPage":"https://book-teardown.vercel.app/%E7%99%8C%E7%97%87%E4%BC%A0/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html","image":"https://book-teardown.vercel.app/assets/og-cover.png","relatedLink":["https://book-teardown.vercel.app/%E7%99%8C%E7%97%87%E4%BC%A0/01%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%88%91%E4%BB%AC%E8%87%B3%E4%BB%8A%E6%B2%A1%E6%9C%89%E3%80%8C%E6%B2%BB%E6%84%88%E3%80%8D%E7%99%8C%E7%97%87%EF%BC%9F.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"拆书","item":"https://book-teardown.vercel.app/"},{"@type":"ListItem","position":2,"name":"癌症传","item":"https://book-teardown.vercel.app/%E7%99%8C%E7%97%87%E4%BC%A0/"},{"@type":"ListItem","position":3,"name":"《众病之王：癌症传》深度解读系列","item":"https://book-teardown.vercel.app/%E7%99%8C%E7%97%87%E4%BC%A0/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html"}]}]}</script>
+<!-- SEO-INJECT:END -->
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="目录" title="目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" style="color:var(--accent)" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>计划</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="https://github.com/davidzhanghui/book-teardown" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="目录">
+      <div class="toc-head">
+        <p class="toc-title">目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a href="#系列简介" class="lvl-2">系列简介</a>
+        <a href="#全书核心问题" class="lvl-2">全书核心问题</a>
+        <a href="#全书知识地图" class="lvl-2">全书知识地图</a>
+        <a href="#全系列目录" class="lvl-2">全系列目录</a>
+        <a href="#第一部分认识众病之王" class="lvl-3">第一部分：认识「众病之王」</a>
+        <a href="#第二部分手术的年代" class="lvl-3">第二部分：手术的年代</a>
+        <a href="#第三部分化学治疗的诞生" class="lvl-3">第三部分：化学治疗的诞生</a>
+        <a href="#第四部分病因与预防" class="lvl-3">第四部分：病因与预防</a>
+        <a href="#第五部分分子革命" class="lvl-3">第五部分：分子革命</a>
+        <a href="#第六部分靶向与进化" class="lvl-3">第六部分：靶向与进化</a>
+        <a href="#第七部分病人伦理与未来" class="lvl-3">第七部分：病人、伦理与未来</a>
+        <a href="#推荐阅读顺序" class="lvl-2">推荐阅读顺序</a>
+        <a href="#与原书结构的对照" class="lvl-2">与原书结构的对照</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+      <a class="back-home" href="index.html">← 返回《癌症传》系列目录</a>
+
+        <span class="doc-eyebrow">PLAN</span>
+        <h1 class="doc-title">《众病之王：癌症传》深度解读系列</h1>
+        <p class="doc-subtitle">系列拆解 · 知识地图 · 全部文章目录</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            00｜系列拆解与目录.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            更新于 2026-09-19
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            ~17 分钟阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<h2 id="系列简介">系列简介</h2>
+<p>癌症是什么？这个问题听起来简单，却困扰了人类两千多年。</p>
+<p>悉达多·穆克吉是一位肿瘤科医生。他的一位病人在治疗中问他：我得的到底是什么？这个问题最终变成了一本书——一部为癌症写的「传记」。穆克吉把它当作一个有生命、有历史、有性格的角色来写：它如何在古埃及的纸草上第一次被记下，如何被希腊人命名为「蟹」，如何在体液学说里被误解了一千四百年，又如何在外科手术、化学药物、放射线和基因技术的一次次进攻中存活、变形、卷土重来。</p>
+<p>这本书最重要的主张是：<strong>癌症不是一种病，而是一类病；它不是外来的敌人，而是我们自己身体的一部分——是我们生长与修复的机制出了错。</strong> 正因如此，它极难被彻底「消灭」，却可能被「控制」。</p>
+<p>本系列不按原书章节复述，而是重建一条认知链：先弄清「癌症是什么、人类如何误解了它」，再走进「手术—化疗—预防—分子革命—靶向治疗」的历史，最后讨论这本普利策奖之作真正想说的：我们该如何与癌症共处。</p>
+<hr />
+<h2 id="全书核心问题">全书核心问题</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定义问题</td>
+<td>癌症到底是一种什么病？为什么不能把它当成一个单一的敌人？</td>
+</tr>
+<tr>
+<td>历史问题</td>
+<td>人类用两千年才逐渐理解癌症，为什么这么难？</td>
+</tr>
+<tr>
+<td>治疗问题</td>
+<td>从手术到化疗到靶向药，每一条路为什么都「先成功、后受挫」？</td>
+</tr>
+<tr>
+<td>因果问题</td>
+<td>癌症是环境造成的，还是命中注定？它为什么是「我们自己的病」？</td>
+</tr>
+<tr>
+<td>伦理问题</td>
+<td>在追求「治愈」的过程中，病人、实验与代价该如何被对待？</td>
+</tr>
+<tr>
+<td>终极问题</td>
+<td>癌症会被彻底消灭吗？「治愈」「控制」与「共存」意味着什么？</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>一句话版本：</p>
+<aside class="callout callout-info">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">引文</p>
+    <p><strong>当敌人就是我们自己时，我们该如何理解癌症、又该如何与它相处？</strong></p>
+  </div>
+</aside>
+<hr />
+<h2 id="全书知识地图">全书知识地图</h2>
+<figure class="diagram">
+  <pre class="mermaid">
+graph TD
+    A["癌症：人类最古老也最顽固的疾病之一"] --> B["不是一种病，而是上百种病的集合"]
+    B --> C["古代：体液学说 · 黑胆汁 · 被判为不治"]
+    C --> D["外科时代：麻醉出现 → 根治术（切得越多越好）"]
+    D --> E["认知转折：癌症其实是全身性疾病"]
+    E --> F["化疗时代：芥子气 → 法伯 → 联合化疗"]
+    F --> G["抗癌战争：政治、资金与『消灭癌症』的信念"]
+    G --> H["病因与预防：吸烟 · 化学致癌物 · 环境与遗传"]
+    H --> I["分子革命：病毒论 → 致癌基因 → 靶向治疗"]
+    I --> J["靶向与进化：格列卫 · 血管生成 · 耐药"]
+    J --> K["癌症的标志：癌细胞的几种『超能力』"]
+    K --> L["结局：治愈 / 控制 / 共存 · 癌症成为慢性病？"]
+    L --> M["伦理与病人：海拉细胞 · 临终关怀 · 医学的边界"]
+
+</pre>
+  <figcaption class="diagram-caption">关系示意图</figcaption>
+</figure>
+<p>再压缩成一句话：</p>
+<pre><code class="language-text">癌症 = 我们自身细胞的失控
+     → 古人不解 → 外科强切 → 化疗毒杀 → 预防拦截 → 分子靶向
+     → 每一次『胜利』都被耐药与进化反扑
+     → 最终答案不是『消灭』，而是『理解与控制』
+</code></pre>
+<hr />
+<h2 id="全系列目录">全系列目录</h2>
+<h3 id="第一部分认识众病之王">第一部分：认识「众病之王」</h3>
+<h4 id="01为什么我们至今没有治愈癌症">01｜为什么我们至今没有「治愈」癌症？</h4>
+<p>核心问题：如果医学已经如此发达，为什么癌症依然是那个最令人恐惧的诊断？</p>
+<p>核心观点：穆克吉的答案藏在书名里——癌症是「众病之王」。它不是一场可以宣布胜利的战争，而是一个与我们共存了四千年的对手。要理解为什么治不好它，首先要理解它不是一种病，而是一类病，且根本上是我们自己身体的一部分。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：众病之王、传记式写法、治愈的幻觉</p>
+<hr />
+<h4 id="02癌症究竟是一种病还是一百种病">02｜癌症究竟是一种病，还是一百种病？</h4>
+<p>核心问题：为什么把癌症当成「一个敌人」来打，从一开始就是错的？</p>
+<p>核心观点：癌症是一大类疾病的统称：乳腺癌、白血病、肺癌、淋巴瘤……它们在病因、行为和治疗反应上差别巨大。用同一种逻辑对付所有癌症，就像用一种药治所有感染。穆克吉反复强调：<strong>「癌症」是一个复数词。</strong></p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：癌症的异质性、白血病与实体瘤、分类的困难</p>
+<hr />
+<h4 id="03人类第一次看见癌症是什么时候">03｜人类第一次「看见」癌症，是什么时候？</h4>
+<p>核心问题：人类究竟从什么时候开始认识癌症？最早的记录告诉了我们什么？</p>
+<p>核心观点：早在古埃及的医学纸草中，就有对乳房肿块的描述，并写下了近乎绝望的结论——「无法治疗」。这提醒我们：癌症不是现代文明的产物，它和文明本身一样古老；现代医学面对的，是一个远古就存在的难题。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：艾德温·史密斯纸草、古埃及医学、乳腺癌的记载</p>
+<hr />
+<h4 id="04为什么人类误解了癌症两千年">04｜为什么人类误解了癌症两千年？</h4>
+<p>核心问题：从希波克拉底到盖伦，古人为什么会把癌症解释成「黑胆汁过多」？</p>
+<p>核心观点：古希腊医学用「四种体液」解释一切疾病，癌症被视为黑胆汁淤积。这个理论自洽、优雅，却没有解剖学依据，却统治了西方医学一千多年。穆克吉借此说明：<strong>错误的框架一旦被权威固化，就会长期阻挡正确的观察。</strong></p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：希波克拉底、盖伦、体液学说、黑胆汁、癌症的命名</p>
+<hr />
+<h4 id="05癌症到底是什么一个细胞的叛变">05｜癌症到底是什么？——一个细胞的「叛变」</h4>
+<p>核心问题：在细胞的层面上，癌症究竟发生了什么？</p>
+<p>核心观点：十九世纪的病理学家魏尔啸确立了「细胞来自细胞」，把癌症拉回细胞层面：它是细胞不受控制地增殖、侵入与转移。癌症不是外来的怪物，而是<strong>正常的生长机制失控后的产物</strong>——这是我们身体为「多细胞」付出的代价。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：魏尔啸、细胞病理学、增殖失控、转移</p>
+<hr />
+<h3 id="第二部分手术的年代">第二部分：手术的年代</h3>
+<h4 id="06为什么最早的抗癌疗法是切得越多越好">06｜为什么最早的抗癌疗法是「切得越多越好」？</h4>
+<p>核心问题：在没有化疗和放疗的年代，外科医生为什么会相信「切得越干净，治愈机会越大」？</p>
+<p>核心观点：十九世纪末，霍尔斯特德提出「根治性乳房切除术」，主张连同乳房、胸肌和淋巴结一并切除。在当时「癌症先局部扩散、再沿淋巴蔓延」的理论下，这个逻辑无懈可击，并统治了半个多世纪的外科实践。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：霍尔斯特德、根治术、局部扩散理论、麻醉与外科进步</p>
+<hr />
+<h4 id="07根治术为什么统治了半个多世纪又为什么被推翻">07｜「根治术」为什么统治了半个多世纪，又为什么被推翻？</h4>
+<p>核心问题：如果切得越多越好，为什么更彻底的手术并没有带来更高的治愈率？</p>
+<p>核心观点：更大范围的手术并未显著改善生存，反而带来巨大创伤。费舍尔等人用<strong>随机对照试验</strong>证明，局部切除加放疗与根治术效果相当，从而把「癌症是局部病」的旧观念，转向「癌症从一开始就是全身性疾病」。这是医学从权威走向证据的转折。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：随机对照试验、费舍尔、局部 vs 全身、循证医学</p>
+<hr />
+<h3 id="第三部分化学治疗的诞生">第三部分：化学治疗的诞生</h3>
+<h4 id="08战争如何意外催生了化疗">08｜战争如何意外催生了化疗？</h4>
+<p>核心问题：第一种真正意义上的抗癌药，为什么竟然来自化学武器？</p>
+<p>核心观点：二战期间对芥子气的研究发现，它会特异性地破坏骨髓和淋巴组织。古德曼与吉尔曼据此把氮芥用于淋巴瘤，第一次证明——药物可以缩小人体内的肿瘤。化学治疗由此诞生，一段「以毒攻毒」的历史开始了。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：芥子气、氮芥、淋巴瘤、以毒攻毒</p>
+<hr />
+<h4 id="09一个儿科医生如何让儿童白血病第一次退却">09｜一个儿科医生，如何让儿童白血病第一次「退却」？</h4>
+<p>核心问题：为什么现代化疗的真正起点，是一个几乎无药可救的儿童病房？</p>
+<p>核心观点：法伯用叶酸的「拮抗剂」治疗儿童急性白血病，让原本迅速死亡的孩子出现短暂缓解。这在当时几乎是奇迹。他不只是发现了一种药，更确立了一种信念：<strong>药物能够系统性攻击全身扩散的癌症</strong>，哪怕过程凶险。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：法伯、儿童白血病、叶酸拮抗剂、缓解</p>
+<hr />
+<h4 id="10为什么一种药治不好癌症联合化疗的诞生">10｜为什么一种药治不好癌症？——联合化疗的诞生</h4>
+<p>核心问题：为什么单靠一种药，总是先有效、后失效？</p>
+<p>核心观点：癌细胞会不断产生耐药性。研究者借鉴结核病联合用药的思路，用作用机制不同的多种药物同时攻击，既减少耐药，也提高杀灭率。联合化疗让儿童白血病、霍奇金淋巴瘤等第一次真正被「治愈」，也确立了「根治」这一雄心。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：耐药、联合化疗、霍奇金淋巴瘤、细胞全杀模型</p>
+<hr />
+<h4 id="11向癌症宣战尼克松拉斯克与一个未兑现的承诺">11｜「向癌症宣战」：尼克松、拉斯克与一个未兑现的承诺</h4>
+<p>核心问题：为什么 1971 年美国要发起一场「抗癌战争」？它成功了吗？</p>
+<p>核心观点：在社会活动家拉斯克等人的推动下，尼克松签署《国家癌症法案》，投入巨额资金，承诺在几年内攻克癌症。它极大推动了研究与治疗，却也暴露了「按下按钮就能消灭癌症」这一想象的幼稚——<strong>科学的进展不是政治意志可以压缩的。</strong></p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：国家癌症法案、拉斯克、政治与科学、期望管理</p>
+<hr />
+<h3 id="第四部分病因与预防">第四部分：病因与预防</h3>
+<h4 id="12癌症是可以预防的吗从扫烟囱工人到吸烟">12｜癌症是可以预防的吗？——从扫烟囱工人到吸烟</h4>
+<p>核心问题：如果癌症这么难治，我们能不能在它发生之前就阻止它？</p>
+<p>核心观点：从帕特发现扫烟囱工人的阴囊癌与煤灰有关，到多尔与希尔证明吸烟导致肺癌，流行病学一次次证明：相当一部分癌症与环境暴露有关，因而可以预防。这让「预防」成为与「治疗」同等重要的战场。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：帕特、职业致癌物、多尔与希尔、吸烟与肺癌</p>
+<hr />
+<h4 id="13烟草公司是如何制造怀疑的">13｜烟草公司是如何「制造怀疑」的？</h4>
+<p>核心问题：证据都那么清楚了，为什么烟草行业还能拖延几十年？</p>
+<p>核心观点：面对吸烟致癌的铁证，烟草公司没有正面反驳，而是系统性地「制造不确定」——质疑统计方法、资助有利研究、强调「相关性不等于因果」。这是科学证据与商业利益博弈的经典案例，也解释了为什么科学共识并不自动转化为公共政策。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：烟草业、制造怀疑、科学证据、公共政策</p>
+<hr />
+<h4 id="14癌症是命中注定还是环境所致">14｜癌症是「命中注定」，还是「环境所致」？</h4>
+<p>核心问题：为什么同一种暴露，有人得癌、有人不得？癌症到底有多少来自遗传、多少来自环境？</p>
+<p>核心观点：癌症既不是纯粹的宿命，也不是纯粹的环境问题。它通常是基因、环境与随机突变的共同结果。理解这一点，才能同时避免两种极端——把癌症全归咎于个人生活方式，或把一切推给无法改变的命运。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：遗传易感性、环境暴露、随机突变、多因素</p>
+<hr />
+<h3 id="第五部分分子革命">第五部分：分子革命</h3>
+<h4 id="15癌症是病毒引起的吗一场持续半个世纪的争论">15｜癌症是病毒引起的吗？——一场持续半个世纪的争论</h4>
+<p>核心问题：为什么会有一代科学家坚信「癌症会传染」？</p>
+<p>核心观点：劳斯发现鸡肉瘤可以由病毒传递，这开启了「肿瘤病毒」之路。此后数十年，病毒论与化学致癌论、遗传论反复拉锯。虽然病毒只解释了少数癌症（如宫颈癌与 HPV），但这条线索最终意外地通向了癌症最核心的秘密——基因。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：劳斯、肿瘤病毒、逆转录病毒、HPV</p>
+<hr />
+<h4 id="16致癌基因癌症为什么是我们自己的基因出了错">16｜致癌基因：癌症为什么是「我们自己的基因」出了错？</h4>
+<p>核心问题：癌基因究竟从哪里来？它为什么不是外来入侵，而是「内鬼」？</p>
+<p>核心观点：毕晓普与瓦尔缪斯发现，病毒里的致癌基因其实来自宿主自身的正常基因——「原癌基因」。当这些调控生长的基因发生突变或被异常激活，细胞就会失控。这一发现彻底改变了癌症的图景：<strong>癌，是我们的基因在特定条件下的背叛。</strong></p>
+<p>理解难度：★★★★★</p>
+<p>关键词：原癌基因、src、毕晓普与瓦尔缪斯、突变</p>
+<hr />
+<h4 id="17费城染色体靶向治疗的黎明">17｜费城染色体：靶向治疗的黎明</h4>
+<p>核心问题：一种特定的染色体异常，为什么能带来第一种精准抗癌药？</p>
+<p>核心观点：慢性粒细胞白血病患者体内有一条异常的「费城染色体」，它把两个基因拼成一个持续发出增殖信号的「开关」。既然病因如此明确，理论上就可以设计一把只针对这个开关的钥匙。这为「靶向治疗」奠定了概念基础。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：费城染色体、染色体易位、BCR-ABL、精准打击</p>
+<hr />
+<h3 id="第六部分靶向与进化">第六部分：靶向与进化</h3>
+<h4 id="18癌细胞有哪些超能力癌症的标志">18｜癌细胞有哪些「超能力」？——《癌症的标志》</h4>
+<p>核心问题：形形色色的癌症，有没有共同的底层特征？</p>
+<p>核心观点：汉纳汉与温伯格提出的「癌症的标志」框架，把癌症的共同能力归纳为若干条：无限增殖、逃避生长抑制、抵抗凋亡、诱导血管生成、侵袭与转移、获得复制永生化等。它像一张地图，把纷乱的癌症研究收拢成一个可理解的系统。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：癌症的标志、汉纳汉与温伯格、共性与系统</p>
+<hr />
+<h4 id="19格列卫一颗魔弹如何改写癌症治疗">19｜格列卫：一颗「魔弹」如何改写癌症治疗？</h4>
+<p>核心问题：为什么格列卫被视为癌症治疗史上的分水岭？</p>
+<p>核心观点：针对慢性粒细胞白血病的关键分子异常，格列卫实现了近乎「点射」的效果：患者获得极高的缓解率，副作用远小于传统化疗。「魔弹」的梦想似乎成真了——但它也很快遭遇了癌症最顽强的武器：耐药。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：格列卫、伊马替尼、魔弹、分子靶向治疗</p>
+<hr />
+<h4 id="20能不能饿死肿瘤福克曼与血管生成">20｜能不能「饿死」肿瘤？——福克曼与血管生成</h4>
+<p>核心问题：肿瘤长大需要血液供应吗？切断它的血管能否成为新的疗法？</p>
+<p>核心观点：福克曼提出，肿瘤必须诱导新血管生成才能持续生长，因此「抗血管生成」可能是一种广谱策略。这一思路充满想象力，却在临床中屡经波折。它说明：癌症治疗的每一个「巧妙点子」，都要经过漫长而残酷的验证。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：福克曼、血管生成、抗血管生成、临床验证</p>
+<hr />
+<h4 id="21为什么治好的癌症还会复发癌症是一台进化机器">21｜为什么治好的癌症还会复发？——癌症是一台进化机器</h4>
+<p>核心问题：靶向药明明有效，为什么癌细胞总能「卷土重来」？</p>
+<p>核心观点：肿瘤内部并非单一，而是由无数略有差异的细胞组成；药物杀死了大多数，却留下了耐药的少数，它们迅速繁殖，形成新的优势群体。<strong>癌症本质上是一场发生在体内的达尔文式进化。</strong> 这也意味着，任何单一疗法都难以取得永久胜利。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：肿瘤异质性、耐药、达尔文式进化、联合策略</p>
+<hr />
+<h3 id="第七部分病人伦理与未来">第七部分：病人、伦理与未来</h3>
+<h4 id="22当医学无法治愈时我们还能做什么">22｜当医学无法治愈时，我们还能做什么？</h4>
+<p>核心问题：如果癌症无法根治，医学的意义是否就崩塌了？</p>
+<p>核心观点：穆克吉在书中不断回到这个问题：治疗的目标不只是「延长生命」，也包括减轻痛苦、维护尊严、陪伴病人。临终关怀不是放弃，而是把「治愈」的执念，换成对「人」的关注。这是全书最柔软、也最深刻的部分。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：临终关怀、治愈与照护、生命质量、医学的边界</p>
+<hr />
+<h4 id="23海拉细胞医学进步的背面是谁的代价">23｜海拉细胞：医学进步的背面，是谁的代价？</h4>
+<p>核心问题：一项拯救了无数人的医学成果，如果来自未经同意的取材，它该如何被评价？</p>
+<p>核心观点：海拉细胞来自一位普通黑人女性，却在未经她知情同意的情况下被广泛用于研究，惠及全人类，而她的家人长期被蒙在鼓里。这个案例迫使医学面对一个根本问题：<strong>科学的进步与个体的权利，边界在哪里？</strong></p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：海拉细胞、知情同意、医学伦理、纽伦堡法典</p>
+<hr />
+<h4 id="24癌症会被彻底消灭吗治愈控制与共存">24｜癌症会被彻底消灭吗？——「治愈」「控制」与「共存」</h4>
+<p>核心问题：穆克吉这本「癌症传记」的结论，究竟是悲观还是乐观？</p>
+<p>核心观点：癌症源于我们自身的生物学，不可能像天花或小儿麻痹那样被「根除」。更现实的未来是：一部分癌症可以治愈，一部分可以长期控制，像高血压、糖尿病一样与患者共存。真正的进步，或许是放下「战争」的隐喻，学会更聪明、更有耐心地与它相处。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：慢性病化、控制而非根除、战争隐喻、共存</p>
+<hr />
+<h2 id="推荐阅读顺序">推荐阅读顺序</h2>
+<pre><code class="language-text">第一板块｜先认识对手
+  01 为什么治不好
+  02 不是一种病
+  03 最早的记录
+  04 两千年的误解
+  05 细胞层面的真相
+
+第二板块｜外科的幻想
+  06 切得越多越好
+  07 根治术为何被推翻
+
+第三板块｜化学治疗
+  08 战争与化疗
+  09 法伯与儿童白血病
+  10 联合化疗
+  11 抗癌战争
+
+第四板块｜病因与预防
+  12 可以预防吗
+  13 烟草公司的怀疑术
+  14 命还是环境
+
+第五板块｜分子革命
+  15 病毒论之争
+  16 致癌基因
+  17 费城染色体
+
+第六板块｜靶向与进化
+  18 癌症的标志
+  19 格列卫
+  20 血管生成
+  21 耐药与进化
+
+第七板块｜病人与未来
+  22 临终关怀
+  23 海拉细胞
+  24 消灭还是共存
+</code></pre>
+<p>优先关系：</p>
+<aside class="callout callout-info">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">引文</p>
+    <p>03、04、05 是理解后面一切治疗史的地基（先知道癌症是什么、为什么难）；
+07 依赖 06 建立的外科逻辑；10 依赖 08、09 讲清的化疗原理；
+15、16、17 是分子革命的三级台阶，18 的「标志」框架需建立在 16 之后；
+19、20、21 依赖 17、18；22、23、24 属于反思与价值层，须在理解完整段历史之后才有分量。</p>
+  </div>
+</aside>
+<hr />
+<h2 id="与原书结构的对照">与原书结构的对照</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>原书脉络</th>
+<th>对应文章</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>序言：为癌症写一本传记</td>
+<td>01、24</td>
+</tr>
+<tr>
+<td>第一部分 疾病的面貌（古代到魏尔啸）</td>
+<td>02、03、04、05</td>
+</tr>
+<tr>
+<td>第二部分 外科时代（霍尔斯特德到费舍尔）</td>
+<td>06、07</td>
+</tr>
+<tr>
+<td>第三部分 化疗的诞生与抗癌战争</td>
+<td>08、09、10、11</td>
+</tr>
+<tr>
+<td>第四部分 病因、致癌物与预防</td>
+<td>12、13、14</td>
+</tr>
+<tr>
+<td>第五部分 分子革命（病毒、癌基因、靶向）</td>
+<td>15、16、17、18</td>
+</tr>
+<tr>
+<td>第六部分 靶向治疗、血管生成与耐药</td>
+<td>19、20、21</td>
+</tr>
+<tr>
+<td>尾声 治愈、照护与伦理（含海拉细胞）</td>
+<td>22、23、24</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span><a href="#top">↑ 回到顶部</a></span>
+        <span>来源: 00｜系列拆解与目录.md</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function applyThemeIcon() {
+      const use = document.getElementById("theme-icon-use");
+      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
+    }
+    (function restoreTheme() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+
+    // ---------- Mermaid ----------
+    const diagramSources = new Map();
+    function initMermaid() {
+      const isDark = currentTheme() === "dark";
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? "dark" : "default",
+        themeVariables: {
+          primaryColor: isDark ? "#3A2A22" : "#FBEEE6",
+          primaryTextColor: isDark ? "#F5F0E8" : "#1A1A1A",
+          primaryBorderColor: isDark ? "#E89572" : "#D97757",
+          lineColor: isDark ? "#9A938A" : "#6B6B66",
+          secondaryColor: isDark ? "#2A2520" : "#F5F5F0",
+          tertiaryColor: isDark ? "#221E1A" : "#FFFFFF",
+          fontFamily: "Inter, system-ui, sans-serif",
+        },
+      });
+    }
+    function notifyMermaidOffline() {
+      // mermaid.min.js 走 CDN；离线/被墙时把原因说清楚，而不是只留一段灰掉的源码。
+      document.querySelectorAll("figure.diagram").forEach(fig => {
+        if (fig.querySelector(".diagram-offline")) return;
+        const note = document.createElement("figcaption");
+        note.className = "diagram-caption diagram-offline";
+        note.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>'
+          + "<span>图表未渲染：Mermaid 需要联网从 CDN 加载，以上为原始源码</span>";
+        fig.appendChild(note);
+      });
+    }
+    async function renderMermaid() {
+      if (typeof mermaid === "undefined") { notifyMermaidOffline(); return; }
+      initMermaid();
+      const els = document.querySelectorAll(".mermaid");
+      els.forEach(el => {
+        if (!diagramSources.has(el)) diagramSources.set(el, el.textContent.trim());
+        el.textContent = diagramSources.get(el);
+        el.removeAttribute("data-processed");
+      });
+      try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
+    }
+    function toggleTheme() {
+      const next = currentTheme() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(STORAGE_KEY, next);
+      applyThemeIcon();
+      renderMermaid();
+    }
+
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Permalink");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      applyThemeIcon();
+      injectAnchors();
+      injectCopyButtons();
+      renderMermaid();
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+</body>
+</html>

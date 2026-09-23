@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '★ 推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>《今日简史：人类命运大议题》深度解读系列</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: #F0D5C4;
+      --accent-strong: #A85533;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
+      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
+      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-border: #5A3D2E;
+      --accent-strong: #F5B493;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .diagram-caption.diagram-offline {
+      color: var(--accent-strong);
+      border-top-color: var(--accent-border);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .diagram-caption.diagram-offline .icon { width: 15px; height: 15px; flex: none; }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: #fff;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  </style>
+<!-- NAV-INJECT:START -->
+<style>
+  .doc-header .back-home { display: table;
+    margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+    color: var(--accent-strong); text-decoration: none;
+    background: var(--accent-soft); border: 1px solid var(--accent-border);
+    border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+    transition: color .15s, border-color .15s; }
+  .doc-header .back-home:hover { color: var(--accent-hover);
+    border-color: var(--accent); border-bottom-color: var(--accent); }
+</style>
+<!-- NAV-INJECT:END -->
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<!-- SEO-INJECT:START -->
+  <meta name="description" content="《今日简史》是尤瓦尔·赫拉利「简史三部曲」的收官之作（中信出版集团，2018 年，林俊宏译；原作名 21 Lessons for the 21st Century）。《人类简史》回望过去，《未来简史》眺望未来，而这一本把目光收回当下，追问一个最紧迫的问题：现在到底发生了什么？我们该关注什么？">
+  <link rel="canonical" href="https://book-teardown.vercel.app/%E4%BB%8A%E6%97%A5%E7%AE%80%E5%8F%B2/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Book Teardown · 拆书">
+  <meta property="og:title" content="《今日简史：人类命运大议题》深度解读系列">
+  <meta property="og:description" content="《今日简史》是尤瓦尔·赫拉利「简史三部曲」的收官之作（中信出版集团，2018 年，林俊宏译；原作名 21 Lessons for the 21st Century）。《人类简史》回望过去，《未来简史》眺望未来，而这一本把目光收回当下，追问一个最紧迫的问题：现在到底发生了什么？我们该关注什么？">
+  <meta property="og:url" content="https://book-teardown.vercel.app/%E4%BB%8A%E6%97%A5%E7%AE%80%E5%8F%B2/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="《今日简史：人类命运大议题》深度解读系列">
+  <meta name="twitter:description" content="《今日简史》是尤瓦尔·赫拉利「简史三部曲」的收官之作（中信出版集团，2018 年，林俊宏译；原作名 21 Lessons for the 21st Century）。《人类简史》回望过去，《未来简史》眺望未来，而这一本把目光收回当下，追问一个最紧迫的问题：现在到底发生了什么？我们该关注什么？">
+  <meta name="twitter:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta property="article:published_time" content="2026-09-23">
+  <meta property="article:modified_time" content="2026-09-23">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"《今日简史：人类命运大议题》深度解读系列","description":"《今日简史》是尤瓦尔·赫拉利「简史三部曲」的收官之作（中信出版集团，2018 年，林俊宏译；原作名 21 Lessons for the 21st Century）。《人类简史》回望过去，《未来简史》眺望未来，而这一本把目光收回当下，追问一个最紧迫的问题：现在到底发生了什么？我们该关注什么？","inLanguage":"zh-CN","datePublished":"2026-09-23","dateModified":"2026-09-23","author":{"@type":"Organization","name":"Book Teardown · 拆书"},"isPartOf":{"@type":"Book","name":"今日简史"},"mainEntityOfPage":"https://book-teardown.vercel.app/%E4%BB%8A%E6%97%A5%E7%AE%80%E5%8F%B2/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html","image":"https://book-teardown.vercel.app/assets/og-cover.png","relatedLink":["https://book-teardown.vercel.app/%E4%BB%8A%E6%97%A5%E7%AE%80%E5%8F%B2/01%EF%BD%9C%E8%87%AA%E7%94%B1%E4%B8%BB%E4%B9%89%E7%9A%84%E6%95%85%E4%BA%8B%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AE%B2%E4%B8%8D%E4%B8%8B%E5%8E%BB%E4%BA%86.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"拆书","item":"https://book-teardown.vercel.app/"},{"@type":"ListItem","position":2,"name":"今日简史","item":"https://book-teardown.vercel.app/%E4%BB%8A%E6%97%A5%E7%AE%80%E5%8F%B2/"},{"@type":"ListItem","position":3,"name":"《今日简史：人类命运大议题》深度解读系列","item":"https://book-teardown.vercel.app/%E4%BB%8A%E6%97%A5%E7%AE%80%E5%8F%B2/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html"}]}]}</script>
+<!-- SEO-INJECT:END -->
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="目录" title="目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" style="color:var(--accent)" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>计划</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="https://github.com/davidzhanghui/book-teardown" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="目录">
+      <div class="toc-head">
+        <p class="toc-title">目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a href="#系列简介" class="lvl-2">系列简介</a>
+        <a href="#全书核心问题" class="lvl-2">全书核心问题</a>
+        <a href="#全书知识地图" class="lvl-2">全书知识地图</a>
+        <a href="#全系列目录" class="lvl-2">全系列目录</a>
+        <a href="#第一部分旧故事的失灵" class="lvl-3">第一部分：旧故事的失灵</a>
+        <a href="#第二部分分裂的世界" class="lvl-3">第二部分：分裂的世界</a>
+        <a href="#第三部分绝望与希望" class="lvl-3">第三部分：绝望与希望</a>
+        <a href="#第四部分真相的迷雾" class="lvl-3">第四部分：真相的迷雾</a>
+        <a href="#第五部分生存下去" class="lvl-3">第五部分：生存下去</a>
+        <a href="#推荐阅读顺序" class="lvl-2">推荐阅读顺序</a>
+        <a href="#例子与素材分配表写正文前必读" class="lvl-2">例子与素材分配表（写正文前必读）</a>
+        <a href="#全系列状态" class="lvl-2">全系列状态</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+      <a class="back-home" href="index.html">← 返回《今日简史》系列目录</a>
+
+        <span class="doc-eyebrow">PLAN</span>
+        <h1 class="doc-title">《今日简史：人类命运大议题》深度解读系列</h1>
+        <p class="doc-subtitle">系列拆解 · 知识地图 · 全部文章目录</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            00｜系列拆解与目录.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            更新于 2026-09-19
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            ~22 分钟阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<h2 id="系列简介">系列简介</h2>
+<p>《今日简史》是尤瓦尔·赫拉利「简史三部曲」的收官之作（中信出版集团，2018 年，林俊宏译；原作名 21 Lessons for the 21st Century）。《人类简史》回望过去，《未来简史》眺望未来，而这一本把目光收回当下，追问一个最紧迫的问题：<strong>现在到底发生了什么？我们该关注什么？</strong></p>
+<p>赫拉利的判断是：人类正同时面对三大挑战——科技颠覆、生态崩溃和核战争。它们本质上都是全球性问题，但世界却在往相反的方向走：民族主义回潮、身份对立加剧、真相越来越难以辨认。更根本的是，我们赖以理解世界的旧故事已经失效，而新的故事还没有到来。</p>
+<p>这本书不像前两本那样提供宏大预言，它更像一份「当下的清单」：从 AI 与就业、自由与数据、文明与民族主义，到恐怖主义、无知、正义、后真相，最后落在教育与意义。赫拉利很少给出标准答案，他做的是逼读者自己思考。</p>
+<p>本系列把全书重新组织成 5 个部分、21 篇解读，每篇只回答一个核心问题，帮你从「知道赫拉利说了什么」，走到「能够自己判断他说得对不对」。</p>
+<hr />
+<h2 id="全书核心问题">全书核心问题</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>核心问题</th>
+<th>本书的回答方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>时代问题</td>
+<td>旧的故事为什么失效了？技术颠覆会把人类带向哪里？</td>
+<td>自由主义的故事在 2008 年后逐渐幻灭，新故事尚未成形；就业、自由、平等都在被重写</td>
+</tr>
+<tr>
+<td>政治问题</td>
+<td>全球性问题为什么无法用民族主义的方式解决？人类还能共同生活吗？</td>
+<td>三大挑战需要全球合作，而民族主义、文明叙事、宗教和移民争议都在把人类拉向分裂</td>
+</tr>
+<tr>
+<td>恐惧问题</td>
+<td>恐怖主义、战争与历史叙事，如何扭曲我们对世界的判断？</td>
+<td>恐惧被放大、战争不再划算、每个文明都自居中心；谦逊与世俗价值是解药</td>
+</tr>
+<tr>
+<td>真相问题</td>
+<td>我们为什么无知？正义为什么难？真相为什么敌不过故事？</td>
+<td>知识分工让个人越来越无知，结构性偏见让正义难寻，虚构故事天生比事实更有吸引力</td>
+</tr>
+<tr>
+<td>生存问题</td>
+<td>教育、意义与自我认识——个人还能做什么？</td>
+<td>教通用的能力而非具体技能，在故事之外寻找意义，用观察心智的方式认识自己</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="全书知识地图">全书知识地图</h2>
+<figure class="diagram">
+  <pre class="mermaid">
+flowchart TD
+    A[三大挑战: 科技颠覆 / 生态崩溃 / 核战争] --> B[旧故事失效: 自由主义幻灭]
+    B --> C[技术冲击: 就业 / 自由 / 平等]
+    B --> D[政治分裂: 民族主义 / 文明 / 社群 / 宗教 / 移民]
+    C --> E[算法比你更懂你: 谁该拥有数据]
+    C --> F[不平等可能变成生物学意义上的]
+    D --> G[全球问题需要全球合作]
+    E --> H[绝望与希望: 恐怖主义 / 战争 / 谦逊 / 神 / 世俗主义]
+    F --> H
+    G --> H
+    H --> I[真相的迷雾: 无知 / 正义 / 后真相 / 科幻]
+    I --> J[生存下去: 教育 / 意义 / 认识自己]
+    J --> K[在算法之前认识你自己]
+
+</pre>
+  <figcaption class="diagram-caption">关系示意图</figcaption>
+</figure>
+<hr />
+<h2 id="全系列目录">全系列目录</h2>
+<h3 id="第一部分旧故事的失灵">第一部分：旧故事的失灵</h3>
+<h4 id="01自由主义的故事为什么讲不下去了">01｜自由主义的故事为什么讲不下去了？</h4>
+<p>核心问题：曾经战胜法西斯主义和共产主义的自由主义，为什么在 21 世纪失去了说服力？</p>
+<p>核心观点：赫拉利认为，20 世纪有三大故事在竞争：法西斯主义、共产主义和自由主义。自由主义最终胜出，靠的是「把饼不断做大」——用经济增长让各方都满意。但这个前提正在失效：增长解决不了生态崩溃，也解决不了科技颠覆。2008 年金融危机之后，人们对自由主义的故事越来越幻灭，而新的故事还远未达成共识。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：三大故事、自由主义、幻灭、经济增长、新叙事</p>
+<hr />
+<h4 id="02当机器抢走工作人的价值从哪里来">02｜当机器抢走工作，人的价值从哪里来？</h4>
+<p>核心问题：如果 AI 和机器人接管了大部分工作，人类失去的仅仅是收入吗？</p>
+<p>核心观点：赫拉利认为，自动化真正冲击的不只是饭碗，而是意义——工作是现代人身份、自尊和社会地位的来源。他预计「无用阶层」可能日益庞大：不是失业，而是在经济与军事体系里都不再被需要。全民基本收入（UBI）能解决钱的问题，但解决不了「我为什么活着」的问题；对意义和社群的追求，会变得比对工作的追求更重要。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：就业、无用阶层、全民基本收入、意义、连接性</p>
+<hr />
+<h4 id="03当感受可以被操纵自由还剩下什么">03｜当感受可以被操纵，自由还剩下什么？</h4>
+<p>核心问题：自由主义把「听从自己的感受」当作最高准则，可如果感受可以被测量和操纵呢？</p>
+<p>核心观点：赫拉利指出，感受不过是生化算法的输出，用来快速计算生存和繁殖的概率。一旦技术能攻入并操纵人心，「听从内心」就变成了「听从被设计好的内心」，民主政治可能变成一场「情感充沛的木偶戏」。这不是遥远的科幻：搜索排名已经在定义「真相」，情绪已经在被测量和引导。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：自由、感受、生化算法、数据霸权、操纵</p>
+<hr />
+<h4 id="04未来的不平等为什么可能是生物学的">04｜未来的不平等，为什么可能是「生物学」的？</h4>
+<p>核心问题：人类历史上的不平等可以被废除，为什么未来的不平等可能不行？</p>
+<p>核心观点：赫拉利认为，过去的不平等（阶级、种族、性别）是法律和文化层面的，可以被废除；但生物技术与信息技术的结合，可能让不平等「下沉」到生物学层面：少数人买得起延长生命、升级认知的疗法，人类可能分化成不同的「生物种姓」，甚至「种化」为不同的物种。他还提出 21 世纪最重要的政治问题：数据该归谁所有？因为数据巨头真正收集的不是注意力，而是权力。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：平等、种化、生物种姓、数据所有权、注意力商人</p>
+<hr />
+<h3 id="第二部分分裂的世界">第二部分：分裂的世界</h3>
+<h4 id="05民族主义能解决全球性问题吗">05｜民族主义能解决全球性问题吗？</h4>
+<p>核心问题：面对核战争、生态崩溃和科技颠覆，为什么「各管各的」行不通？</p>
+<p>核心观点：赫拉利认为，人类现在至少有三个共同敌人：核战争、生态崩溃和科技颠覆，它们本质上都是全球性问题。民族主义擅长处理国内事务，甚至是民主运转的前提，但无法解决这些问题；真正的危险不是爱国，而是良性爱国主义滑向「我的国家至高无上」的极端民族主义。他主张人类需要一种全球性的认同和忠诚，并警告：如果坚持「本国优先」到底，结局可能比 1914 年和 1939 年更惨烈。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：民族主义、爱国主义、全球问题、共同敌人、全球认同</p>
+<hr />
+<h4 id="06文明冲突为什么解释不了世界">06｜「文明冲突」为什么解释不了世界？</h4>
+<p>核心问题：把世界分成「西方文明」「伊斯兰文明」来解释冲突，错在哪里？</p>
+<p>核心观点：赫拉利指出，所谓「文明」并不是边界清晰的实体，而是不断变化、互相学习的产物：人类群体与其说靠延续性定义，不如说靠「发生了什么改变」来定义；那些自称古老的传统，大多是后人讲出来的故事。他认为，只要谈的是实际议题——如何建立国家、打造经济、兴建医院、制造炸弹——几乎所有人都属于同一个文明。文明冲突论把复杂的现实简化成几块对撞的板块，既不符合历史，又容易被用来为冲突辩护。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：文明、文明冲突、故事、共同文明、身份</p>
+<hr />
+<h4 id="07为什么我们越连接越孤独">07｜为什么我们越「连接」越孤独？</h4>
+<p>核心问题：社交媒体让人与人的「连接」空前方便，为什么社群反而在瓦解？</p>
+<p>核心观点：赫拉利从扎克伯格「用科技重建全球社群」的宣言谈起：社群瓦解是真的——各类社群的成员规模在几十年间大幅萎缩；但线上「连接」替代不了真实社群。人类是身体性的社会动物，社群需要面对面相处、共同经历和相互责任，而网络互动更容易让人从别人的眼光里理解自己，感受越来越依赖点赞。当真实社群退场、虚拟连接又填不满空缺，孤独就会转向极端的身份认同。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：社群、孤独、社交媒体、身体、身份认同</p>
+<hr />
+<h4 id="08宗教还能回答现代世界的问题吗">08｜宗教还能回答现代世界的问题吗？</h4>
+<p>核心问题：在技术时代，宗教到底是答案、问题，还是别的东西？</p>
+<p>核心观点：赫拉利把宗教放在三类问题面前检验：技术问题（如何种地、治病）、政策问题（如何管理经济）和身份认同问题（谁是我们、谁是他们）。他的判断是：宗教在技术和政策问题上派不上什么用场——祭司的真正专长从来不是降雨治病，而是「诠释」，即在事情失败时找到说得过去的理由；但在身份认同问题上，宗教影响巨大，而且多半是制造问题，而不是解决问题：现代宗教常常像「婢女」一样侍奉民族主义，用来划出「我们」与「他们」的界线。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：宗教、诠释、身份认同、民族主义、技术问题</p>
+<hr />
+<h4 id="09移民争论的真正焦点是什么">09｜移民争论的真正焦点是什么？</h4>
+<p>核心问题：移民问题为什么这么难谈？双方到底在争什么？</p>
+<p>核心观点：赫拉利把移民问题拆成一份「协议」的几项条款：东道国是否允许进入（这是责任还是施舍）、移民是否必须接受东道国文化（接受多少）、同化到什么程度才算「我们」。他发现争论的真正焦点藏在更深处：现代人嘴上反对种族主义，心里却成了「文化主义者」——把文化当成不可比较、不可改变的实体。他的建议是：别把它当成善与恶的对决，这是两种合理的政治立场之争，应该摆到桌面上，用民主程序来解决；只有包容是不够的，还需要经验和智慧。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：移民、文化认同、文化主义、宽容、民主程序</p>
+<hr />
+<h3 id="第三部分绝望与希望">第三部分：绝望与希望</h3>
+<h4 id="10恐怖主义为什么靠恐惧作战">10｜恐怖主义为什么靠「恐惧」作战？</h4>
+<p>核心问题：恐怖分子杀死的人远少于车祸，为什么却能撼动整个国家？</p>
+<p>核心观点：赫拉利指出，恐怖主义本质上是一场「戏」：它的目的不是造成实质伤害，而是传播恐惧、激怒对手，让对手「过度反应」。恐怖分子就像一只想摧毁瓷器店的苍蝇：它自己什么也动不了，于是钻进公牛的耳朵，让公牛发狂，把整个店撞烂——「9·11」之后的美国就是那头公牛。他提醒：恐怖分子不可能打败我们，唯一能打败我们的是我们自己的过度反应；而一个国家的政治暴力越少，恐怖袭击带来的冲击反而越大。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：恐怖主义、恐惧、过度反应、戏剧、回音板</p>
+<hr />
+<h4 id="11战争为什么变得不划算了">11｜战争为什么变得「不划算」了？</h4>
+<p>核心问题：历史上战争是发财的手段，为什么今天的大国战争变得不划算了？</p>
+<p>核心观点：赫拉利给出三个理由：财富的主要形式已经从土地变成知识，而知识无法被掠夺；核武器让大国之间的全面战争变成集体自杀；全球贸易让和平比战争更有利可图——「21 世纪最成功的策略是作壁上观」。他用日本做例子：二战前的日本精英认定不侵略就会经济停滞，结果日本真正的经济奇迹，恰恰发生在输掉所有侵略战争之后。但他警告：这不是物理定律，而是脆弱的政治成就，永远不要低估人类的愚蠢。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：战争、知识经济、核威慑、贸易、和平的脆弱</p>
+<hr />
+<h4 id="12为什么每个文明都觉得自己是世界的中心">12｜为什么每个文明都觉得自己是世界的中心？</h4>
+<p>核心问题：为什么几乎每个民族、每种宗教，都认为自己是历史的主角？</p>
+<p>核心观点：赫拉利从自己的犹太教育讲起：他从小被教导犹太史是世界的中心，后来才发现每个文明都这样教育孩子——中国是「中央王国」，西方是文明灯塔，每个宗教都把自己想象成全宇宙最重要的。这种自我中心不是某个民族的毛病，而是人类的通病：它让历史叙事变得好懂，也让人看不见别人的贡献。他认为，认真思考「谦逊」不是自我贬低，而是看清世界、向他人学习的前提。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：谦逊、历史叙事、自我中心、文明、学习</p>
+<hr />
+<h4 id="13如果没有神道德还成立吗">13｜如果没有神，道德还成立吗？</h4>
+<p>核心问题：「上帝存在吗」的争论背后，真正值得问的问题是什么？</p>
+<p>核心观点：赫拉利区分了两种「神」：作为宇宙奥秘的神，和作为秩序制定者、道德权威的神。他认为，神圣经典其实是富有想象力的祖先写下的故事，目的是让社会规范和政治结构显得天经地义。对他来说，真正的问题不是宇宙怎么来的，而是「有没有高于人类的道德权威」；他的回答是：道德的重点不是遵守神圣的诫命，而是减少痛苦——想做一个有道德的人，不需要相信任何神话，只要真正理解「痛苦」的含义。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：神、神圣经典、道德权威、痛苦、诫命</p>
+<hr />
+<h4 id="14世俗主义到底相信什么">14｜世俗主义到底相信什么？</h4>
+<p>核心问题：世俗主义常被说成「什么都不信」，它自己有一套价值观吗？</p>
+<p>核心观点：赫拉利指出，世俗主义不是空箱子，而是一套正面的价值体系：真相、同情、平等、自由、勇气和责任。它最重视真相——基于观察和证据，而不是信仰；它也最强调「承认自己的不完美」：如果你相信某个力量揭示了绝对真理，就无法承认任何错误；而如果你相信一切只是有缺陷的人类在追寻真相，就能坦然认错。他还留下一个尖锐的问题：你的宗教或意识形态，过去犯过的最大错误是什么？如果答不上来，就不该把世界交给它。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：世俗主义、真相、同情、责任、不完美</p>
+<hr />
+<h3 id="第四部分真相的迷雾">第四部分：真相的迷雾</h3>
+<h4 id="15你知道的为什么比你以为的少">15｜你知道的为什么比你以为的少？</h4>
+<p>核心问题：现代人受教育程度空前，为什么对世界的理解反而越来越少？</p>
+<p>核心观点：赫拉利引用「知识的错觉」研究：大多数人自信地以为自己懂拉链，却说不清拉链的原理——我们把别人大脑里的知识当成了自己的。现代社会靠知识分工运转，这本身高效；问题在于人类很少能认清自己的无知，观点多半来自群体思维和群体忠诚，而不是个人理性。更麻烦的是权力：权力像黑洞一样扭曲它周围的空间，革命性的真相很难抵达权力中心，所以「承认自己的无知」反而成了最可靠的态度。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：无知、知识的错觉、群体思维、权力黑洞、承认无知</p>
+<hr />
+<h4 id="16正义为什么如此难以实现">16｜正义为什么如此难以实现？</h4>
+<p>核心问题：世界上那么多不公，为什么纠正它如此困难？</p>
+<p>核心观点：赫拉利认为，当代世界大多数的不公正，并不来自个人的偏见，而是来自大规模的结构性偏见——但人类的大脑还是狩猎采集者的大脑，尚未进化出察觉结构性偏见的能力。现代经济的因果链太长：你穿的衣服、用的手机背后可能牵连着剥削和污染，却没有一个环节能让你清晰地「负责」。当真相难辨、责任难归，人们就会躲进宗教和意识形态提供的避风港，用简单的故事代替复杂的思考。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：正义、结构性偏见、复杂性、道德困境、避风港</p>
+<hr />
+<h4 id="17后真相时代真相还重要吗">17｜「后真相」时代，真相还重要吗？</h4>
+<p>核心问题：假新闻为什么比真相传播得更快？真相会输吗？</p>
+<p>核心观点：赫拉利提醒我们：人类从来都是「故事动物」，虚构的故事天生就比事实更能团结人心——一千个人相信一个月的是假新闻，十亿人相信一千年就成了宗教。真正的新问题是技术让操纵故事变得空前便宜：算法可以批量制造和精准投送谎言，戈培尔式的「谎言重复一千遍」如今可以工业化生产。最危险的不是假新闻本身，而是「真相已经不重要」的观念——当人们更想控制世界而不是理解世界，真相就成了第一个牺牲品。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：后真相、假新闻、故事、宣传、真相的代价</p>
+<hr />
+<h4 id="18科幻小说为什么能塑造未来">18｜科幻小说为什么能塑造未来？</h4>
+<p>核心问题：为什么说科幻小说是 21 世纪最重要的文学形式？</p>
+<p>核心观点：赫拉利认为，真正塑造人们对科技之想象的，不是科学论文，而是《黑客帝国》《她》《黑镜》这类科幻作品：科技公司照着科幻的剧本做产品，公众照着科幻的图景理解 AI。但科幻也常常误导——它总担心机器人造反，而真正该担心的是少数超人类精英与大多数无力者之间的裂痕；它还回避了最可怕的问题：如果「真实的自我」本身也是被构建的，你逃出一个小母体，只会进入一个更大的母体。相比之下，《美丽新世界》比《1984》更贴近我们的未来：用爱与快乐控制人，比用恐惧和暴力更可靠。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：科幻小说、母体、智能与意识、美丽新世界、故事</p>
+<hr />
+<h3 id="第五部分生存下去">第五部分：生存下去</h3>
+<h4 id="19未来的教育应该教什么">19｜未来的教育应该教什么？</h4>
+<p>核心问题：如果没人知道 2050 年的世界需要什么技能，今天该教孩子什么？</p>
+<p>核心观点：赫拉利认为，信息不再是稀缺品——学生手里已经有太多信息，稀缺的是理解信息、判断轻重、形成世界观的能力。他赞同教育专家的「4C」主张：批判性思考、沟通、合作与创意；比起具体的工作技能，更重要的是通用的生活技能：随机应变、学习新事物、在不熟悉的环境里保持心智平衡。想跟上 2050 年的世界，人类需要一次又一次地重塑自己；而如果你想保住对自己人生的控制权，就得跑得比算法更快，在它们之前认识你自己。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：教育、4C、心智平衡、重塑自己、认识自己</p>
+<hr />
+<h4 id="20人生的意义为什么不能是一个故事">20｜人生的意义为什么不能是一个故事？</h4>
+<p>核心问题：我们习惯用故事回答「人生有什么意义」，可故事可靠吗？</p>
+<p>核心观点：赫拉利说，人想要的意义答案十有八九是一个故事：民族史诗、宗教轮回、真爱童话。故事不需要真实，只要能给你一个角色和身份认同，就能让人觉得人生有了意义——民族主义用英勇的故事让你着迷，用灾难的故事让你流泪，最后你的一切判断都围绕「这对我们的国家有什么影响」。但故事有代价：你投入得越多，越难分辨虚构与现实。他指出，世界上最真实的东西是痛苦；如果真想知道人生的意义，最好的出发点不是换一个更好的故事，而是开始观察痛苦、探索痛苦的本质——「你并不是一个故事」。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：意义、故事、身份认同、仪式、痛苦</p>
+<hr />
+<h4 id="21为什么认识自己变得如此重要">21｜为什么「认识自己」变得如此重要？</h4>
+<p>核心问题：在信息洪流和被操纵的故事之间，个人还能靠什么站稳？</p>
+<p>核心观点：赫拉利给出的个人答案是观察自己的心智。他区分大脑（神经元组成的实体网络）与心智（痛苦、愉快、爱和愤怒等主观体验的流动），并分享了自己的内观冥想实践：每天两小时，不为放松，而是为了看清念头、情绪和欲望如何升起、如何消散——就像风吹过头发，你既不是风，也不必等同于那些被事后整理过的故事。他坦承这是个人经验而非科学处方，但他坚持：当外部世界越来越复杂、故事越来越逼真时，看清自己的能力，可能是个人最后也最重要的防线。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：冥想、内观、心智、认识自己、观察</p>
+<hr />
+<h2 id="推荐阅读顺序">推荐阅读顺序</h2>
+<p>主线就是 <code>01 → 21</code>，按认知难度和逻辑依赖分五段推进：</p>
+<ol>
+<li><strong>旧故事的失灵（01 → 04）</strong>：三大挑战登场，自由主义的故事失效；技术接着冲击就业、自由与平等。这一段是全书的问题设定，不需要任何技术背景。</li>
+<li><strong>分裂的世界（05 → 09）</strong>：既然问题是全球性的，为什么人类反而退回民族主义？再依次拆解文明叙事、社群瓦解、宗教角色与移民争议。</li>
+<li><strong>绝望与希望（10 → 14）</strong>：恐惧从哪里来（恐怖主义、战争），自省从哪里来（谦逊），希望从哪里来（神与世俗主义）。</li>
+<li><strong>真相的迷雾（15 → 18）</strong>：我们为什么无知、正义为什么难、真相为什么敌不过故事，以及科幻如何塑造我们对未来的想象。</li>
+<li><strong>生存下去（19 → 21）</strong>：回到个人——教育该教什么、意义从哪里来、如何认识自己。</li>
+</ol>
+<p>给不同需求读者的入口：</p>
+<ul>
+<li><strong>想先抓全书骨架</strong>：读 <code>01 → 02 → 03 → 05 → 17 → 19</code>，六篇读完能拿到全书的主要论证链条。</li>
+<li><strong>对 AI、数据与算法议题感兴趣</strong>：直接从 <code>02 → 03 → 04 → 17 → 19</code> 切入。</li>
+<li><strong>对政治与身份议题感兴趣</strong>：重点读 <code>05 → 06 → 08 → 09 → 14</code>。</li>
+<li><strong>想练习批判性阅读</strong>：<code>06</code>、<code>10</code>、<code>11</code>、<code>13</code>、<code>17</code> 五篇里赫拉利的判断最需要被质疑，适合边读边反驳。</li>
+</ul>
+<hr />
+<h2 id="例子与素材分配表写正文前必读">例子与素材分配表（写正文前必读）</h2>
+<p>每篇的专属案例，<strong>禁止跨篇重复使用</strong>：</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>篇</th>
+<th>专属案例（主）</th>
+<th>备用/对照</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>一家靠「明年会更好」维持士气的公司：增长一停，故事就崩</td>
+<td>2008 年金融危机与「历史终结」的乐观</td>
+</tr>
+<tr>
+<td>02</td>
+<td>把「我是做什么的」当成身份的人，在失业之后</td>
+<td>全民基本收入的实验（芬兰、肯尼亚）</td>
+</tr>
+<tr>
+<td>03</td>
+<td>短视频推荐算法：你以为的「我想要」，其实是它塑造的</td>
+<td>广告从「说服」到「预判」的演变</td>
+</tr>
+<tr>
+<td>04</td>
+<td>天价「升级疗法」下的两种人生：生物种姓的雏形</td>
+<td>免费 App 的生意：「我们不是用户，而是商品」</td>
+</tr>
+<tr>
+<td>05</td>
+<td>气候变化与跨国污染：不认国界的问题，认国界的答案</td>
+<td>荷兰在二战中的双重标准（对纳粹 4 天投降，却为殖民地打 4 年）</td>
+</tr>
+<tr>
+<td>06</td>
+<td>你今天穿的牛仔裤、喝的咖啡、用的阿拉伯数字，全是「文明杂交」的产物</td>
+<td>「伊斯兰国」自称回归纯正传统</td>
+</tr>
+<tr>
+<td>07</td>
+<td>微信好友几千人，深夜却找不到一个能打电话的人</td>
+<td>扎克伯格的「全球社群」宣言</td>
+</tr>
+<tr>
+<td>08</td>
+<td>同一本《圣经》，读出相反的环保立场：福音派与天主教徒之争</td>
+<td>日本的「现代化工具 + 传统认同」模式</td>
+</tr>
+<tr>
+<td>09</td>
+<td>一个欧洲小镇的难民安置争议：本地人的焦虑与移民的处境</td>
+<td>欧盟的多元文化实验与危机</td>
+</tr>
+<tr>
+<td>10</td>
+<td>「9·11」之后美国在中东的「瓷器店横冲直撞」</td>
+<td>一次袭击之后，整个城市安检升级的日常代价</td>
+</tr>
+<tr>
+<td>11</td>
+<td>日本战前的「不侵略就停滞」误判，与战后的经济奇迹</td>
+<td>硅谷的收购与竞争：知识买得到，抢不到</td>
+</tr>
+<tr>
+<td>12</td>
+<td>三本历史教科书：中国孩子学「中央王国」，犹太孩子学「选民」，西方孩子学「文明灯塔」</td>
+<td>赫拉利的犹太教育自述</td>
+</tr>
+<tr>
+<td>13</td>
+<td>地震救援队里，没有人问彼此的信仰</td>
+<td>以神之名的暴力：为「神的愤怒」找借口</td>
+</tr>
+<tr>
+<td>14</td>
+<td>会认错的制度：飞机失事调查不找替罪羊，而是改系统</td>
+<td>赫拉利的那个提问：「你犯过的最大错误是什么？」</td>
+</tr>
+<tr>
+<td>15</td>
+<td>拉链实验：人人自信满满，却说不清拉链的原理</td>
+<td>权力黑洞：总统为什么听不到真话</td>
+</tr>
+<tr>
+<td>16</td>
+<td>一件 T 恤的全球供应链：谁该为其中的剥削负责？</td>
+<td>看不见的结构性偏见：算法与信贷歧视</td>
+</tr>
+<tr>
+<td>17</td>
+<td>家族群里的养生谣言：为什么辟谣总跑不过谣言</td>
+<td>戈培尔的「谎言重复一千遍」</td>
+</tr>
+<tr>
+<td>18</td>
+<td>《黑客帝国》与《楚门的世界》：逃出母体，进入更大的母体</td>
+<td>《美丽新世界》vs《1984》：用快乐控制比用恐惧更有效</td>
+</tr>
+<tr>
+<td>19</td>
+<td>今天入学的孩子，2050 年才四十岁：该教他什么？</td>
+<td>流水线式的学校：铃声、教室、30 个同龄人</td>
+</tr>
+<tr>
+<td>20</td>
+<td>「等我买房/结婚就幸福了」：故事给你角色，也困住你</td>
+<td>民族史诗与真爱童话</td>
+</tr>
+<tr>
+<td>21</td>
+<td>赫拉利每天两小时的内观：看着念头来了又走</td>
+<td>一次 10 分钟观察呼吸的练习</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="全系列状态">全系列状态</h2>
+<ul>
+<li>共 <strong>21 篇</strong>，分 <strong>5 个部分</strong>，正文已全部完成（连同本拆解目录，共 22 个 Markdown 文件）。</li>
+<li>每篇独立成文，统一结构：先说结论 → 提出问题 → 作者观点 → 翻译成人话 → 推理链（含 Mermaid 图）→ 现实例子 → 回到书中 → 深层逻辑 → 争议 → 现代延伸 → 核心结论 → 留一个问题。</li>
+<li>每篇都严格区分「赫拉利的书中观点」「历史与科学事实」「学界争议」「现代延伸」，并在争议处保持开放；例子按全局分配表各篇专用，无跨篇重复。</li>
+<li>建议阅读顺序：从 <strong>01｜自由主义的故事为什么讲不下去了？</strong> 开始，依次读到 <strong>21｜为什么「认识自己」变得如此重要？</strong>；也可参考上文「推荐阅读顺序」中的不同入口。</li>
+<li>网页版已生成：同目录下的 <code>index.html</code>（卡片式目录页）与各篇同名 <code>.html</code>，可直接在浏览器中打开。</li>
+</ul>
+<!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span><a href="#top">↑ 回到顶部</a></span>
+        <span>来源: 00｜系列拆解与目录.md</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function applyThemeIcon() {
+      const use = document.getElementById("theme-icon-use");
+      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
+    }
+    (function restoreTheme() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+
+    // ---------- Mermaid ----------
+    const diagramSources = new Map();
+    function initMermaid() {
+      const isDark = currentTheme() === "dark";
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? "dark" : "default",
+        themeVariables: {
+          primaryColor: isDark ? "#3A2A22" : "#FBEEE6",
+          primaryTextColor: isDark ? "#F5F0E8" : "#1A1A1A",
+          primaryBorderColor: isDark ? "#E89572" : "#D97757",
+          lineColor: isDark ? "#9A938A" : "#6B6B66",
+          secondaryColor: isDark ? "#2A2520" : "#F5F5F0",
+          tertiaryColor: isDark ? "#221E1A" : "#FFFFFF",
+          fontFamily: "Inter, system-ui, sans-serif",
+        },
+      });
+    }
+    function notifyMermaidOffline() {
+      // mermaid.min.js 走 CDN；离线/被墙时把原因说清楚，而不是只留一段灰掉的源码。
+      document.querySelectorAll("figure.diagram").forEach(fig => {
+        if (fig.querySelector(".diagram-offline")) return;
+        const note = document.createElement("figcaption");
+        note.className = "diagram-caption diagram-offline";
+        note.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>'
+          + "<span>图表未渲染：Mermaid 需要联网从 CDN 加载，以上为原始源码</span>";
+        fig.appendChild(note);
+      });
+    }
+    async function renderMermaid() {
+      if (typeof mermaid === "undefined") { notifyMermaidOffline(); return; }
+      initMermaid();
+      const els = document.querySelectorAll(".mermaid");
+      els.forEach(el => {
+        if (!diagramSources.has(el)) diagramSources.set(el, el.textContent.trim());
+        el.textContent = diagramSources.get(el);
+        el.removeAttribute("data-processed");
+      });
+      try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
+    }
+    function toggleTheme() {
+      const next = currentTheme() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(STORAGE_KEY, next);
+      applyThemeIcon();
+      renderMermaid();
+    }
+
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Permalink");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      applyThemeIcon();
+      injectAnchors();
+      injectCopyButtons();
+      renderMermaid();
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+</body>
+</html>

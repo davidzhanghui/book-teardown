@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '★ 推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>《动物农庄》深度解读系列</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: #F0D5C4;
+      --accent-strong: #A85533;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
+      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
+      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-border: #5A3D2E;
+      --accent-strong: #F5B493;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .diagram-caption.diagram-offline {
+      color: var(--accent-strong);
+      border-top-color: var(--accent-border);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .diagram-caption.diagram-offline .icon { width: 15px; height: 15px; flex: none; }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: #fff;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  </style>
+<!-- NAV-INJECT:START -->
+<style>
+  .doc-header .back-home { display: table;
+    margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+    color: var(--accent-strong); text-decoration: none;
+    background: var(--accent-soft); border: 1px solid var(--accent-border);
+    border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+    transition: color .15s, border-color .15s; }
+  .doc-header .back-home:hover { color: var(--accent-hover);
+    border-color: var(--accent); border-bottom-color: var(--accent); }
+</style>
+<!-- NAV-INJECT:END -->
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<!-- SEO-INJECT:START -->
+  <meta name="description" content="《动物农庄》（Animal Farm: A Fairy Story）是乔治·奥威尔 1945 年出版的政治寓言小说，全书只有几万字，却被称为 20 世纪最锋利的政治讽刺作品之一。故事表面很简单：曼诺农庄的动物赶走了人类农场主琼斯，自己当家作主，建立了「动物农庄」；几年之后，领头的猪学会了用两条腿走…">
+  <link rel="canonical" href="https://book-teardown.vercel.app/%E5%8A%A8%E7%89%A9%E5%86%9C%E5%BA%84/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Book Teardown · 拆书">
+  <meta property="og:title" content="《动物农庄》深度解读系列">
+  <meta property="og:description" content="《动物农庄》（Animal Farm: A Fairy Story）是乔治·奥威尔 1945 年出版的政治寓言小说，全书只有几万字，却被称为 20 世纪最锋利的政治讽刺作品之一。故事表面很简单：曼诺农庄的动物赶走了人类农场主琼斯，自己当家作主，建立了「动物农庄」；几年之后，领头的猪学会了用两条腿走…">
+  <meta property="og:url" content="https://book-teardown.vercel.app/%E5%8A%A8%E7%89%A9%E5%86%9C%E5%BA%84/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="《动物农庄》深度解读系列">
+  <meta name="twitter:description" content="《动物农庄》（Animal Farm: A Fairy Story）是乔治·奥威尔 1945 年出版的政治寓言小说，全书只有几万字，却被称为 20 世纪最锋利的政治讽刺作品之一。故事表面很简单：曼诺农庄的动物赶走了人类农场主琼斯，自己当家作主，建立了「动物农庄」；几年之后，领头的猪学会了用两条腿走…">
+  <meta name="twitter:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta property="article:published_time" content="2026-09-23">
+  <meta property="article:modified_time" content="2026-09-23">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"《动物农庄》深度解读系列","description":"《动物农庄》（Animal Farm: A Fairy Story）是乔治·奥威尔 1945 年出版的政治寓言小说，全书只有几万字，却被称为 20 世纪最锋利的政治讽刺作品之一。故事表面很简单：曼诺农庄的动物赶走了人类农场主琼斯，自己当家作主，建立了「动物农庄」；几年之后，领头的猪学会了用两条腿走…","inLanguage":"zh-CN","datePublished":"2026-09-23","dateModified":"2026-09-23","author":{"@type":"Organization","name":"Book Teardown · 拆书"},"isPartOf":{"@type":"Book","name":"动物农庄"},"mainEntityOfPage":"https://book-teardown.vercel.app/%E5%8A%A8%E7%89%A9%E5%86%9C%E5%BA%84/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html","image":"https://book-teardown.vercel.app/assets/og-cover.png","relatedLink":["https://book-teardown.vercel.app/%E5%8A%A8%E7%89%A9%E5%86%9C%E5%BA%84/01%EF%BD%9C%E8%80%81%E5%B0%91%E6%A0%A1%E7%9A%84%E6%BC%94%E8%AE%B2%EF%BC%9A%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9D%A9%E5%91%BD%E9%9C%80%E8%A6%81%E4%B8%80%E4%B8%AA%E3%80%8C%E6%A2%A6%E3%80%8D%E5%85%88%E5%AD%98%E5%9C%A8.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"拆书","item":"https://book-teardown.vercel.app/"},{"@type":"ListItem","position":2,"name":"动物农庄","item":"https://book-teardown.vercel.app/%E5%8A%A8%E7%89%A9%E5%86%9C%E5%BA%84/"},{"@type":"ListItem","position":3,"name":"《动物农庄》深度解读系列","item":"https://book-teardown.vercel.app/%E5%8A%A8%E7%89%A9%E5%86%9C%E5%BA%84/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html"}]}]}</script>
+<!-- SEO-INJECT:END -->
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="目录" title="目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" style="color:var(--accent)" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>计划</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="https://github.com/davidzhanghui/book-teardown" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="目录">
+      <div class="toc-head">
+        <p class="toc-title">目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a href="#系列简介" class="lvl-2">系列简介</a>
+        <a href="#全书核心问题" class="lvl-2">全书核心问题</a>
+        <a href="#全书知识地图" class="lvl-2">全书知识地图</a>
+        <a href="#全系列目录" class="lvl-2">全系列目录</a>
+        <a href="#第一部分革命从哪里来" class="lvl-3">第一部分：革命从哪里来</a>
+        <a href="#第二部分权力如何变质" class="lvl-3">第二部分：权力如何变质</a>
+        <a href="#第三部分统治的技术" class="lvl-3">第三部分：统治的技术</a>
+        <a href="#第四部分动物们的命运" class="lvl-3">第四部分：动物们的命运</a>
+        <a href="#第五部分当猪变成了人" class="lvl-3">第五部分：当猪变成了人</a>
+        <a href="#推荐阅读顺序" class="lvl-2">推荐阅读顺序</a>
+        <a href="#主线顺序推荐" class="lvl-3">主线顺序（推荐）</a>
+        <a href="#按难度分四段" class="lvl-3">按难度分四段</a>
+        <a href="#不同读者的入口" class="lvl-3">不同读者的入口</a>
+        <a href="#例子与素材分配表" class="lvl-2">例子与素材分配表</a>
+        <a href="#全系列状态" class="lvl-2">全系列状态</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+      <a class="back-home" href="index.html">← 返回《动物农庄》系列目录</a>
+
+        <span class="doc-eyebrow">PLAN</span>
+        <h1 class="doc-title">《动物农庄》深度解读系列</h1>
+        <p class="doc-subtitle">系列拆解 · 知识地图 · 全部文章目录</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            00｜系列拆解与目录.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            更新于 2026-09-19
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            ~17 分钟阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<h2 id="系列简介">系列简介</h2>
+<p>《动物农庄》（Animal Farm: A Fairy Story）是乔治·奥威尔 1945 年出版的政治寓言小说，全书只有几万字，却被称为 20 世纪最锋利的政治讽刺作品之一。故事表面很简单：曼诺农庄的动物赶走了人类农场主琼斯，自己当家作主，建立了「动物农庄」；几年之后，领头的猪学会了用两条腿走路，动物们发现，新的统治者和旧的人类已经分不出区别。</p>
+<p>这本书回答的不是「革命是什么」，而是一个更冷的问题：<strong>一场以平等为旗帜的革命，是怎么一步一步走回独裁的？</strong> 奥威尔用猪、马、狗、羊、乌鸦这些动物，把权力变质的每个环节都拆开了：革命后的特权从一小桶牛奶开始；异见者被暴力清除；历史被一次次涂改；谎言被修辞包装成「事实」；而最忠诚的劳动者，恰恰是被出卖得最深的人。</p>
+<p>奥威尔本人是民主社会主义者，这本书不是反对革命，而是追问：为什么革命反复地背叛它最初的承诺？这个问题至今没有过期——任何组织、公司、社群乃至国家，都可能在《动物农庄》里照见自己的影子。</p>
+<p>本系列不按原书十章的章节机械拆分，而是按「革命从哪里来 → 权力如何变质 → 统治的技术 → 动物们的命运 → 终局与轮回」的逻辑重组为 5 个部分、18 篇解读，每篇只讲清一个问题，带你从「看懂情节」走到「看清机制」。</p>
+<hr />
+<h2 id="全书核心问题">全书核心问题</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>核心问题</th>
+<th>本书的回答方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>起源</td>
+<td>革命为什么会发生？理论为什么先于枪炮？</td>
+<td>被压迫者要先有一个「另一个世界是可能的」的叙事，才会行动</td>
+</tr>
+<tr>
+<td>机制</td>
+<td>革命成功后，权力是怎样一点点变质的？</td>
+<td>不是一夜篡权，而是从牛奶、苹果、不干活这些「小例外」开始，由暴力、工程和清洗一步步加固</td>
+</tr>
+<tr>
+<td>技术</td>
+<td>独裁统治靠什么维持？</td>
+<td>暴力机关、宣传修辞、个人崇拜、篡改历史——四者缺一不可</td>
+</tr>
+<tr>
+<td>众生</td>
+<td>普通动物为什么不反抗？</td>
+<td>劳动者被耗尽、知识分子选择犬儒、宗教提供安慰、底层被口号喂养，每个阶层都参与了自己的压迫</td>
+</tr>
+<tr>
+<td>终局</td>
+<td>为什么最后分不清猪和人？</td>
+<td>推翻旧精英的革命制造了新精英，轮回本身才是寓言最冷的部分</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="全书知识地图">全书知识地图</h2>
+<figure class="diagram">
+  <pre class="mermaid">
+flowchart TD
+    A[压迫与剥削: 琼斯的农庄] --> B[理论先行: 老少校的梦与七诫]
+    B --> C[革命成功: 赶走人类]
+    C --> D[变质第一步: 牛奶与苹果的特权]
+    D --> E[权力斗争: 雪球被驱逐]
+    E --> F[统治技术: 九条狗 + 风车工程 + 大清洗]
+    F --> G[宣传机器: 尖嗓子 + 个人崇拜 + 涂改历史]
+    G --> H[众生相: 拳师的忠诚 / 本杰明的犬儒 / 羊群的口号]
+    H --> I[终局: 猪学两腿走路]
+    I --> J[轮回: 分不清猪与人]
+
+</pre>
+  <figcaption class="diagram-caption">关系示意图</figcaption>
+</figure>
+<hr />
+<h2 id="全系列目录">全系列目录</h2>
+<h3 id="第一部分革命从哪里来">第一部分：革命从哪里来</h3>
+<h4 id="01老少校的演讲为什么革命需要一个梦先存在">01｜老少校的演讲：为什么革命需要一个「梦」先存在？</h4>
+<p>核心问题：为什么被压迫的动物要先听完一场演讲，才敢造反？</p>
+<p>核心观点：奥威尔让革命从一场梦开始，这不是文学巧合。动物们受压迫已经很久了，但只有老少校把「你在被剥削」这件事说清楚之后，反抗才变得可以想象。革命的第一步不是武器，而是一份把痛苦翻译成理论的叙事——《动物农庄》里它叫《英格兰兽》，人类历史上它叫宣言和纲领。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：老少校、英格兰兽、理论先行、革命叙事、马克思与列宁</p>
+<hr />
+<h4 id="02一场意外的胜利为什么推翻旧秩序往往是最简单的一步">02｜一场意外的胜利：为什么推翻旧秩序往往是最简单的一步？</h4>
+<p>核心问题：动物们没计划、没武器、没训练，为什么还是赢了？</p>
+<p>核心观点：造反不是周密策划的结果，而是一个偶然事件引爆的——琼斯忘了喂食。奥威尔借此指出：旧秩序真正的守卫者不是锁链，而是习惯和恐惧；一旦动物发现「原来他也就这样」，崩溃比想象中快得多。但容易的胜利也是危险的：赢得太快，就没人想过「接下来怎么办」。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：起义、偶然性、琼斯、旧秩序崩溃、牛棚战役</p>
+<hr />
+<h4 id="03七诫为什么革命成功后第一件事是把原则写下来">03｜七诫：为什么革命成功后，第一件事是把原则写下来？</h4>
+<p>核心问题：动物农庄为什么要在墙上写下七条戒律？</p>
+<p>核心观点：七诫是新秩序的宪法——把「所有动物一律平等」从口号变成白纸黑字。但奥威尔埋了伏笔：能写字的是猪，能念全文的没几个。法律刻在墙上，解释权却握在识字者手里。七诫既是平等的纪念碑，也是后来被逐条涂改的靶子。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：七诫、立法、识字权、解释权、制度文本</p>
+<hr />
+<h3 id="第二部分权力如何变质">第二部分：权力如何变质</h3>
+<h4 id="04消失的牛奶和苹果特权是怎么从小例外开始的">04｜消失的牛奶和苹果：特权是怎么从「小例外」开始的？</h4>
+<p>核心问题：动物农庄的腐化，为什么从没人注意到的小事开始？</p>
+<p>核心观点：革命后第一批消失的财产是牛奶和苹果——进了猪的饲料。理由听起来很合理：猪要用脑力保护大家。奥威尔的洞察是：暴政很少以暴政的面目登场，它从一个个「合情合理的例外」开始。反对特权要在第一次特供时反对，等它成为惯例，就再也说不清了。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：牛奶与苹果、特权、滑坡、合理化的例外</p>
+<hr />
+<h4 id="05雪球与拿破仑为什么革命者之间必有一战">05｜雪球与拿破仑：为什么革命者之间必有一战？</h4>
+<p>核心问题：共同的敌人消失后，为什么革命者自己打起来了？</p>
+<p>核心观点：雪球和拿破仑的分歧不只是路线之争——风车计划 vs 粮食生产，而是权力只能有一个主人。拿破仑从不辩论，他只养大了一窝狗。这场斗争以狗驱逐雪球告终，影射斯大林驱逐托洛茨基。奥威尔要说的是：在权力真空中，会演讲的输给会养狗的——手段的底线决定谁赢。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：雪球、拿破仑、权力斗争、托洛茨基、路线之争</p>
+<hr />
+<h4 id="06九条狗为什么独裁者真正的根基不是口号而是暴力">06｜九条狗：为什么独裁者真正的根基不是口号而是暴力？</h4>
+<p>核心问题：拿破仑的统治，到底靠什么撑起来的？</p>
+<p>核心观点：拿破仑刚出场时悄悄带走了蓝铃花和小花狗的一窝幼崽，「亲自负责它们的教育」——等它们长成九条恶犬，谁反对，狗就冲向谁。宣传说服的是外人，暴力对付的是自己人。狗的隐喻直指秘密警察：独裁者可以失去所有选票，只要还没失去枪杆子。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：九条狗、暴力机关、秘密警察、恐惧统治、幼崽教育</p>
+<hr />
+<h4 id="07风车为什么宏大工程会成为统治工具">07｜风车：为什么宏大工程会成为统治工具？</h4>
+<p>核心问题：拿破仑一开始反对风车，为什么后来自己拼命建？</p>
+<p>核心观点：风车是雪球的方案，拿破仑当年在上面撒尿；等雪球走了，风车却成了「拿破仑同志的伟大构想」。奥威尔看穿了大工程的双重功能：对内，它耗尽动物的体力，让抱怨变成奢侈品；对外，它是政权合法性的纪念碑。风车塌了可以再建，反正锅永远有人背——雪球。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：风车、宏大工程、五年计划、疲劳统治、合法性纪念碑</p>
+<hr />
+<h4 id="08谷仓前的屠杀大清洗为什么需要认罪的表演">08｜谷仓前的屠杀：大清洗为什么需要「认罪」的表演？</h4>
+<p>核心问题：拿破仑为什么要让动物当众认罪之后再杀？</p>
+<p>核心观点：四头猪、三只母鸡、一只鹅、一只羊被拖出来「承认」和雪球勾结，然后被狗撕碎——这是在影射莫斯科大审判。杀人只是清除，认罪才是震慑：让每个目击者怀疑自己——「连他们都承认了，难道他们真的都是叛徒？」公开认罪的表演，是把恐惧种进旁观者心里的技术。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：大清洗、认罪表演、莫斯科审判、恐怖震慑、互相揭发</p>
+<hr />
+<h4 id="09被涂改的七诫为什么篡改记忆是独裁的核心技术">09｜被涂改的七诫：为什么篡改记忆是独裁的核心技术？</h4>
+<p>核心问题：猪睡床、喝酒、杀同类，动物们为什么觉得「好像本来就这样」？</p>
+<p>核心观点：七诫被一条条加上小尾巴：「不得睡在床上」变成「不得睡在铺床单的床上」；「不得饮酒」变成「不得饮酒过量」；「不得杀害其他动物」变成「不得无故杀害」。每次动物觉得哪里不对，都被一句「你是不是记错了」打发。控制过去的人控制未来——谁掌握对「当初是怎么说的」的解释权，谁就掌握了一切。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：涂改七诫、记忆篡改、历史解释权、温水煮青蛙、文字游戏</p>
+<hr />
+<h3 id="第三部分统治的技术">第三部分：统治的技术</h3>
+<h4 id="10尖嗓子的修辞术谎言是怎么被说成事实的">10｜尖嗓子的修辞术：谎言是怎么被说成「事实」的？</h4>
+<p>核心问题：尖嗓子为什么总能把黑的讲成白的？</p>
+<p>核心观点：尖嗓子的武器不是内容而是方法：先抬出恐惧（「你们难道希望琼斯回来吗？」），再制造假两难，然后用数据和术语轰炸，最后反咬一口（「雪球从一开始就是叛徒」）。他从不证明自己对，只让你不敢错。奥威尔在这里解剖了宣传的标准配方——后来他在《一九八四》里把它写成了新话。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：尖嗓子、宣传术、假两难、恐惧牌、真理报</p>
+<hr />
+<h4 id="11拿破仑同志永远正确个人崇拜是怎么制造出来的">11｜拿破仑同志永远正确：个人崇拜是怎么制造出来的？</h4>
+<p>核心问题：一头猪是怎么变成「万岁」的？</p>
+<p>核心观点：拿破仑渐渐不再露面，先是通过尖嗓子传话，然后有了头衔（「拿破仑同志」「动物之父」「人类之敌的克星」）、颂诗、画像，连一句好话都要归功于他——「感谢拿破仑同志的领导」。个人崇拜不是狂热群众自发的爱，而是被精心管理的缺席与夸饰：领袖越神秘，光环越大。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：个人崇拜、领袖崇拜、头衔、缺席的领袖、被管理的崇拜</p>
+<hr />
+<h4 id="12被禁唱的英格兰兽为什么革命成功后革命歌曲反而危险">12｜被禁唱的《英格兰兽》：为什么革命成功后，革命歌曲反而危险？</h4>
+<p>核心问题：象征解放的歌曲，为什么被新政权自己禁了？</p>
+<p>核心观点：《英格兰兽》唱的是「所有动物终将自由平等」——革命成功后，这首歌反而成了威胁：万一动物们当真了呢？万一他们追问「承诺的乌托邦什么时候到」呢？尖嗓子的解释是「这首歌属于起义的时代，现在已经完成了」。禁歌的本质是封死理想：当权者最怕的，是人民拿革命的承诺来丈量革命的现实。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：英格兰兽、禁歌、乌托邦理想、承诺与现实、理想的收编</p>
+<hr />
+<h3 id="第四部分动物们的命运">第四部分：动物们的命运</h3>
+<h4 id="13拳师为什么最忠诚的劳动者结局最惨">13｜拳师：为什么最忠诚的劳动者，结局最惨？</h4>
+<p>核心问题：「我要更加努力工作」的拳师，为什么被送去了屠马场？</p>
+<p>核心观点：拳师有两句口头禅：「我要更加努力工作」「拿破仑同志永远正确」。他解决一切问题的办法是再出一份力，直到累垮在风车工地——然后被卖给屠马商换了一箱威士忌。拳师是全书最痛的角色：忠诚没有保护他，反而让他成为最好用的耗材。奥威尔写给所有「埋头苦干、从不抬头看路」的劳动者。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：拳师、忠诚的代价、劳动者、屠马场、耗尽的底层</p>
+<hr />
+<h4 id="14本杰明与摩西犬儒和宗教各自看透了什么">14｜本杰明与摩西：犬儒和宗教，各自看透了什么？</h4>
+<p>核心问题：活得最久的驴和整天讲糖果山的乌鸦，为什么政权都留着他们？</p>
+<p>核心观点：本杰明那头驴什么都看得懂，却什么都不说——「驴子长寿，你们谁都没见过死驴子」；乌鸦摩西讲的是死后去糖果山享福，猪不赶他，还给他酒喝。一个犬儒，一个麻醉剂，政权都留得住：看破不说破的知识分子不构成威胁，而相信来世的群众不要求今生。他们代表被统治者的两种逃避。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：本杰明、摩西、犬儒主义、宗教安慰剂、糖果山</p>
+<hr />
+<h4 id="15羊群母鸡和猫不同阶层的动物怎么参与了自己的压迫">15｜羊群、母鸡和猫：不同阶层的动物，怎么参与了自己的压迫？</h4>
+<p>核心问题：除了猪和狗，其他动物在这场专制里扮演了什么角色？</p>
+<p>核心观点：羊群是最完美的群众——只会喊「四条腿好，两条腿坏」，关键时刻用来淹没一切讨论；母鸡为保卫鸡蛋奋起反抗，被饿死九只，是底层唯一一次真正的抵抗；猫从不干活也从不站队，活得最舒服。奥威尔画了一幅阶层图谱：盲从者、反抗者、投机者，每一种都是专制机器上的零件。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：羊群口号、母鸡起义、投机者、底层抵抗、合谋结构</p>
+<hr />
+<h3 id="第五部分当猪变成了人">第五部分：当猪变成了人</h3>
+<h4 id="16两条腿走路为什么说腐化不是意外而是轮回">16｜两条腿走路：为什么说腐化不是意外而是轮回？</h4>
+<p>核心问题：最后一幕里，猪学会用两条腿走路，这意味着什么？</p>
+<p>核心观点：这是全书最震撼的一幕：不是「革命失败了」，而是「新精英完成了对旧精英的复制」。奥威尔借影射的是革命的热月——推翻一个统治阶级，制造了另一个统治阶级。腐化不是某头猪的道德问题，而是结构问题：只要权力的分配机制不变，坐上那个位置的都会变成人。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：两条腿走路、精英复制、革命轮回、热月、结构性腐化</p>
+<hr />
+<h4 id="17所有动物一律平等的下半句语言被腐蚀到极点是什么样">17｜「所有动物一律平等」的下半句：语言被腐蚀到极点是什么样？</h4>
+<p>核心问题：「但有些动物比其他动物更平等」这句话，为什么让人毛骨悚然？</p>
+<p>核心观点：墙上最后只剩一条戒律：「所有动物一律平等，但有些动物比其他动物更平等。」它在逻辑上自相矛盾，却是全书的题眼——当语言可以容纳自己的反面，一切原则都成了空话。奥威尔后来把这套思路写进《一九八四》的新话：极权不是禁止你说话，而是把「平等」这个词掏空到再也装不下反抗。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：更平等、语言腐蚀、新话前身、概念掏空、自相矛盾</p>
+<hr />
+<h4 id="18最后一幕的牌局我们如何辨认今天的猪">18｜最后一幕的牌局：我们如何辨认今天的「猪」？</h4>
+<p>核心问题：牌桌上猪和人都出了黑桃 A，窗外的动物为什么分不出谁是谁？</p>
+<p>核心观点：结尾的牌局影射战时同盟：皮尔金顿和弗雷德里克——人类农场主和猪坐到了一张桌上，为了利益随时结盟又随时翻脸。动物们从窗外看进去，「已经分不清谁是猪，谁是人了」。奥威尔真正的提问留给读者：辨认暴政不能看旗帜和口号，要看行为——当你分不清新统治者和旧统治者时，革命就白打了。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：牌局、皮尔金顿、弗雷德里克、猪人难辨、行为辨认法</p>
+<hr />
+<h2 id="推荐阅读顺序">推荐阅读顺序</h2>
+<h3 id="主线顺序推荐">主线顺序（推荐）</h3>
+<p><code>01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18</code></p>
+<p>主线基本对应情节推进：从革命的起源（理论、胜利、立法），到权力的变质（特权、内斗、暴力、工程、清洗、篡改），再到统治技术（宣传、崇拜、禁歌），然后是动物众生相（忠诚者、犬儒者、盲从者与反抗者），最后收束于终局（两腿走路、语言掏空、猪人难辨）。</p>
+<h3 id="按难度分四段">按难度分四段</h3>
+<ul>
+<li><strong>入门段（01–04）</strong>：革命怎么发生、怎么立法、特权怎么开始——都是直觉就能理解的。</li>
+<li><strong>进阶段（05–12）</strong>：权力斗争、暴力、工程、清洗、篡改、宣传、崇拜、禁歌——需要把寓言对应到历史机制。</li>
+<li><strong>人物段（13–15）</strong>：拳师、本杰明、羊群——理解「被统治者为什么配合」。</li>
+<li><strong>终局段（16–18）</strong>：轮回、语言腐蚀、猪人难辨——最抽象也最值得反复读的三篇。</li>
+</ul>
+<h3 id="不同读者的入口">不同读者的入口</h3>
+<ul>
+<li><strong>想快速抓住全书骨架</strong>：读 01 → 05 → 09 → 13 → 17，五篇串起「理论—夺权—篡改—耗材—语言」主线。</li>
+<li><strong>对政治寓言/历史影射感兴趣</strong>：05、08、16、18（托洛茨基、莫斯科审判、热月、战时同盟）。</li>
+<li><strong>想练批判性阅读</strong>：10、17 两篇——把宣传和语言腐蚀拆开看，再看 09 怎么接。</li>
+<li><strong>关心组织/公司政治</strong>：04、07、11、15——特权滑坡、大工程、领袖崇拜、合谋结构在职场同样成立。</li>
+</ul>
+<hr />
+<h2 id="例子与素材分配表">例子与素材分配表</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>篇目</th>
+<th>寓言素材（书中）</th>
+<th>历史影射</th>
+<th>现实例子（第六节用，禁止跨篇重复）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>老少校的遗言演讲、《英格兰兽》</td>
+<td>马克思/列宁的革命理论</td>
+<td>创业团队靠一句「使命」凝聚而非靠工资</td>
+</tr>
+<tr>
+<td>02</td>
+<td>琼斯忘喂食、起义、牛棚战役</td>
+<td>二月革命/俄国内战反干涉</td>
+<td>人人不满的审批流程，领导换岗当天就废除</td>
+</tr>
+<tr>
+<td>03</td>
+<td>七诫写上墙、多数动物学不会</td>
+<td>革命后立宪</td>
+<td>业主赶走物业后第一件事是立自治公约</td>
+</tr>
+<tr>
+<td>04</td>
+<td>牛奶、苹果、猪搬进农舍</td>
+<td>特权阶层形成</td>
+<td>「领导专用停车位」怎么一步步变成惯例</td>
+</tr>
+<tr>
+<td>05</td>
+<td>雪球 vs 拿破仑、风车辩论、驱逐</td>
+<td>斯大林驱逐托洛茨基</td>
+<td>联合创始人内斗，出局者被写成「从一开始就反对」</td>
+</tr>
+<tr>
+<td>06</td>
+<td>带走九只幼崽亲自教育</td>
+<td>契卡/内务部</td>
+<td>公司里直接向老板汇报的监察部门</td>
+</tr>
+<tr>
+<td>07</td>
+<td>风车三建三塌、甩锅雪球</td>
+<td>五年计划/大工程</td>
+<td>新官上任必上大工程证明「有作为」</td>
+</tr>
+<tr>
+<td>08</td>
+<td>四猪认罪、集体处决</td>
+<td>莫斯科大审判</td>
+<td>要求员工「自查自纠」并公开检讨的运动</td>
+</tr>
+<tr>
+<td>09</td>
+<td>七诫逐条加尾巴</td>
+<td>历史教科书涂改</td>
+<td>群公告被悄悄修改后「一直都是这么写的」</td>
+</tr>
+<tr>
+<td>10</td>
+<td>尖嗓子的话术三件套</td>
+<td>真理报宣传</td>
+<td>「不转不是××人」式的假两难话术</td>
+</tr>
+<tr>
+<td>11</td>
+<td>拿破仑的头衔、颂诗、缺席</td>
+<td>斯大林个人崇拜</td>
+<td>创始人语录挂墙、头像文化衫</td>
+</tr>
+<tr>
+<td>12</td>
+<td>禁唱《英格兰兽》、换成新赞歌</td>
+<td>意识形态收编</td>
+<td>公司做大后没人再提「当年一起吃苦」的口号</td>
+</tr>
+<tr>
+<td>13</td>
+<td>拳师的两句口头禅、屠马场</td>
+<td>斯达汉诺夫工人</td>
+<td>最常加班从不抱怨的老员工最先被裁</td>
+</tr>
+<tr>
+<td>14</td>
+<td>本杰明看破不说破、摩西的糖果山</td>
+<td>犬儒知识分子/东正教</td>
+<td>办公室老油条 + 相信「吃亏是福」的长辈</td>
+</tr>
+<tr>
+<td>15</td>
+<td>羊喊口号淹没讨论、母鸡护蛋、猫两头讨好</td>
+<td>盲众/富农反抗/投机者</td>
+<td>班级里起哄的、反抗的、永远中立的三种人</td>
+</tr>
+<tr>
+<td>16</td>
+<td>猪直立行走、住农舍、拿鞭子</td>
+<td>革命热月/新精英</td>
+<td>草根乐队成名后坐商务舱嘲笑当年的自己</td>
+</tr>
+<tr>
+<td>17</td>
+<td>墙上只剩一条戒律</td>
+<td>《一九八四》新话前身</td>
+<td>墙上「奋斗为本」被重新诠释成反义</td>
+</tr>
+<tr>
+<td>18</td>
+<td>牌局、两张黑桃 A、猪人难辨</td>
+<td>德黑兰会议/同盟</td>
+<td>换了三任领导后员工发现 KPI 一点没变</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="全系列状态">全系列状态</h2>
+<p>全系列共 <strong>18 篇</strong>，分 5 个部分，目前均已完成写作并通过质检。</p>
+<ul>
+<li>第一部分：革命从哪里来（01–03）</li>
+<li>第二部分：权力如何变质（04–09）</li>
+<li>第三部分：统治的技术（10–12）</li>
+<li>第四部分：动物们的命运（13–15）</li>
+<li>第五部分：当猪变成了人（16–18）</li>
+</ul>
+<!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span><a href="#top">↑ 回到顶部</a></span>
+        <span>来源: 00｜系列拆解与目录.md</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function applyThemeIcon() {
+      const use = document.getElementById("theme-icon-use");
+      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
+    }
+    (function restoreTheme() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+
+    // ---------- Mermaid ----------
+    const diagramSources = new Map();
+    function initMermaid() {
+      const isDark = currentTheme() === "dark";
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? "dark" : "default",
+        themeVariables: {
+          primaryColor: isDark ? "#3A2A22" : "#FBEEE6",
+          primaryTextColor: isDark ? "#F5F0E8" : "#1A1A1A",
+          primaryBorderColor: isDark ? "#E89572" : "#D97757",
+          lineColor: isDark ? "#9A938A" : "#6B6B66",
+          secondaryColor: isDark ? "#2A2520" : "#F5F5F0",
+          tertiaryColor: isDark ? "#221E1A" : "#FFFFFF",
+          fontFamily: "Inter, system-ui, sans-serif",
+        },
+      });
+    }
+    function notifyMermaidOffline() {
+      // mermaid.min.js 走 CDN；离线/被墙时把原因说清楚，而不是只留一段灰掉的源码。
+      document.querySelectorAll("figure.diagram").forEach(fig => {
+        if (fig.querySelector(".diagram-offline")) return;
+        const note = document.createElement("figcaption");
+        note.className = "diagram-caption diagram-offline";
+        note.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>'
+          + "<span>图表未渲染：Mermaid 需要联网从 CDN 加载，以上为原始源码</span>";
+        fig.appendChild(note);
+      });
+    }
+    async function renderMermaid() {
+      if (typeof mermaid === "undefined") { notifyMermaidOffline(); return; }
+      initMermaid();
+      const els = document.querySelectorAll(".mermaid");
+      els.forEach(el => {
+        if (!diagramSources.has(el)) diagramSources.set(el, el.textContent.trim());
+        el.textContent = diagramSources.get(el);
+        el.removeAttribute("data-processed");
+      });
+      try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
+    }
+    function toggleTheme() {
+      const next = currentTheme() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(STORAGE_KEY, next);
+      applyThemeIcon();
+      renderMermaid();
+    }
+
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Permalink");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      applyThemeIcon();
+      injectAnchors();
+      injectCopyButtons();
+      renderMermaid();
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+</body>
+</html>

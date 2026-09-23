@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '★ 推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>《权力的48条法则》深度解读系列</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: #F0D5C4;
+      --accent-strong: #A85533;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
+      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
+      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-border: #5A3D2E;
+      --accent-strong: #F5B493;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .diagram-caption.diagram-offline {
+      color: var(--accent-strong);
+      border-top-color: var(--accent-border);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .diagram-caption.diagram-offline .icon { width: 15px; height: 15px; flex: none; }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: #fff;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  </style>
+  <!-- NAV-INJECT:START -->
+  <style>
+    .doc-header .back-home { display: table;
+      margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+      color: var(--accent-strong); text-decoration: none;
+      background: var(--accent-soft); border: 1px solid var(--accent-border);
+      border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+      transition: color .15s, border-color .15s; }
+    .doc-header .back-home:hover { color: var(--accent-hover);
+      border-color: var(--accent); border-bottom-color: var(--accent); }
+  </style>
+  <!-- NAV-INJECT:END -->
+        <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<!-- SEO-INJECT:START -->
+  <meta name="description" content="《权力的48条法则》（The 48 Laws of Power）是美国作家罗伯特·格林于 1998 年出版的成名作，由书籍制作人尤斯特·艾尔弗斯参与策划。它从三千年的历史里挑出大量宫廷、战争、商业与骗局的故事，把人与人之间争夺影响力的规律，压缩成 48 条冷峻的“法则”。">
+  <link rel="canonical" href="https://book-teardown.vercel.app/%E6%9D%83%E5%8A%9B%E7%9A%8448%E6%9D%A1%E6%B3%95%E5%88%99/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Book Teardown · 拆书">
+  <meta property="og:title" content="《权力的48条法则》深度解读系列">
+  <meta property="og:description" content="《权力的48条法则》（The 48 Laws of Power）是美国作家罗伯特·格林于 1998 年出版的成名作，由书籍制作人尤斯特·艾尔弗斯参与策划。它从三千年的历史里挑出大量宫廷、战争、商业与骗局的故事，把人与人之间争夺影响力的规律，压缩成 48 条冷峻的“法则”。">
+  <meta property="og:url" content="https://book-teardown.vercel.app/%E6%9D%83%E5%8A%9B%E7%9A%8448%E6%9D%A1%E6%B3%95%E5%88%99/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="《权力的48条法则》深度解读系列">
+  <meta name="twitter:description" content="《权力的48条法则》（The 48 Laws of Power）是美国作家罗伯特·格林于 1998 年出版的成名作，由书籍制作人尤斯特·艾尔弗斯参与策划。它从三千年的历史里挑出大量宫廷、战争、商业与骗局的故事，把人与人之间争夺影响力的规律，压缩成 48 条冷峻的“法则”。">
+  <meta name="twitter:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta property="article:published_time" content="2026-09-23">
+  <meta property="article:modified_time" content="2026-09-23">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"《权力的48条法则》深度解读系列","description":"《权力的48条法则》（The 48 Laws of Power）是美国作家罗伯特·格林于 1998 年出版的成名作，由书籍制作人尤斯特·艾尔弗斯参与策划。它从三千年的历史里挑出大量宫廷、战争、商业与骗局的故事，把人与人之间争夺影响力的规律，压缩成 48 条冷峻的“法则”。","inLanguage":"zh-CN","datePublished":"2026-09-23","dateModified":"2026-09-23","author":{"@type":"Organization","name":"Book Teardown · 拆书"},"isPartOf":{"@type":"Book","name":"权力的48条法则"},"mainEntityOfPage":"https://book-teardown.vercel.app/%E6%9D%83%E5%8A%9B%E7%9A%8448%E6%9D%A1%E6%B3%95%E5%88%99/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html","image":"https://book-teardown.vercel.app/assets/og-cover.png","relatedLink":["https://book-teardown.vercel.app/%E6%9D%83%E5%8A%9B%E7%9A%8448%E6%9D%A1%E6%B3%95%E5%88%99/01%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E3%80%8A%E6%9D%83%E5%8A%9B%E7%9A%8448%E6%9D%A1%E6%B3%95%E5%88%99%E3%80%8B%E8%A2%AB%E7%A7%B0%E4%B8%BA%E2%80%9C%E6%9C%80%E5%8D%B1%E9%99%A9%E7%9A%84%E4%B9%A6%E2%80%9D.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"拆书","item":"https://book-teardown.vercel.app/"},{"@type":"ListItem","position":2,"name":"权力的48条法则","item":"https://book-teardown.vercel.app/%E6%9D%83%E5%8A%9B%E7%9A%8448%E6%9D%A1%E6%B3%95%E5%88%99/"},{"@type":"ListItem","position":3,"name":"《权力的48条法则》深度解读系列","item":"https://book-teardown.vercel.app/%E6%9D%83%E5%8A%9B%E7%9A%8448%E6%9D%A1%E6%B3%95%E5%88%99/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html"}]}]}</script>
+<!-- SEO-INJECT:END -->
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="目录" title="目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" style="color:var(--accent)" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>计划</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="https://github.com/davidzhanghui/book-teardown" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="目录">
+      <div class="toc-head">
+        <p class="toc-title">目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a href="#系列简介" class="lvl-2">系列简介</a>
+        <a href="#全书核心问题" class="lvl-2">全书核心问题</a>
+        <a href="#全书知识地图" class="lvl-2">全书知识地图</a>
+        <a href="#全系列目录" class="lvl-2">全系列目录</a>
+        <a href="#第一部分读懂这本书" class="lvl-3">第一部分：读懂这本书</a>
+        <a href="#第二部分在强者身边如何生存" class="lvl-3">第二部分：在强者身边如何生存</a>
+        <a href="#第三部分信息意图与伪装" class="lvl-3">第三部分：信息、意图与伪装</a>
+        <a href="#第四部分形象与人心" class="lvl-3">第四部分：形象与人心</a>
+        <a href="#第五部分人际布局" class="lvl-3">第五部分：人际布局</a>
+        <a href="#第六部分主动权与时机" class="lvl-3">第六部分：主动权与时机</a>
+        <a href="#第七部分长期权力与终极法则" class="lvl-3">第七部分：长期权力与终极法则</a>
+        <a href="#推荐阅读顺序" class="lvl-2">推荐阅读顺序</a>
+        <a href="#全系列状态" class="lvl-2">全系列状态</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+      <a class="back-home" href="index.html">← 返回《权力的48条法则》系列目录</a>
+
+        <span class="doc-eyebrow">PLAN</span>
+        <h1 class="doc-title">《权力的48条法则》深度解读系列</h1>
+        <p class="doc-subtitle">系列拆解 · 知识地图 · 全部文章目录</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            00｜系列拆解与目录.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            更新于 2026-09-23
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            ~17 分钟阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<h2 id="系列简介">系列简介</h2>
+<p>《权力的48条法则》（The 48 Laws of Power）是美国作家罗伯特·格林于 1998 年出版的成名作，由书籍制作人尤斯特·艾尔弗斯参与策划。它从三千年的历史里挑出大量宫廷、战争、商业与骗局的故事，把人与人之间争夺影响力的规律，压缩成 48 条冷峻的“法则”。</p>
+<p>这本书最重要的问题其实只有一个：<strong>既然人人都身处权力关系之中，一个人怎样才能看清它、不被它吞没？</strong> 格林的回答毫不温情——他假设世界像一座宫廷，所有人都在一边保持体面、一边暗中较量；不承认这一点的人，往往最先成为别人手里的棋子。</p>
+<p>它因此被一些人奉为“职场与人性的操作手册”，也被另一些人斥为“最危险的书”，甚至被美国部分监狱列为禁书。正因争议巨大，它更值得被认真读：不是为了学会算计，而是为了看懂算计——知道别人可能在按哪个按钮，也知道自己在什么时候不该按。</p>
+<p>本系列不按 48 条的原始顺序逐条罗列，而是把相关法则合并，重组为 <strong>27 个核心问题</strong>：先建立读懂这本书的框架，再依次拆解“在强者身边生存”“信息与伪装”“形象与人心”“人际布局”“主动权与时机”，最后落到“无形”这一终极法则，并回到伦理：我们究竟该怎样对待权力。</p>
+<hr />
+<h2 id="全书核心问题">全书核心问题</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前提问题</td>
+<td>权力游戏为什么无法退出？这本书的法则该怎么读？</td>
+</tr>
+<tr>
+<td>生存问题</td>
+<td>在比自己强的人身边，怎样既不招祸又能被需要？</td>
+</tr>
+<tr>
+<td>信息问题</td>
+<td>意图、真诚、争论与对人的洞察，怎样决定谁掌握主动？</td>
+</tr>
+<tr>
+<td>形象问题</td>
+<td>声誉、姿态、奇观与神话，为什么比事实本身更有力量？</td>
+</tr>
+<tr>
+<td>关系问题</td>
+<td>朋友、敌人、替身、依附与“免费”，各自藏着什么风险？</td>
+</tr>
+<tr>
+<td>行动问题</td>
+<td>何时进攻、何时示弱、何时停手，怎样掌握主动权与时机？</td>
+</tr>
+<tr>
+<td>终极问题</td>
+<td>为什么最高的权力是“无形”？读懂之后，我们该如何自处？</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="全书知识地图">全书知识地图</h2>
+<figure class="diagram">
+  <pre class="mermaid">
+flowchart TD
+    A[前提: 人人身处权力关系] --> B[权力游戏无法退出]
+    B --> C[读法: 每条法则都有反转, 关键在情境]
+    C --> D[生存: 在强者身边]
+    D --> D1[不抢主人风头 / 不显得太完美]
+    D --> D2[沉默与神秘 / 让人依赖]
+    C --> E[信息与伪装]
+    E --> E1[隐藏意图 / 选择性真诚]
+    E --> E2[行动胜于争论 / 看清对手软肋]
+    C --> F[形象与人心]
+    F --> F1[声誉与注意力 / 自我定位]
+    F --> F2[毫不费力的成就 / 神话与幻想]
+    C --> G[人际布局]
+    G --> G1[慎用朋友 / 借手与替罪]
+    G --> G2[拒绝孤立 / 警惕免费]
+    C --> H[主动权与时机]
+    H --> H1[引人来就 / 斩草除根]
+    H --> H2[大胆集中 / 谋定终局 / 以退为进]
+    D1 --> I[长期权力: 变革披上传统外衣]
+    D2 --> I
+    E1 --> I
+    E2 --> I
+    F1 --> I
+    F2 --> I
+    G1 --> I
+    G2 --> I
+    H1 --> I
+    H2 --> I
+    I --> J[终极法则: 以无形示人]
+    J --> K[回到伦理: 看懂权力, 选择如何自处]
+
+</pre>
+  <figcaption class="diagram-caption">关系示意图</figcaption>
+</figure>
+<hr />
+<h2 id="全系列目录">全系列目录</h2>
+<h3 id="第一部分读懂这本书">第一部分：读懂这本书</h3>
+<h4 id="01为什么权力的48条法则被称为最危险的书">01｜为什么《权力的48条法则》被称为“最危险的书”？</h4>
+<p>核心问题：一本讲权术的书，为什么同时被奉为宝典、又被列为禁书？</p>
+<p>核心观点：格林刻意剥掉了道德外衣，把权力当作一门只讲“有效”不讲“应该”的技术来描述。这让它显得冷酷甚至危险；但它真正提供的是一副看穿权力运作的眼镜——同一套知识，可以用来操纵，也可以用来识别和防御操纵。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：非道德、权术、马基雅维利、双刃剑、防御性阅读</p>
+<hr />
+<h4 id="02为什么格林说权力游戏谁也退不出">02｜为什么格林说权力游戏谁也退不出？</h4>
+<p>核心问题：为什么“我不想玩权力游戏”本身也是一种玩法？</p>
+<p>核心观点：格林在序言中把现代社会比作宫廷：人人都依赖他人、都想要影响力，却必须表现得文明谦和。拒绝承认这场游戏的人，并没有真正退出，只是放弃了理解规则的机会。他因此主张先掌控情绪、学会耐心与间接，而不是假装自己置身事外。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：宫廷隐喻、间接、情绪控制、耐心、假装不玩</p>
+<hr />
+<h4 id="03为什么每条法则都附带一个反转">03｜为什么每条法则都附带一个“反转”？</h4>
+<p>核心问题：48 条法则彼此矛盾，读者到底该信哪一条？</p>
+<p>核心观点：书中每条法则都按“违反—遵守—关键—意象—权威—反转”的结构展开，而“反转”专门说明这条法则何时失效。格林并不提供一套可以机械执行的规则，而是训练一种情境判断：沉默与曝光、神秘与坦白，取决于时机与对象。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：反转、情境判断、历史案例、法则冲突、结构</p>
+<hr />
+<h3 id="第二部分在强者身边如何生存">第二部分：在强者身边如何生存</h3>
+<h4 id="04为什么永远不要让上级黯然失色">04｜为什么永远不要让上级黯然失色？</h4>
+<p>核心问题：为什么表现太出色，反而可能毁掉你在上级眼中的位置？</p>
+<p>核心观点：第 1 条法则指出，身居高位者需要感到自己优越；下属的光芒一旦让他们感到不安，才华就会变成威胁。格林结合第 24 条“扮演完美的廷臣”，主张把功劳归于上级、让自己的聪明为对方所用，而不是与对方竞争。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：第1条、第24条、上级的不安全感、廷臣、归功</p>
+<hr />
+<h4 id="05为什么太完美太特立独行的人容易被针对">05｜为什么太完美、太特立独行的人容易被针对？</h4>
+<p>核心问题：为什么优秀与与众不同，会在同辈中招来敌意？</p>
+<p>核心观点：第 46 条提醒，显得完美会激起嫉妒，而嫉妒往往伪装成批评与疏远；第 38 条主张“想怎么想都行，但行为要与他人一致”，因为公开挑战群体习惯会被视为冒犯。格林建议适度暴露无伤大雅的缺点，把独立的思想留在心里。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第46条、第38条、嫉妒、从众、示缺</p>
+<hr />
+<h4 id="06为什么沉默和神秘本身就是一种力量">06｜为什么沉默和神秘本身就是一种力量？</h4>
+<p>核心问题：为什么说得越少、出现得越少、越让人猜不透，反而越有分量？</p>
+<p>核心观点：第 4 条“言多必失”、第 16 条“利用缺席提升敬意”和第 17 条“培养不可预测性”指向同一个机制：信息越少，别人越需要猜测与投射，你的形象就越被放大；而可预测的人，很容易被看穿和摆布。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第4条、第16条、第17条、沉默、稀缺、不可预测</p>
+<hr />
+<h4 id="07为什么让人依赖你比让人感激你更可靠">07｜为什么让人依赖你，比让人感激你更可靠？</h4>
+<p>核心问题：为什么恩情会被遗忘，而依赖不会？</p>
+<p>核心观点：第 11 条主张让别人离不开你，第 13 条主张求助时诉诸对方的利益而非怜悯或感激。两者背后是同一个冷峻判断：感激会随时间衰减，利益和依赖才能持续绑定关系——被需要，比被喜欢更安全。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第11条、第13条、依赖、利益、不可替代</p>
+<hr />
+<h3 id="第三部分信息意图与伪装">第三部分：信息、意图与伪装</h3>
+<h4 id="08为什么真正的意图不能写在脸上">08｜为什么真正的意图不能写在脸上？</h4>
+<p>核心问题：为什么把目标说出口，往往就等于把主动权交了出去？</p>
+<p>核心观点：第 3 条“隐藏你的意图”与第 14 条“表面是朋友，实际当间谍”讲的是信息不对称：别人一旦知道你想要什么，就能提前防备或加以利用。格林主张用“烟幕”转移视线，同时在日常交往中收集对方的信息。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第3条、第14条、烟幕、信息不对称、情报</p>
+<hr />
+<h4 id="09为什么一点真诚和慷慨最能让人放下戒备">09｜为什么一点真诚和慷慨，最能让人放下戒备？</h4>
+<p>核心问题：为什么一次看似吃亏的坦诚，反而能换来更大的信任？</p>
+<p>核心观点：第 12 条指出，一次恰到好处的诚实或慷慨，会让人放下对你所有行为的怀疑；第 21 条“装傻以捉傻”则利用人们喜欢觉得自己更聪明的心理。两者都在操纵“戒备心”——人一旦认定你无害，就会停止审视你。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第12条、第21条、选择性诚实、戒备心、示拙</p>
+<hr />
+<h4 id="10为什么赢得争论往往会输掉人心">10｜为什么赢得争论，往往会输掉人心？</h4>
+<p>核心问题：为什么在嘴上赢了，事情却常常输了？</p>
+<p>核心观点：第 9 条主张“用行动而非争论取胜”：争论即使赢了，也会让对方丢面子、积怨恨，而行动和示范直接让人看见结果。第 44 条“镜像效应”进一步说明，模仿对方的行为，比辩驳更能让对方看清自己、失去防备。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第9条、第44条、示范、面子、镜像效应</p>
+<hr />
+<h4 id="11为什么要先看清对手再找到他的软肋">11｜为什么要先看清对手，再找到他的软肋？</h4>
+<p>核心问题：为什么同一种手段，用在不同人身上结果截然相反？</p>
+<p>核心观点：第 19 条提醒“知道你在与谁打交道”，冒犯错误的人会招来长久的报复；第 33 条主张找到每个人的“拇指夹”——不安、欲望或隐秘的需要。影响他人的前提是理解他人，而人的弱点往往藏在他最在意的东西里。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：第19条、第33条、识人、软肋、动机</p>
+<hr />
+<h3 id="第四部分形象与人心">第四部分：形象与人心</h3>
+<h4 id="12为什么声誉是权力的基石">12｜为什么声誉是权力的基石？</h4>
+<p>核心问题：为什么人们对你的看法，往往比你实际做了什么更重要？</p>
+<p>核心观点：第 5 条说“声誉至关重要，要以生命捍卫”，第 6 条说“不惜一切代价吸引注意力”。格林认为声誉替你提前完成了一半的说服，而默默无闻比声名狼藉更可怕；但声誉极易被攻击，一旦出现裂缝，就会迅速崩塌。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：第5条、第6条、声誉、注意力、曝光</p>
+<hr />
+<h4 id="13为什么你如何看待自己别人就如何对待你">13｜为什么你如何看待自己，别人就如何对待你？</h4>
+<p>核心问题：为什么身份和姿态可以被“塑造”，而不是只能被接受？</p>
+<p>核心观点：第 34 条主张“以自己的方式高贵”，第 25 条主张“重塑自我”，第 41 条提醒“不要踏进伟人的鞋子”。三者合起来说明：别人往往按照你呈现的样子对待你，一个人的形象不是出身给定的，而是可以主动设计、并且必须走出他人阴影的。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第34条、第25条、第41条、自我塑造、姿态、身份</p>
+<hr />
+<h4 id="14为什么成就要看起来毫不费力">14｜为什么成就要看起来毫不费力？</h4>
+<p>核心问题：为什么把辛苦藏起来，反而更显得强大？</p>
+<p>核心观点：第 30 条“让成就看起来毫不费力”与第 37 条“制造引人注目的奇观”都作用于观众的感知：暴露努力会让人看到你的极限，而流畅的结果与震撼的画面则制造出“天赋”与“神奇”的印象。人们记住的是画面，而不是过程。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第30条、第37条、轻松感、奇观、视觉符号</p>
+<hr />
+<h4 id="15为什么人们总愿意追随一个神话">15｜为什么人们总愿意追随一个“神话”？</h4>
+<p>核心问题：为什么越是模糊宏大的承诺，越能吸引追随者？</p>
+<p>核心观点：第 27 条讲如何利用人们“想要相信”的需要打造信徒般的追随者，第 32 条主张“迎合人们的幻想”。格林指出，现实往往令人失望，而能提供希望、意义与归属感的人，就能获得超出理性的忠诚。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：第27条、第32条、信仰需求、幻想、追随者</p>
+<hr />
+<h3 id="第五部分人际布局">第五部分：人际布局</h3>
+<h4 id="16为什么朋友可能比敌人更危险">16｜为什么朋友可能比敌人更危险？</h4>
+<p>核心问题：为什么把重任交给朋友，常常比交给昔日的对手更冒险？</p>
+<p>核心观点：第 2 条认为，朋友容易因嫉妒和“理所应当”而背叛，而被你收服的敌人反而更有动力证明自己；第 20 条“不要对任何人做出承诺”则主张保持独立，让各方都来争取你。格林把关系看作需要清醒管理的资源，而不是情感的避风港。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第2条、第20条、友谊、敌人、独立性</p>
+<hr />
+<h4 id="17为什么权力者总让别人出力让别人背锅">17｜为什么权力者总让别人出力、让别人背锅？</h4>
+<p>核心问题：为什么很多成就与失误，站在台前的都不是真正的决策者？</p>
+<p>核心观点：第 7 条“让别人替你工作，但功劳归你”与第 26 条“保持双手清白”揭示了权力的分工：功劳向上集中，脏活与风险向外转移，替罪羊和“猫爪”让决策者始终保持体面。这是书中最具争议、也最需要从防御角度理解的部分。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：第7条、第26条、借力、替罪羊、功劳归属</p>
+<hr />
+<h4 id="18为什么筑起高墙反而最不安全">18｜为什么筑起高墙，反而最不安全？</h4>
+<p>核心问题：为什么越是想保护自己的人，越容易陷入危险？</p>
+<p>核心观点：第 18 条指出，孤立会切断信息和支持，让人看不见正在逼近的威胁；权力需要流通与接触。第 10 条“远离不幸之人”则从反面提醒：接触不等于不设防，有些人的情绪和困境会像传染病一样把你拖下水。关键在于选择与谁保持连接。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第18条、第10条、孤立、信息流、情绪传染</p>
+<hr />
+<h4 id="19为什么免费的东西往往最贵">19｜为什么“免费”的东西往往最贵？</h4>
+<p>核心问题：为什么贪便宜的人，常常在不知不觉中失去主动权？</p>
+<p>核心观点：第 40 条“蔑视免费的午餐”认为，免费的东西往往附带隐性的义务、操控或欺骗；而懂得为想要的东西付出全价、并且慷慨花钱的人，才能保持独立与尊严。金钱与恩惠从来不只是交易，它们是权力关系的载体。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第40条、免费、隐性代价、人情债、慷慨</p>
+<hr />
+<h3 id="第六部分主动权与时机">第六部分：主动权与时机</h3>
+<h4 id="20为什么要让对手主动来找你">20｜为什么要让对手主动来找你？</h4>
+<p>核心问题：为什么掌握主场的人，几乎总能掌握结果？</p>
+<p>核心观点：第 8 条“让别人来找你”、第 31 条“控制选项”和第 39 条“搅浑水以捕鱼”都在争夺同一样东西——主动权。让对方在你设定的场地、用你发的牌、在情绪失控时行动，你就能以更少的力量取得更大的效果。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：第8条、第31条、第39条、主动权、诱饵、设定选项</p>
+<hr />
+<h4 id="21为什么格林主张对敌人斩草除根">21｜为什么格林主张对敌人“斩草除根”？</h4>
+<p>核心问题：为什么格林认为对敌人手下留情，往往会埋下祸根？</p>
+<p>核心观点：第 15 条“彻底粉碎你的敌人”认为，残存的敌人会伺机复仇，半途而废的胜利等于没有胜利；第 42 条“打击牧羊人，羊群就会四散”主张找到麻烦的源头。这是全书最冷酷的法则之一，也最需要放回历史与现代法治情境中重新审视。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：第15条、第42条、彻底胜利、源头、复仇</p>
+<hr />
+<h4 id="22为什么大胆出击反而比小心谨慎更安全">22｜为什么大胆出击，反而比小心谨慎更安全？</h4>
+<p>核心问题：为什么犹豫和分散，常常比冒险更致命？</p>
+<p>核心观点：第 28 条“大胆行动”认为，犹豫会暴露弱点，而大胆会掩盖失误并震慑对手；第 23 条“集中你的力量”主张把资源聚焦在一个点上，而不是四处撒网。格林认为胆量和专注都是可以训练的，真正危险的是半心半意。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第28条、第23条、胆量、专注、犹豫的代价</p>
+<hr />
+<h4 id="23为什么要把计划一直想到结局">23｜为什么要把计划一直想到结局？</h4>
+<p>核心问题：为什么很多人赢了开局，却输了结局？</p>
+<p>核心观点：第 29 条“周密计划直到结局”、第 35 条“掌握时机的艺术”和第 47 条“胜利时要懂得适可而止”组成一组关于时间的法则：只有看清终点，才知道何时出手、何时等待、何时收手。被胜利冲昏头脑，和被失败吓退一样危险。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：第29条、第35条、第47条、终局、时机、见好就收</p>
+<hr />
+<h4 id="24为什么示弱有时是最强的反击">24｜为什么示弱有时是最强的反击？</h4>
+<p>核心问题：为什么投降和无视，有时比正面对抗更有力？</p>
+<p>核心观点：第 22 条“运用投降策略”主张在处于弱势时主动退让，保存实力、等待时机、让对手放松；第 36 条“蔑视你得不到的东西”认为，无视是最好的报复，过度回应只会放大对方。退让不是软弱，而是把冲突转到对自己有利的时间和地点。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：第22条、第36条、投降策略、以退为进、无视</p>
+<hr />
+<h3 id="第七部分长期权力与终极法则">第七部分：长期权力与终极法则</h3>
+<h4 id="25为什么变革要披上传统的外衣">25｜为什么变革要披上传统的外衣？</h4>
+<p>核心问题：为什么急于推翻一切的改革者，往往先被推翻？</p>
+<p>核心观点：第 45 条“宣扬变革的必要，但不要一次改革太多”认为，人们本能地依恋熟悉的形式，激进变革会引发反扑；第 43 条“攻心为上”主张赢得人心而非强迫服从。聪明的变革者会保留旧的名义和仪式，悄悄换掉内核。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：第45条、第43条、渐进变革、人心、旧瓶新酒</p>
+<hr />
+<h4 id="26为什么无形是权力的最高形态">26｜为什么“无形”是权力的最高形态？</h4>
+<p>核心问题：为什么格林把“以无形示人”放在最后一条？</p>
+<p>核心观点：第 48 条认为，任何固定的形态都会被对手研究、预判和攻击，而像水一样随势而变的人最难被击败。它是前 47 条的总纲：所有法则都只是形态，真正的能力是在变化中不断调整——这也是“反转”的最终意义。</p>
+<p>理解难度：★★★★★</p>
+<p>关键词：第48条、无形、适应性、流动、总纲</p>
+<hr />
+<h4 id="27读完48条法则我们究竟该怎样对待权力">27｜读完48条法则，我们究竟该怎样对待权力？</h4>
+<p>核心问题：看懂了权力的全部把戏之后，一个普通人该如何选择？</p>
+<p>核心观点：48 条法则描述的是权力“如何运作”，而不是人“应该怎样活”。读完全书，读者面临的真正问题是：用它来操纵，用它来防御，还是用它来看清自己的处境后，有意识地选择不做某些事。权力的知识本身中性，选择却有代价。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：伦理、防御、边界、自我选择、系列收束</p>
+<hr />
+<h2 id="推荐阅读顺序">推荐阅读顺序</h2>
+<p><strong>主线顺序（推荐）：01 → 27。</strong></p>
+<pre><code class="language-text">第一段｜读懂这本书（01–03）
+   为什么危险 → 为什么退不出 → 怎样读反转
+        ↓
+第二段｜对上与自保（04–07）
+   不抢风头 → 不显完美 → 沉默神秘 → 让人依赖
+        ↓
+第三段｜信息与形象（08–15）
+   隐藏意图 → 选择性真诚 → 行动胜于争论 → 识人
+   → 声誉 → 自我塑造 → 毫不费力 → 神话
+        ↓
+第四段｜关系与行动（16–24）
+   朋友与敌人 → 借手替罪 → 拒绝孤立 → 警惕免费
+   → 主动权 → 斩草除根 → 大胆集中 → 谋定终局 → 以退为进
+        ↓
+第五段｜终极与反思（25–27）
+   渐进变革 → 以无形示人 → 如何对待权力
+</code></pre>
+<p><strong>阅读建议：</strong></p>
+<ul>
+<li><strong>想先抓住骨架</strong>：读 01、02、03、04、12、20、26、27 八篇。</li>
+<li><strong>对职场生存感兴趣</strong>：04、05、06、07、10、17 是核心。</li>
+<li><strong>对谈判与竞争感兴趣</strong>：08、11、20、22、23、24 更有用。</li>
+<li><strong>想学会识别操纵、保护自己</strong>：09、15、17、19、21 五篇最值得细读。</li>
+<li><strong>想练习批判性阅读</strong>：重点看 01、03、21、27 四篇。</li>
+</ul>
+<hr />
+<h2 id="全系列状态">全系列状态</h2>
+<aside class="callout callout-info">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">引文</p>
+    <p>本系列共 27 篇，正文已全部完成。</p>
+  </div>
+</aside>
+<!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span><a href="#top">↑ 回到顶部</a></span>
+        <span>来源: 00｜系列拆解与目录.md</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function applyThemeIcon() {
+      const use = document.getElementById("theme-icon-use");
+      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
+    }
+    (function restoreTheme() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+
+    // ---------- Mermaid ----------
+    const diagramSources = new Map();
+    function initMermaid() {
+      const isDark = currentTheme() === "dark";
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? "dark" : "default",
+        themeVariables: {
+          primaryColor: isDark ? "#3A2A22" : "#FBEEE6",
+          primaryTextColor: isDark ? "#F5F0E8" : "#1A1A1A",
+          primaryBorderColor: isDark ? "#E89572" : "#D97757",
+          lineColor: isDark ? "#9A938A" : "#6B6B66",
+          secondaryColor: isDark ? "#2A2520" : "#F5F5F0",
+          tertiaryColor: isDark ? "#221E1A" : "#FFFFFF",
+          fontFamily: "Inter, system-ui, sans-serif",
+        },
+      });
+    }
+    function notifyMermaidOffline() {
+      // mermaid.min.js 走 CDN；离线/被墙时把原因说清楚，而不是只留一段灰掉的源码。
+      document.querySelectorAll("figure.diagram").forEach(fig => {
+        if (fig.querySelector(".diagram-offline")) return;
+        const note = document.createElement("figcaption");
+        note.className = "diagram-caption diagram-offline";
+        note.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>'
+          + "<span>图表未渲染：Mermaid 需要联网从 CDN 加载，以上为原始源码</span>";
+        fig.appendChild(note);
+      });
+    }
+    async function renderMermaid() {
+      if (typeof mermaid === "undefined") { notifyMermaidOffline(); return; }
+      initMermaid();
+      const els = document.querySelectorAll(".mermaid");
+      els.forEach(el => {
+        if (!diagramSources.has(el)) diagramSources.set(el, el.textContent.trim());
+        el.textContent = diagramSources.get(el);
+        el.removeAttribute("data-processed");
+      });
+      try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
+    }
+    function toggleTheme() {
+      const next = currentTheme() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(STORAGE_KEY, next);
+      applyThemeIcon();
+      renderMermaid();
+    }
+
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Permalink");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      applyThemeIcon();
+      injectAnchors();
+      injectCopyButtons();
+      renderMermaid();
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+</body>
+</html>

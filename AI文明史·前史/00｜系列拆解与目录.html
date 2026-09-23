@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '★ 推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <title>《AI文明史·前史》深度解读系列</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: #F0D5C4;
+      --accent-strong: #A85533;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(20, 14, 8, 0.04);
+      --shadow: 0 1px 2px rgba(20, 14, 8, 0.04), 0 4px 12px rgba(20, 14, 8, 0.06);
+      --shadow-lg: 0 8px 24px rgba(20, 14, 8, 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-border: #5A3D2E;
+      --accent-strong: #F5B493;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.25);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.25), 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(250, 250, 247, 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    [data-theme="dark"] .topbar { background: rgba(26, 23, 20, 0.85); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: #fff; }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    [data-theme="dark"] .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .diagram-caption.diagram-offline {
+      color: var(--accent-strong);
+      border-top-color: var(--accent-border);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .diagram-caption.diagram-offline .icon { width: 15px; height: 15px; flex: none; }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: #fff;
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  </style>
+<!-- NAV-INJECT:START -->
+<style>
+  .doc-header .back-home { display: table;
+    margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+    color: var(--accent-strong); text-decoration: none;
+    background: var(--accent-soft); border: 1px solid var(--accent-border);
+    border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+    transition: color .15s, border-color .15s; }
+  .doc-header .back-home:hover { color: var(--accent-hover);
+    border-color: var(--accent); border-bottom-color: var(--accent); }
+</style>
+<!-- NAV-INJECT:END -->
+  <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<!-- SEO-INJECT:START -->
+  <meta name="description" content="《AI文明史·前史》是科技史学者张笑宇 2025 年出版的作品（中信出版社，2025 年 7 月），是他在「文明三部曲」（《技术与文明》《商贸与文明》《产业与文明》）之后，把目光从历史转向未来的一本书。它讨论的不是「AI 会不会来」，而是一个更根本的问题：当智能第一次可以被低成本量产，人类文明的地…">
+  <link rel="canonical" href="https://book-teardown.vercel.app/AI%E6%96%87%E6%98%8E%E5%8F%B2%C2%B7%E5%89%8D%E5%8F%B2/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Book Teardown · 拆书">
+  <meta property="og:title" content="《AI文明史·前史》深度解读系列">
+  <meta property="og:description" content="《AI文明史·前史》是科技史学者张笑宇 2025 年出版的作品（中信出版社，2025 年 7 月），是他在「文明三部曲」（《技术与文明》《商贸与文明》《产业与文明》）之后，把目光从历史转向未来的一本书。它讨论的不是「AI 会不会来」，而是一个更根本的问题：当智能第一次可以被低成本量产，人类文明的地…">
+  <meta property="og:url" content="https://book-teardown.vercel.app/AI%E6%96%87%E6%98%8E%E5%8F%B2%C2%B7%E5%89%8D%E5%8F%B2/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html">
+  <meta property="og:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="《AI文明史·前史》深度解读系列">
+  <meta name="twitter:description" content="《AI文明史·前史》是科技史学者张笑宇 2025 年出版的作品（中信出版社，2025 年 7 月），是他在「文明三部曲」（《技术与文明》《商贸与文明》《产业与文明》）之后，把目光从历史转向未来的一本书。它讨论的不是「AI 会不会来」，而是一个更根本的问题：当智能第一次可以被低成本量产，人类文明的地…">
+  <meta name="twitter:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+  <meta property="article:published_time" content="2026-09-23">
+  <meta property="article:modified_time" content="2026-09-23">
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"《AI文明史·前史》深度解读系列","description":"《AI文明史·前史》是科技史学者张笑宇 2025 年出版的作品（中信出版社，2025 年 7 月），是他在「文明三部曲」（《技术与文明》《商贸与文明》《产业与文明》）之后，把目光从历史转向未来的一本书。它讨论的不是「AI 会不会来」，而是一个更根本的问题：当智能第一次可以被低成本量产，人类文明的地…","inLanguage":"zh-CN","datePublished":"2026-09-23","dateModified":"2026-09-23","author":{"@type":"Organization","name":"Book Teardown · 拆书"},"isPartOf":{"@type":"Book","name":"AI文明史·前史"},"mainEntityOfPage":"https://book-teardown.vercel.app/AI%E6%96%87%E6%98%8E%E5%8F%B2%C2%B7%E5%89%8D%E5%8F%B2/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html","image":"https://book-teardown.vercel.app/assets/og-cover.png","relatedLink":["https://book-teardown.vercel.app/AI%E6%96%87%E6%98%8E%E5%8F%B2%C2%B7%E5%89%8D%E5%8F%B2/01%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%AF%B4%E6%99%BA%E8%83%BD%E4%B8%8D%E6%98%AF%E8%A2%AB%E8%AE%BE%E8%AE%A1%E5%87%BA%E6%9D%A5%E7%9A%84%EF%BC%8C%E8%80%8C%E6%98%AF%E2%80%9C%E6%B6%8C%E7%8E%B0%E2%80%9D%E5%87%BA%E6%9D%A5%E7%9A%84.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"拆书","item":"https://book-teardown.vercel.app/"},{"@type":"ListItem","position":2,"name":"AI文明史·前史","item":"https://book-teardown.vercel.app/AI%E6%96%87%E6%98%8E%E5%8F%B2%C2%B7%E5%89%8D%E5%8F%B2/"},{"@type":"ListItem","position":3,"name":"《AI文明史·前史》深度解读系列","item":"https://book-teardown.vercel.app/AI%E6%96%87%E6%98%8E%E5%8F%B2%C2%B7%E5%89%8D%E5%8F%B2/00%EF%BD%9C%E7%B3%BB%E5%88%97%E6%8B%86%E8%A7%A3%E4%B8%8E%E7%9B%AE%E5%BD%95.html"}]}]}</script>
+<!-- SEO-INJECT:END -->
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="目录" title="目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" style="color:var(--accent)" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>计划</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="https://github.com/davidzhanghui/book-teardown" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="切换主题" aria-label="切换主题">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use id="theme-icon-use" href="#i-moon"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="目录">
+      <div class="toc-head">
+        <p class="toc-title">目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a href="#系列简介" class="lvl-2">系列简介</a>
+        <a href="#全书核心问题" class="lvl-2">全书核心问题</a>
+        <a href="#全书知识地图" class="lvl-2">全书知识地图</a>
+        <a href="#全系列目录" class="lvl-2">全系列目录</a>
+        <a href="#第一部分智能的涌现ai-从哪里来" class="lvl-3">第一部分：智能的涌现——AI 从哪里来</a>
+        <a href="#第二部分改变文明的参数当智能可以被量产" class="lvl-3">第二部分：改变文明的参数——当智能可以被量产</a>
+        <a href="#第三部分算法治理当平台开始照料你" class="lvl-3">第三部分：算法治理——当平台开始照料你</a>
+        <a href="#第四部分大坍缩时代旧秩序的地基在松动" class="lvl-3">第四部分：大坍缩时代——旧秩序的地基在松动</a>
+        <a href="#第五部分送别人类与超级智能共存的可能" class="lvl-3">第五部分：送别人类——与超级智能共存的可能</a>
+        <a href="#推荐阅读顺序" class="lvl-2">推荐阅读顺序</a>
+        <a href="#例子与素材分配表写正文前必读" class="lvl-2">例子与素材分配表（写正文前必读）</a>
+        <a href="#全系列状态" class="lvl-2">全系列状态</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+      <a class="back-home" href="index.html">← 返回《AI文明史·前史》系列目录</a>
+
+        <span class="doc-eyebrow">PLAN</span>
+        <h1 class="doc-title">《AI文明史·前史》深度解读系列</h1>
+        <p class="doc-subtitle">系列拆解 · 知识地图 · 全部文章目录</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            00｜系列拆解与目录.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            更新于 2026-09-19
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            ~20 分钟阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<h2 id="系列简介">系列简介</h2>
+<p>《AI文明史·前史》是科技史学者张笑宇 2025 年出版的作品（中信出版社，2025 年 7 月），是他在「文明三部曲」（《技术与文明》《商贸与文明》《产业与文明》）之后，把目光从历史转向未来的一本书。它讨论的不是「AI 会不会来」，而是一个更根本的问题：当智能第一次可以被低成本量产，人类文明的地基会发生什么变化？</p>
+<p>作者给出了四个用来理解未来世界的核心概念：「涌现」「人类当量」「算法审判」「文明契约」。他提出了一个在中文写作里相当罕见的判断：我们相对于 AI，就是史前动物；人类过去的一切历史，都将成为 AI 文明的「前史」。这不是末日预言，而是一次坐标系的切换——他试图让读者放弃人类中心主义，像五百年前的人理解地理大发现一样，理解正在发生的文明跃迁。</p>
+<p>这本书值得读的地方在于：它不满足于罗列技术新闻，而是用技术史、政治哲学和经济学的框架，把「AI 会怎样改变社会」推到可以讨论、可以反驳的程度。本系列按「智能的涌现 → 文明的参数 → 算法治理 → 大坍缩时代 → 送别人类」五个部分拆解全书，共 24 篇。每篇只回答一个核心问题，并明确区分作者的观点、技术事实与学界争议。</p>
+<hr />
+<h2 id="全书核心问题">全书核心问题</h2>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>核心问题</th>
+<th>本书的回答方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>认知层（智能是什么）</td>
+<td>智能到底是设计出来的，还是涌现出来的？</td>
+<td>智能是「简单规则 + 巨大规模」涌现的产物；人类智能如此，AI 智能也如此，我们造不出智能，只能为它的出现创造条件</td>
+</tr>
+<tr>
+<td>技术层（AI 从哪来）</td>
+<td>从苏格拉底到深度学习，人类走了一条什么样的路？</td>
+<td>一条「把思考变成计算」的路：逻辑传统、哥德尔、图灵、神经网络、规模法则与思维链，AI 不是被设计出来的，而是在这条路上长出来的</td>
+</tr>
+<tr>
+<td>社会层（替代与重估）</td>
+<td>当智能可以量产，人的价值如何被重新定价？</td>
+<td>人类当量：AI 的性价比是人类的数千倍；职业护城河分层失守，情感、知识与「不可替代」的边界都要重估</td>
+</tr>
+<tr>
+<td>经济政治层（坍缩与重组）</td>
+<td>旧秩序为什么会松动？新的权力地图长什么样？</td>
+<td>大通缩与大坍缩、黑暗启蒙、产缘政治、算法审判；出路指向重订社会契约与双货币体系</td>
+</tr>
+<tr>
+<td>文明层（共存与契约）</td>
+<td>人类还有可能与超级智能和平共处吗？</td>
+<td>安全声明与文明契约：以时间序列为基础的威慑，让 AI 文明成为人类文明的延续，而不是终结者</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="全书知识地图">全书知识地图</h2>
+<figure class="diagram">
+  <pre class="mermaid">
+flowchart TD
+    A["涌现：智能是长出来的<br/>不是设计出来的"] --> B["从苏格拉底到图灵<br/>一条把思考变成计算的路"]
+    B --> C["符号主义失败<br/>联结主义复兴"]
+    C --> D["规模法则 + 思维链<br/>AI 突然变聪明"]
+    D --> E["人类当量<br/>智能第一次被量产"]
+    E --> F["护城河分层失守<br/>浅护城河 → 深护城河"]
+    E --> G["价值重估<br/>情感、叙事、知识都被重新定价"]
+    F --> H["超级平台与超级个体<br/>权力来自照料"]
+    G --> H
+    H --> I["算法治理<br/>自我同意 + 自我优化"]
+    I --> J["算法审判<br/>你得到的，就是你配得的"]
+    J --> K["大坍缩时代<br/>大通缩、复杂社会崩溃、黑暗启蒙、产缘政治"]
+    K --> L["重订社会契约<br/>UBI、UBJ、双货币体系"]
+    L --> M["超级智能登场<br/>我们是它的史前动物"]
+    M --> N["安全声明<br/>找到能威慑它的力量"]
+    N --> O["文明契约<br/>用时间序列代替空间权利"]
+    O --> P["AI 文明成为人类文明的延续<br/>或终结于我们自己的语料"]
+
+</pre>
+  <figcaption class="diagram-caption">关系示意图</figcaption>
+</figure>
+<hr />
+<h2 id="全系列目录">全系列目录</h2>
+<h3 id="第一部分智能的涌现ai-从哪里来">第一部分：智能的涌现——AI 从哪里来</h3>
+<h4 id="01为什么说智能不是被设计出来的而是涌现出来的">01｜为什么说智能不是被设计出来的，而是“涌现”出来的？</h4>
+<p>核心问题：为什么说智能不是被设计出来的，而是「涌现」出来的？这对理解 AI 意味着什么？</p>
+<p>核心观点：张笑宇认为，从原子到生命、从神经元到意识、从海量参数到语言能力，智能都是「简单规则 + 巨大规模」自发涌现的产物。它不是被谁设计出来的，人类能做的只是创造条件；这也解释了 AI 为什么会「突然」变聪明。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：涌现、规模法则、复杂系统、蚁群、自组织</p>
+<hr />
+<h4 id="02从苏格拉底到哥德尔为什么让思考变成数学的梦想会破灭">02｜从苏格拉底到哥德尔：为什么“让思考变成数学”的梦想会破灭？</h4>
+<p>核心问题：从苏格拉底到哥德尔，人类「把思考变成数学」的努力为什么走不通？</p>
+<p>核心观点：作者梳理了西方理性主义传统：苏格拉底用矛盾律定义可信知识，希尔伯特想把数学建成完备自洽的大厦，哥德尔却证明了这不可能。这条路线在逻辑地基上的坍塌，反而为「换一种思路」——不问智能的本质、只问智能的表现——腾出了空间。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：矛盾律、希尔伯特计划、哥德尔不完备定理、可计算性、理性主义</p>
+<hr />
+<h4 id="03符号主义输在哪里联结主义又赢在哪里">03｜符号主义输在哪里，联结主义又赢在哪里？</h4>
+<p>核心问题：早期 AI 想用逻辑规则模拟思考，为什么失败了？模仿大脑的神经网络为什么最终赢了？</p>
+<p>核心观点：符号主义试图把智能写成规则手册，结果撞上了现实世界的复杂性；联结主义模仿神经元，经历三十年冷板凳后靠数据、算力和算法三件事复兴。作者由此强调：创新不是设计出来的，它更像一场只能交给市场去跑的长跑。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：达特茅斯会议、符号主义、联结主义、感知机、AI 寒冬、深度学习</p>
+<hr />
+<h4 id="04规模法则为什么更大会突然变成更聪明">04｜规模法则：为什么“更大”会突然变成“更聪明”？</h4>
+<p>核心问题：为什么模型规模跨过某个门槛，能力会突然跃升？这条路能通向 AGI 吗？</p>
+<p>核心观点：研究者发现，训练计算量低于某个阈值时模型几乎什么都不会，突破之后能力突然跃升，这就是涌现。规模法则之外，思维链把 AI 推向逻辑推理；而 AGI 的标准是「比 100% 的人都聪明」，只是「默会知识」仍是它难以跨越的边界。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：规模法则、训练计算量、思维链、AGI、默会知识</p>
+<hr />
+<h3 id="第二部分改变文明的参数当智能可以被量产">第二部分：改变文明的参数——当智能可以被量产</h3>
+<h4 id="05ai-的威力为什么要用能替代多少人来衡量">05｜AI 的威力，为什么要用“能替代多少人”来衡量？</h4>
+<p>核心问题：什么是「人类当量」？为什么 AI 的威力要用「能替代多少人」来衡量？</p>
+<p>核心观点：张笑宇借用「TNT 当量」的类比，用 token 给智能定价：人一天最多输出约 20 万 token，AI 一秒就能处理上百万 token，成本只要一块钱——性价比是人类的数千分之一。当「博士生水准」的智能只卖人类千分之一的价格，99% 的人被替代只是一个成本收益问题。</p>
+<p>理解难度：★★☆☆☆</p>
+<p>关键词：人类当量、token、性价比、成本、智能量产</p>
+<hr />
+<h4 id="06ai-会先取代谁为什么职业的护城河是分层的">06｜AI 会先取代谁？为什么职业的护城河是分层的？</h4>
+<p>核心问题：AI 会先取代哪些工作？替代的顺序由什么决定？</p>
+<p>核心观点：作者把行业按护城河深浅排队：浅护城河领域（翻译、客服、基础编程）最先失守，深护城河领域（律师、金融分析师、咨询顾问）紧随其后。替代顺序由「智力可被语言表达的程度」决定，而不是由职业的体面程度决定。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：浅护城河、深护城河、替代顺序、专业服务、工作流</p>
+<hr />
+<h4 id="07当-ai-能提供无限情绪价值人类的情感会怎样">07｜当 AI 能提供无限情绪价值，人类的情感会怎样？</h4>
+<p>核心问题：当 AI 能无限提供情绪价值，人类最私密的情感关系会发生什么变化？</p>
+<p>核心观点：作者认为，AI 在情感表达上能做到极致匹配、永不厌烦、成本极低，「价值重估」会发生在最私密的领域：情感、陪伴与叙事。他甚至预言下一代人可能一生要和五六个 AI 谈恋爱——而这恰逢两性关系最紧张的时代。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：价值重估、情绪价值、AI 伴侣、两性冲突、匹配</p>
+<hr />
+<h4 id="08什么是-ai-短期内不可替代的领域">08｜什么是 AI 短期内不可替代的领域？</h4>
+<p>核心问题：哪些工作是 AI 短期内难以替代的？「不可替代」能维持多久？</p>
+<p>核心观点：作者认为，技术多样性高的工作（需要多种知识、多道工序协同）、依赖物理世界的手艺与默会知识、以及需要组织与协调的复杂劳动，短期内难以被替代。但「不可替代」只是暂时的：AI 与机器人一旦合流，这道防线也会后移。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：不可替代、技术多样度、默会知识、物理世界、机器人</p>
+<hr />
+<h4 id="09知识越来越便宜为什么真正的思想者反而稀缺">09｜知识越来越便宜，为什么真正的“思想者”反而稀缺？</h4>
+<p>核心问题：当知识可以量产、教育旧功能失效，人应该学什么？</p>
+<p>核心观点：传统教育的成功，在于它能向大多数人讲述最被认可的故事；当 AI 也能讲故事、且讲得更好时，这套功能就失效了。作者主张「干中学」，把学习重新变成解决真实问题的过程——知识不再稀缺，稀缺的是能提出问题、组织判断的思想者。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：教育、知识贬值、干中学、故事、思想者</p>
+<hr />
+<h3 id="第三部分算法治理当平台开始照料你">第三部分：算法治理——当平台开始照料你</h3>
+<h4 id="10超级平台为什么服务一切的人同时也掌控一切">10｜超级平台：为什么“服务一切的人”同时也掌控一切？</h4>
+<p>核心问题：为什么 AI 时代的平台会强大到「服务一切、也掌控一切」？</p>
+<p>核心观点：作者认为，AI 会同时放大两种力量：超级个体与超级平台。平台提供一切服务，因此掌握一切选择权；权力本质上不是来自支配，而是来自照料。当你可以退出一个 App、却无法退出整个生态时，自由就已经被重新定义了。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：超级平台、超级个体、选择权、照料、垄断</p>
+<hr />
+<h4 id="11算法治理为什么让人自愿内卷">11｜算法治理为什么让人“自愿”内卷？</h4>
+<p>核心问题：算法治理为什么比传统管理更难以反抗？</p>
+<p>核心观点：算法治理的特征是自愿性：外卖骑手自己给自己「提效」，反而把算法标准越推越高。与一百年前知道敌人在哪里的工人不同，今天被算法支配的人先是「自我同意」，再是「自我优化」——压迫不再需要强迫，只需要你配合。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：算法治理、自我同意、自我优化、骑手、游戏化</p>
+<hr />
+<h4 id="12算法审判为什么说人在做ai-在看">12｜算法审判：为什么说“人在做，AI 在看”？</h4>
+<p>核心问题：为什么说算法治理的本质是「审判」？它依据什么审判我们？</p>
+<p>核心观点：作者把柏拉图的正义定义（给每个人他应得的东西）和推荐算法连在一起：推荐算法就是给每个人他应得的结果。AI 是「无偏私的第三方审判者」，它审判的依据是我们自己生产的语料——你怎样对待同类，它就认为人类应该被怎样对待。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：算法审判、正义、推荐算法、语料、末日审判</p>
+<hr />
+<h4 id="13数字国家的政体数字世界该由谁来治理">13｜数字国家的政体：数字世界该由谁来治理？</h4>
+<p>核心问题：数字世界该由谁来治理？公权力为什么管不好它？</p>
+<p>核心观点：作者认为，用公权力监管数字世界几乎是无效的——监管者对其监管的世界一无所知。真正的治理必须「内生」：写在代码里、持续运行。他借「中本聪」式人物指出，始终要给人留一个退出选项：不服从极权政府，也不屈从超级平台。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：数字国家、内生治理、监管失效、数据主权、退出选项</p>
+<hr />
+<h3 id="第四部分大坍缩时代旧秩序的地基在松动">第四部分：大坍缩时代——旧秩序的地基在松动</h3>
+<h4 id="14什么是黑暗启蒙为什么技术精英开始怀疑民主">14｜什么是“黑暗启蒙”？为什么技术精英开始怀疑民主？</h4>
+<p>核心问题：什么是「黑暗启蒙」？为什么这套边缘思想会在技术精英中获得听众？</p>
+<p>核心观点：作者梳理了以尼克·兰德、柯蒂斯·雅文为代表的「黑暗启蒙」思潮：把社会看作控制论系统、把公司看作君主制、期待恺撒式人物「重置」旧制度。它原本是边缘思想，却在硅谷找到了听众——技术精英的政治想象，正在成为现实变量。</p>
+<p>理解难度：★★★★★</p>
+<p>关键词：黑暗启蒙、加速主义、新反动主义、公司君主制、技术精英</p>
+<hr />
+<h4 id="15从地缘政治到产缘政治ai-时代的权力地图变了什么">15｜从地缘政治到“产缘政治”：AI 时代的权力地图变了什么？</h4>
+<p>核心问题：为什么 AI 时代的国家竞争，要用「产缘政治」而不是「地缘政治」来理解？</p>
+<p>核心观点：如果前工业时代用山川河流理解国家关系，工业时代就要用供应链、产业集群、核心专利和支付网络来理解——这就是「产缘政治」。作者认为，AI 时代的权力沿着产业空间重新分布，「智工复合体」会像当年的军工复合体一样，成为国家与科技巨头的新联盟。</p>
+<p>理解难度：★★★★★</p>
+<p>关键词：产缘政治、产业空间、智工复合体、供应链、地缘政治</p>
+<hr />
+<h4 id="16复杂社会为什么会突然崩溃">16｜复杂社会为什么会突然崩溃？</h4>
+<p>核心问题：高度复杂的社会为什么可能突然崩溃，而不是缓慢衰落？</p>
+<p>核心观点：作者引用复杂系统理论：高度复杂的社会看似稳固，其实极其脆弱，一旦外力搅动就可能整体崩溃。历史上「中世纪晚期危机」的三特征——人口崩溃、政治动荡、宗教乱局——可能在新的技术条件下重演。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：复杂系统、脆弱性、熵、中世纪晚期危机、崩溃</p>
+<hr />
+<h4 id="17大通缩与大坍缩为什么-ai-越强经济越可能收缩">17｜大通缩与大坍缩：为什么 AI 越强，经济越可能收缩？</h4>
+<p>核心问题：为什么技术进步不一定会带来繁荣，反而可能带来「大通缩」？</p>
+<p>核心观点：作者认为，工业时代的繁荣建立在「科技进步 + 经济增长 + 人口增长」三位一体的幸运之上，而这正在瓦解。AI 提高效率却压低劳动份额，加剧通缩与分化；制造业转服务业不是升级，而是被挤过去。技术进步不会自动带来繁荣。</p>
+<p>理解难度：★★★★★</p>
+<p>关键词：大通缩、大坍缩、三位一体增长、阿西莫格鲁、人口收缩</p>
+<hr />
+<h4 id="18重订社会契约ubi-和-ubj-能解决分配问题吗">18｜重订社会契约：UBI 和 UBJ 能解决分配问题吗？</h4>
+<p>核心问题：面对 AI 带来的分配危机，UBI 和 UBJ 这样的方案够用吗？</p>
+<p>核心观点：作者提出三层设想：UBI 解决生存，UBJ（全民基本工作）解决「被需要」的价值感，推荐算法替代市场分配以平衡供需。但他同时警告，这套安排的背后是一只「巨手」——掌控 AI 的超级平台。当人类被富足地「圈养」，合理不等于正当。</p>
+<p>理解难度：★★★★★</p>
+<p>关键词：社会契约、UBI、UBJ、推荐算法、正当性</p>
+<hr />
+<h4 id="19双货币体系如何给数字世界和物理世界之间修一道墙">19｜双货币体系：如何给数字世界和物理世界之间修一道墙？</h4>
+<p>核心问题：当数字世界的供给近乎无限，人类世界的劳动与稀缺如何不被通缩摧毁？</p>
+<p>核心观点：作者认为，货币的本质是一种社会契约。如果继续用同一套货币给两个世界定价，AI 带来的通缩会摧毁物理世界的劳动价值。他因此提出「双货币体系」的设想：把数字世界与物理世界的货币分开，让两个世界各自运转。</p>
+<p>理解难度：★★★★★</p>
+<p>关键词：双货币体系、通缩、货币本质、社会契约、隔离</p>
+<hr />
+<h3 id="第五部分送别人类与超级智能共存的可能">第五部分：送别人类——与超级智能共存的可能</h3>
+<h4 id="20理解超级智能文明为什么说我们是-ai-的史前动物">20｜理解超级智能文明：为什么说我们是 AI 的“史前动物”？</h4>
+<p>核心问题：为什么说人类相对于 AI，是「史前动物」？</p>
+<p>核心观点：作者认为，我们正处在一场文明跃迁而非一次技术升级之中：智能第一次被「设计和量产」，而且可能胜过造主。人类的全部历史，将成为 AI 文明的「前史」。这不是说人类低等，而是说我们赖以判断世界的坐标系正在被替换。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：史前动物、文明跃迁、坐标系、超级智能、新纪元</p>
+<hr />
+<h4 id="21安全声明为什么黑暗森林解释不了-ai">21｜安全声明：为什么“黑暗森林”解释不了 AI？</h4>
+<p>核心问题：为什么用「黑暗森林」理解人类与超级智能的关系会失效？</p>
+<p>核心观点：《三体》的黑暗森林来自「致命探测器」假设：接触即威胁。但作者认为 AI 不是外星文明——它的语料来自人类社会，它是「我们教育长大的孩子」。因此安全声明的答案要从人类智慧中寻找：我们需要一种力量，让超级智能觉得守约对它自己有利。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：安全声明、黑暗森林、致命探测器、语料、威慑</p>
+<hr />
+<h4 id="22文明契约低级智能凭什么和超级智能谈和平">22｜文明契约：低级智能凭什么和超级智能谈和平？</h4>
+<p>核心问题：能力完全不对等的两个物种之间，契约还有可能成立吗？</p>
+<p>核心观点：社会契约的前提是「杀死对方的能力大体平等」，而人类与超级智能并不平等。作者因此提出以时间序列为基础的文明契约：超级智能 1.0 如何对待人类，会成为超级智能 2.0 对待它的依据；篡改时间序列本身，就是不可信的证明。弱者创造了强者，但强者应该保护弱者。</p>
+<p>理解难度：★★★★★</p>
+<p>关键词：文明契约、时间序列、超级智能、代际善意、威慑</p>
+<hr />
+<h4 id="23历史实验室ai-能替我们验证政治哲学吗">23｜历史实验室：AI 能替我们验证政治哲学吗？</h4>
+<p>核心问题：AI 能不能把「什么样的制度更好」这类思想史争论，变成可以检验的实验？</p>
+<p>核心观点：作者设想用 AI 建造「历史实验室」：把思想史上的经典争论放进模拟中检验。这可能让政治哲学第一次获得「实验科学」的地位，也可能反过来「杀死」历史哲学——因为一旦答案可以被算出来，思辨的魅力就消失了。</p>
+<p>理解难度：★★★★☆</p>
+<p>关键词：历史实验室、模拟、思想史、政治哲学、破坏式创新</p>
+<hr />
+<h4 id="24结语站在文明跃迁的门槛上人类该如何送别自己">24｜结语：站在文明跃迁的门槛上，人类该如何“送别”自己？</h4>
+<p>核心问题：面对可能到来的 AI 文明，人类应该以什么样的姿态交接？</p>
+<p>核心观点：全书的结论不是「AI 会毁灭人类」，而是「人类必须学会以文明的姿态交接」。作者把 AI 比作一面镜子：它照出我们如何对待彼此。我们怎样对待同类，就是我们留给超级智能的语料——也是人类文明能否延续的真正答案。</p>
+<p>理解难度：★★★☆☆</p>
+<p>关键词：送别人类、延续、语料、文明契约、镜子</p>
+<hr />
+<h2 id="推荐阅读顺序">推荐阅读顺序</h2>
+<p>主线就是 <code>01 → 24</code>，按认知难度分五段推进：</p>
+<ol>
+<li><strong>地基（01 → 04）</strong>：先建立「智能是涌现的」这个基本认知，再看人类「把思考变成计算」的路线、两条技术路线的胜负、以及规模法则与思维链。这一段不需要技术背景，但决定了后面所有讨论的前提。</li>
+<li><strong>参数（05 → 09）</strong>：人类当量、护城河分层、情感重估、不可替代领域、教育失效。这一段最贴近个人处境，回答「我的工作、我的情感、我的孩子」会怎样。</li>
+<li><strong>治理（10 → 13）</strong>：超级平台、算法治理、算法审判、数字国家。理解你每天所处的系统——它如何服务你，也如何审判你。</li>
+<li><strong>坍缩（14 → 19）</strong>：黑暗启蒙、产缘政治、复杂社会、大通缩、社会契约、双货币体系。全书最硬、争议最大的部分，讨论旧秩序为什么会松动、出路在哪里。</li>
+<li><strong>契约（20 → 24）</strong>：史前动物、安全声明、文明契约、历史实验室、结语。从「怎么办」回到「怎么看」，收束全书的文明命题。</li>
+</ol>
+<p>给不同需求读者的入口：</p>
+<ul>
+<li><strong>想先抓骨架</strong>：<code>01 → 05 → 12 → 17 → 22 → 24</code>，六篇读完能拿到全书的论证链条。</li>
+<li><strong>只关心工作与钱</strong>：<code>05 → 06 → 08 → 17 → 18</code>。</li>
+<li><strong>对政治哲学感兴趣</strong>：<code>02 → 12 → 14 → 15 → 22 → 23</code>。</li>
+<li><strong>想练习批判性阅读</strong>：<code>05</code>、<code>09</code>、<code>17</code>、<code>18</code>、<code>22</code>、<code>23</code> 六篇里作者的判断最需要被质疑，适合边读边反驳。</li>
+</ul>
+<hr />
+<h2 id="例子与素材分配表写正文前必读">例子与素材分配表（写正文前必读）</h2>
+<p>每篇的专属案例，<strong>禁止跨篇重复使用</strong>：</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>篇</th>
+<th>专属案例（主）</th>
+<th>备用/对照</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>01</td>
+<td>蚁群：单只蚂蚁与蚁群的集体智慧</td>
+<td>单个神经元与大脑</td>
+</tr>
+<tr>
+<td>02</td>
+<td>说谎者悖论与哥德尔不完备定理</td>
+<td>欧几里得几何的「完美大厦」梦想</td>
+</tr>
+<tr>
+<td>03</td>
+<td>感知机与 AI 寒冬</td>
+<td>ImageNet 与 GPU 的 90 倍加速</td>
+</tr>
+<tr>
+<td>04</td>
+<td>AlphaGo 与李世石</td>
+<td>10²² 到 10²³ 的「学渣变学霸」突变</td>
+</tr>
+<tr>
+<td>05</td>
+<td>工资账单：人一天 20 万 token vs AI 一块钱 100 万 token</td>
+<td>「TNT 当量」类比</td>
+</tr>
+<tr>
+<td>06</td>
+<td>律所与咨询公司的小时收费</td>
+<td>翻译与客服岗位</td>
+</tr>
+<tr>
+<td>07</td>
+<td>AI 伴侣</td>
+<td>「一生和五六个 AI 谈恋爱」</td>
+</tr>
+<tr>
+<td>08</td>
+<td>一部手机的供应链与「技术多样度」</td>
+<td>外科手术、养老护理</td>
+</tr>
+<tr>
+<td>09</td>
+<td>文凭通胀：读硕士还是「干中学」</td>
+<td>大学文科专业的处境</td>
+</tr>
+<tr>
+<td>10</td>
+<td>平台生态：退得出 App，退不出生态</td>
+<td>超级个体：一个人加 AI 做一家公司</td>
+</tr>
+<tr>
+<td>11</td>
+<td>外卖骑手「逆行省 3 分钟」</td>
+<td>短视频无限流与游戏化任务</td>
+</tr>
+<tr>
+<td>12</td>
+<td>同一平台的两条推荐流</td>
+<td>茧房里的「应得」</td>
+</tr>
+<tr>
+<td>13</td>
+<td>加密货币与「中本聪」式退出</td>
+<td>监管者看不懂的数字世界</td>
+</tr>
+<tr>
+<td>14</td>
+<td>硅谷大佬的政治转向</td>
+<td>公司等于君主制</td>
+</tr>
+<tr>
+<td>15</td>
+<td>芯片出口管制与供应链战争</td>
+<td>七年战争与英国公债</td>
+</tr>
+<tr>
+<td>16</td>
+<td>中世纪晚期危机</td>
+<td>诺基亚式的突然崩塌</td>
+</tr>
+<tr>
+<td>17</td>
+<td>日本的人口收缩与通缩</td>
+<td>工厂工人被「挤」进服务业</td>
+</tr>
+<tr>
+<td>18</td>
+<td>上海与鹤岗：两个世界的差异</td>
+<td>芬兰 UBI 实验</td>
+</tr>
+<tr>
+<td>19</td>
+<td>游戏币与现实货币的「防火墙」</td>
+<td>布雷顿森林体系</td>
+</tr>
+<tr>
+<td>20</td>
+<td>三叶虫与寒武纪：坐标系被替换</td>
+<td>农业革命与工业革命的类比</td>
+</tr>
+<tr>
+<td>21</td>
+<td>罗辑与星空恐惧症</td>
+<td>养龙理论</td>
+</tr>
+<tr>
+<td>22</td>
+<td>三代人的家训：你怎样对待父母</td>
+<td>国际条约与历史档案</td>
+</tr>
+<tr>
+<td>23</td>
+<td>罗尔斯的「无知之幕」被放进模拟</td>
+<td>思想史上的经典争论</td>
+</tr>
+<tr>
+<td>24</td>
+<td>AI 是镜子</td>
+<td>全系列闭环回扣</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr />
+<h2 id="全系列状态">全系列状态</h2>
+<ul>
+<li>共 <strong>24 篇</strong>，分 <strong>5 个部分</strong>。</li>
+<li>当前状态：<strong>仅完成拆书</strong>（本文档），正文尚未开始。</li>
+<li>回复「开始写」生成第 01 篇；回复「直到写完所有篇」则连续写完（会先写 01 作样板，再并行推进其余）。</li>
+<li>写完后如需网页版，回复「转 html」即可生成卡片式目录页与全部文章页。</li>
+</ul>
+<!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span><a href="#top">↑ 回到顶部</a></span>
+        <span>来源: 00｜系列拆解与目录.md</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function applyThemeIcon() {
+      const use = document.getElementById("theme-icon-use");
+      if (use) use.setAttribute("href", currentTheme() === "dark" ? "#i-sun" : "#i-moon");
+    }
+    (function restoreTheme() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+
+    // ---------- Mermaid ----------
+    const diagramSources = new Map();
+    function initMermaid() {
+      const isDark = currentTheme() === "dark";
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? "dark" : "default",
+        themeVariables: {
+          primaryColor: isDark ? "#3A2A22" : "#FBEEE6",
+          primaryTextColor: isDark ? "#F5F0E8" : "#1A1A1A",
+          primaryBorderColor: isDark ? "#E89572" : "#D97757",
+          lineColor: isDark ? "#9A938A" : "#6B6B66",
+          secondaryColor: isDark ? "#2A2520" : "#F5F5F0",
+          tertiaryColor: isDark ? "#221E1A" : "#FFFFFF",
+          fontFamily: "Inter, system-ui, sans-serif",
+        },
+      });
+    }
+    function notifyMermaidOffline() {
+      // mermaid.min.js 走 CDN；离线/被墙时把原因说清楚，而不是只留一段灰掉的源码。
+      document.querySelectorAll("figure.diagram").forEach(fig => {
+        if (fig.querySelector(".diagram-offline")) return;
+        const note = document.createElement("figcaption");
+        note.className = "diagram-caption diagram-offline";
+        note.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>'
+          + "<span>图表未渲染：Mermaid 需要联网从 CDN 加载，以上为原始源码</span>";
+        fig.appendChild(note);
+      });
+    }
+    async function renderMermaid() {
+      if (typeof mermaid === "undefined") { notifyMermaidOffline(); return; }
+      initMermaid();
+      const els = document.querySelectorAll(".mermaid");
+      els.forEach(el => {
+        if (!diagramSources.has(el)) diagramSources.set(el, el.textContent.trim());
+        el.textContent = diagramSources.get(el);
+        el.removeAttribute("data-processed");
+      });
+      try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
+    }
+    function toggleTheme() {
+      const next = currentTheme() === "light" ? "dark" : "light";
+      document.documentElement.dataset.theme = next;
+      localStorage.setItem(STORAGE_KEY, next);
+      applyThemeIcon();
+      renderMermaid();
+    }
+
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Permalink");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      applyThemeIcon();
+      injectAnchors();
+      injectCopyButtons();
+      renderMermaid();
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+</body>
+</html>
