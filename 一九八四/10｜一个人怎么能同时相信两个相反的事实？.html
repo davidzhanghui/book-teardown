@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="zh" data-theme="light" style="--rec-label: '★ 推荐'">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    (function(){try{var t=localStorage.getItem('md2html-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();
+  </script>
+  <title>10｜一个人怎么能同时相信两个相反的事实？</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ============================================================
+       TOKENS
+       ============================================================ */
+    :root {
+      --bg: #FAFAF7;
+      --surface: #FFFFFF;
+      --surface-2: #F5F5F0;
+      --surface-3: #EFEEE8;
+      --text: #1A1A1A;
+      --text-muted: #4A4A45;
+      --text-subtle: #6B6B66;
+      --accent: #D97757;
+      --accent-hover: #C56843;
+      --accent-soft: #FBEEE6;
+      --accent-border: rgba(var(--accent-rgb), .25);
+      --accent-strong: #A85533;
+      --on-accent: #FFFFFF;
+      --accent-rgb: 217,119,87;
+      --bg-rgb: 250,250,247;
+      --shadow-rgb: 20,14,8;
+      --border: #E5E4DC;
+      --border-strong: #CDCDC4;
+      --code-bg: #F5F2EC;
+      --code-text: #2A2A2A;
+      --info: #2563EB;
+      --info-soft: #EFF6FF;
+      --info-border: #BFDBFE;
+      --warn: #B45309;
+      --warn-soft: #FFFBEB;
+      --warn-border: #FDE68A;
+      --danger: #B91C1C;
+      --danger-soft: #FEF2F2;
+      --danger-border: #FECACA;
+      --success: #047857;
+      --success-soft: #ECFDF5;
+      --success-border: #A7F3D0;
+      --decision: #6D28D9;
+      --decision-soft: #F5F3FF;
+      --decision-border: #DDD6FE;
+      --shadow-sm: 0 1px 2px rgba(var(--shadow-rgb), 0.04);
+      --shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.04), 0 4px 12px rgba(var(--shadow-rgb), 0.06);
+      --shadow-lg: 0 8px 24px rgba(var(--shadow-rgb), 0.10);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --radius-lg: 16px;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, monospace;
+      --z-progress: 200;
+      --z-topbar: 100;
+      --z-drawer: 300;
+      --z-backdrop: 250;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1A1714;
+      --bg-rgb: 26,23,20;
+      --surface: #221E1A;
+      --surface-2: #2A2520;
+      --surface-3: #322C26;
+      --text: #F5F0E8;
+      --text-muted: #C8C0B6;
+      --text-subtle: #9A938A;
+      --accent: #E89572;
+      --accent-hover: #F2A87F;
+      --accent-soft: #3A2A22;
+      --accent-strong: #F5B493;
+      --on-accent: #FFFFFF;
+      --accent-rgb: 232,149,114;
+      --border: #2E2924;
+      --border-strong: #463F38;
+      --code-bg: #1E1B17;
+      --code-text: #E8E2D8;
+      --shadow-rgb: 0,0,0;
+    }
+
+    /* ---- 浅色主题（移植自 mail-archive 纸本配色） ---- */
+    [data-theme="moss"] {
+      --bg: #f3f1e9; --bg-rgb: 243,241,233;
+      --surface: #faf9f4; --surface-2: #f6f4ec; --surface-3: #ebe8db;
+      --text: #2b2a23; --text-muted: #565448; --text-subtle: #98947f;
+      --accent: #3d5c47; --accent-hover: #2f4a38; --accent-strong: #2f4a38;
+      --accent-soft: #e8ece5; --accent-rgb: 61,92,71; --on-accent: #f5f3ea;
+      --border: #e3dfd0; --border-strong: #d3cebb;
+      --code-bg: #f6f4ec; --code-text: #36342b;
+      --shadow-rgb: 60,55,35;
+    }
+    [data-theme="claret"] {
+      --bg: #f4efe7; --bg-rgb: 244,239,231;
+      --surface: #fbf8f3; --surface-2: #f7f2ea; --surface-3: #ece4db;
+      --text: #2d2622; --text-muted: #5b4f45; --text-subtle: #9a8d80;
+      --accent: #8b3229; --accent-hover: #63211c; --accent-strong: #63211c;
+      --accent-soft: #f5e7e3; --accent-rgb: 139,50,41; --on-accent: #f7f0e9;
+      --border: #e5dcd2; --border-strong: #d8cabb;
+      --code-bg: #f7f2ea; --code-text: #3a3029;
+      --shadow-rgb: 62,50,42;
+    }
+    [data-theme="indigo"] {
+      --bg: #f0f2f1; --bg-rgb: 240,242,241;
+      --surface: #f9faf9; --surface-2: #f4f6f5; --surface-3: #e6eae9;
+      --text: #22262b; --text-muted: #4d545c; --text-subtle: #8b939c;
+      --accent: #33506e; --accent-hover: #24384f; --accent-strong: #24384f;
+      --accent-soft: #e6eaf0; --accent-rgb: 51,80,110; --on-accent: #eef2f7;
+      --border: #dde2e4; --border-strong: #ccd3d6;
+      --code-bg: #f4f6f5; --code-text: #2c333a;
+      --shadow-rgb: 40,50,60;
+    }
+    [data-theme="umber"] {
+      --bg: #f6f0e3; --bg-rgb: 246,240,227;
+      --surface: #fbf7ee; --surface-2: #f8f3e8; --surface-3: #ece3d2;
+      --text: #2f2a20; --text-muted: #5a5040; --text-subtle: #9c8e75;
+      --accent: #8a5a2b; --accent-hover: #6b441c; --accent-strong: #6b441c;
+      --accent-soft: #f2e9dd; --accent-rgb: 138,90,43; --on-accent: #f8f1e4;
+      --border: #e6dcc8; --border-strong: #d8c9b0;
+      --code-bg: #f8f3e8; --code-text: #3b3427;
+      --shadow-rgb: 62,52,34;
+    }
+    [data-theme="mulberry"] {
+      --bg: #f3eff1; --bg-rgb: 243,239,241;
+      --surface: #fbf9fa; --surface-2: #f6f2f4; --surface-3: #eae4eb;
+      --text: #2a2529; --text-muted: #544c56; --text-subtle: #948a97;
+      --accent: #6b4a72; --accent-hover: #513555; --accent-strong: #513555;
+      --accent-soft: #efe8f1; --accent-rgb: 107,74,114; --on-accent: #f4eff4;
+      --border: #e2dae3; --border-strong: #d3c8d6;
+      --code-bg: #f6f2f4; --code-text: #352e37;
+      --shadow-rgb: 54,44,56;
+    }
+    [data-theme="graphite"] {
+      --bg: #f2f2ef; --bg-rgb: 242,242,239;
+      --surface: #fafaf8; --surface-2: #f5f5f3; --surface-3: #e9e9e4;
+      --text: #26262a; --text-muted: #4f4f4a; --text-subtle: #8c8c86;
+      --accent: #4a4a46; --accent-hover: #33332f; --accent-strong: #33332f;
+      --accent-soft: #eaeae5; --accent-rgb: 74,74,70; --on-accent: #f4f4f1;
+      --border: #e0e0da; --border-strong: #c9c9c2;
+      --code-bg: #f5f5f3; --code-text: #33332f;
+      --shadow-rgb: 45,45,42;
+    }
+    [data-theme="teal"] {
+      --bg: #edf2f1; --bg-rgb: 237,242,241;
+      --surface: #f8fbfa; --surface-2: #f3f7f6; --surface-3: #e4ecea;
+      --text: #20282a; --text-muted: #47585a; --text-subtle: #849798;
+      --accent: #2f6367; --accent-hover: #1f4749; --accent-strong: #1f4749;
+      --accent-soft: #e3eeed; --accent-rgb: 47,99,103; --on-accent: #eaf2f1;
+      --border: #dae5e3; --border-strong: #c8d6d4;
+      --code-bg: #f3f7f6; --code-text: #2a3538;
+      --shadow-rgb: 35,50,52;
+    }
+
+    /* ---- 深色主题 ---- */
+    [data-theme="midnight"] {
+      --bg: #23211c; --bg-rgb: 35,33,28;
+      --surface: #2b2924; --surface-2: #302e28; --surface-3: #34322c;
+      --text: #ded7c6; --text-muted: #b7ae9a; --text-subtle: #8a8271;
+      --accent: #a98a54; --accent-hover: #8b7043; --accent-strong: #d9bd86;
+      --accent-soft: #3a3226; --accent-rgb: 169,138,84; --on-accent: #211f1a;
+      --border: #3a372f; --border-strong: #45413a;
+      --code-bg: #302e28; --code-text: #cfc7b4;
+      --shadow-rgb: 0,0,0;
+    }
+    [data-theme="dusk"] {
+      --bg: #1b1f2a; --bg-rgb: 27,31,42;
+      --surface: #222735; --surface-2: #262b3a; --surface-3: #2b3140;
+      --text: #d5dbe8; --text-muted: #a9b2c6; --text-subtle: #7f8899;
+      --accent: #6f8fc4; --accent-hover: #5876ab; --accent-strong: #a3bcdf;
+      --accent-soft: #2a3346; --accent-rgb: 111,143,196; --on-accent: #171b24;
+      --border: #303747; --border-strong: #383f50;
+      --code-bg: #262b3a; --code-text: #c6cdde;
+      --shadow-rgb: 0,0,0;
+    }
+    [data-theme="forest"] {
+      --bg: #1c211d; --bg-rgb: 28,33,29;
+      --surface: #232925; --surface-2: #272e29; --surface-3: #2c342e;
+      --text: #d3dbd2; --text-muted: #a8b3a8; --text-subtle: #7c877c;
+      --accent: #7fa87f; --accent-hover: #648c64; --accent-strong: #a7cba7;
+      --accent-soft: #2a362b; --accent-rgb: 127,168,127; --on-accent: #161a16;
+      --border: #313a33; --border-strong: #39433b;
+      --code-bg: #272e29; --code-text: #c4cdc3;
+      --shadow-rgb: 0,0,0;
+    }
+
+    /* 深色组共用：功能色与阴影强度（--shadow-rgb 由各主题决定色相） */
+    [data-theme="dark"], [data-theme="midnight"], [data-theme="dusk"], [data-theme="forest"] {
+      --info: #93C5FD;
+      --info-soft: #1E2A3D;
+      --info-border: #2A4365;
+      --warn: #FBBF24;
+      --warn-soft: #332817;
+      --warn-border: #5C4520;
+      --danger: #FCA5A5;
+      --danger-soft: #3A1F1F;
+      --danger-border: #5C2A2A;
+      --success: #6EE7B7;
+      --success-soft: #1A3329;
+      --success-border: #1F5C45;
+      --decision: #C4B5FD;
+      --decision-soft: #2A1F40;
+      --decision-border: #4A3870;
+      --shadow-sm: 0 1px 2px rgba(var(--shadow-rgb), 0.25);
+      --shadow: 0 1px 2px rgba(var(--shadow-rgb), 0.25), 0 4px 12px rgba(var(--shadow-rgb), 0.35);
+      --shadow-lg: 0 8px 24px rgba(var(--shadow-rgb), 0.45);
+    }
+
+    /* ============================================================
+       BASE
+       ============================================================ */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+    body {
+      margin: 0;
+      font-family: var(--font-sans);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    ::selection { background: var(--accent-soft); color: var(--accent-strong); }
+
+    /* Skip link */
+    .skip-link {
+      position: absolute;
+      top: -100px; left: 8px;
+      padding: 10px 16px;
+      background: var(--accent);
+      color: var(--on-accent);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      z-index: 1000;
+      transition: top 0.15s;
+    }
+    .skip-link:focus { top: 8px; }
+
+    /* SVG sprite container (hidden) */
+    .icon-sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+    .icon { display: inline-block; flex-shrink: 0; vertical-align: middle; stroke: currentColor; fill: none; }
+
+    /* Scroll progress bar */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: var(--accent);
+      z-index: var(--z-progress);
+      transition: width 0.05s linear;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: var(--z-topbar);
+      background: rgba(var(--bg-rgb), 0.85);
+      backdrop-filter: saturate(180%) blur(12px);
+      -webkit-backdrop-filter: saturate(180%) blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .theme-wrap { position: relative; }
+    .theme-pop {
+      display: none; position: absolute; right: 0; top: calc(100% + 8px);
+      min-width: 168px; padding: 6px; z-index: var(--z-drawer);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); box-shadow: var(--shadow-lg);
+    }
+    .theme-pop.open { display: block; }
+    .theme-group { margin: 6px 10px 2px; font-size: 11px; color: var(--text-subtle); }
+    .theme-item {
+      display: flex; align-items: center; gap: 10px; width: 100%;
+      padding: 7px 10px; border: 0; background: none; cursor: pointer;
+      font-family: inherit; font-size: 13.5px; color: var(--text);
+      border-radius: 6px; text-align: left;
+    }
+    .theme-item:hover { background: var(--surface-2); }
+    .theme-item.on { color: var(--accent-strong); font-weight: 600; }
+    .theme-item i { width: 12px; height: 12px; border-radius: 50%; flex: none;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+    .topbar-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .brand-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-soft);
+      animation: brand-pulse 2.8s ease-in-out infinite;
+    }
+    @keyframes brand-pulse {
+      0%, 100% { box-shadow: 0 0 0 4px var(--accent-soft); }
+      50%      { box-shadow: 0 0 0 7px transparent; }
+    }
+    .topbar-actions { display: flex; gap: 6px; align-items: center; }
+    .icon-btn {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+      padding: 0;
+    }
+    .icon-btn .icon { width: 18px; height: 18px; stroke-width: 2; }
+    .icon-btn[hidden] { display: none; }
+
+    /* ============================================================
+       LAYOUT
+       ============================================================ */
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      padding: 32px 24px 96px;
+    }
+    .content { min-width: 0; }
+
+    /* ============================================================
+       TOC (desktop + mobile drawer)
+       ============================================================ */
+    .toc {
+      position: sticky;
+      top: 80px;
+      align-self: start;
+      max-height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+    .toc::-webkit-scrollbar { width: 6px; }
+    .toc::-webkit-scrollbar-track { background: transparent; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+    .toc-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 12px 12px;
+    }
+    .toc-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-subtle);
+      margin: 0;
+    }
+    .toc-close { display: none; }
+    .toc-nav { display: flex; flex-direction: column; gap: 2px; }
+    .toc-nav a {
+      display: flex; align-items: center;
+      min-height: 36px;
+      padding: 8px 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13.5px;
+      border-left: 2px solid transparent;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      transition: color 0.15s, background-color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+    }
+    .toc-nav a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+      background: var(--accent-soft);
+      font-weight: 500;
+    }
+    .toc-nav a.lvl-3 { padding-left: 26px; font-size: 12.5px; }
+    .toc-backdrop {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: var(--z-backdrop);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    /* ============================================================
+       DOC HEADER
+       ============================================================ */
+    .doc-header {
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .doc-eyebrow {
+      display: inline-flex; align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+      border: 1px solid var(--accent-border);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 16px;
+    }
+    .doc-title {
+      font-size: clamp(28px, 3vw + 16px, 40px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 12px;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .doc-subtitle {
+      font-size: clamp(15px, 0.6vw + 13px, 18px);
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0 0 20px;
+      max-width: 75ch;
+      text-wrap: pretty;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
+    .doc-meta-item { display: inline-flex; align-items: center; gap: 6px; }
+    .doc-meta .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* ============================================================
+       CONTENT (typography)
+       ============================================================ */
+    .content h1, .content h2, .content h3, .content h4 {
+      color: var(--text);
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      scroll-margin-top: 80px;
+      text-wrap: balance;
+    }
+    .content h2 {
+      font-size: 26px;
+      font-weight: 600;
+      margin: 56px 0 16px;
+      padding-top: 8px;
+      position: relative;
+    }
+    .content h3 {
+      font-size: 19px;
+      font-weight: 600;
+      margin: 36px 0 12px;
+      position: relative;
+    }
+    .content h4 {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 24px 0 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .content > p,
+    .content > ul,
+    .content > ol,
+    .content > blockquote { max-width: 75ch; }
+    .content p { margin: 0 0 16px; text-wrap: pretty; overflow-wrap: anywhere; }
+    .content a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border); }
+    .content ul, .content ol { padding-left: 24px; margin: 0 0 16px; }
+    .content li { margin: 4px 0; }
+    .content strong { color: var(--text); font-weight: 600; }
+    .content em { color: var(--text-muted); }
+    .content hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    /* Anchor links injected by JS on h2/h3 with id */
+    .anchor {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+      margin-left: 6px;
+      color: var(--text-subtle);
+      opacity: 0;
+      transform: translateY(-1px);
+      transition: opacity 0.15s, color 0.15s;
+      border-bottom: none !important;
+      border-radius: var(--radius-sm);
+    }
+    .anchor .icon { width: 14px; height: 14px; stroke-width: 2; }
+
+    /* Images */
+    .content img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin: 20px 0;
+      display: block;
+    }
+    .content figure { margin: 20px 0; }
+    .content figure img { margin: 0; }
+    .content figcaption {
+      font-size: 13px;
+      color: var(--text-subtle);
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    /* Task lists (- [ ] / - [x]) */
+    .content .task-list-item { list-style: none; margin-left: -22px; }
+    .content .task-list-item-checkbox {
+      margin-right: 8px;
+      vertical-align: -2px;
+      accent-color: var(--accent);
+    }
+
+    /* Footnotes */
+    .content .footnote-ref a,
+    .content sup a {
+      font-size: 0.75em;
+      vertical-align: super;
+      border-bottom: none;
+      padding: 0 2px;
+    }
+    .content .footnotes {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       CODE
+       ============================================================ */
+    .content code {
+      font-family: var(--font-mono);
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.88em;
+      color: var(--code-text);
+      border: 1px solid var(--border);
+      overflow-wrap: anywhere;
+    }
+    .content pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.6;
+      margin: 16px 0;
+      position: relative;
+    }
+    .content pre code {
+      background: none; padding: 0; border: none;
+      color: var(--code-text);
+      font-size: inherit;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px; right: 8px;
+      width: 32px; height: 32px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      color: var(--text-subtle);
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+      padding: 0;
+    }
+    .copy-btn .icon { width: 14px; height: 14px; stroke-width: 2; }
+    .copy-btn.copied { color: var(--success); border-color: var(--success-border); opacity: 1; }
+
+    /* ============================================================
+       TIMELINE / STEPS
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 24px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 19px;
+      top: 20px;
+      bottom: 20px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--accent-border), var(--border));
+    }
+    .step {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 4px;
+      position: relative;
+      border-radius: var(--radius);
+      transition: background-color 0.15s;
+    }
+    .step-num {
+      width: 40px; height: 40px;
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--surface);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.15s, color 0.15s, transform 0.15s;
+    }
+    .step.done .step-num { background: var(--accent); color: var(--on-accent); }
+    .step-body { padding-top: 6px; min-width: 0; }
+    .step-body h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .step-body p { margin: 0 0 8px; color: var(--text-muted); font-size: 14.5px; max-width: 75ch; }
+    .step-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ============================================================
+       CALLOUTS
+       ============================================================ */
+    .callout {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 14px;
+      padding: 14px 18px;
+      border-radius: var(--radius);
+      border: 1px solid;
+      margin: 20px 0;
+      font-size: 14.5px;
+      line-height: 1.6;
+      max-width: 75ch;
+    }
+    .callout-icon { width: 20px; height: 20px; margin-top: 2px; stroke-width: 2; }
+    .callout-body { min-width: 0; }
+    .callout-title { font-weight: 600; margin: 0 0 4px; font-size: 14px; }
+    .callout-body p:last-child { margin-bottom: 0; }
+    .callout-body code { background: rgba(0,0,0,0.04); }
+    :is([data-theme="dark"], [data-theme="midnight"], [data-theme="dusk"], [data-theme="forest"]) .callout-body code { background: rgba(255,255,255,0.06); }
+
+    .callout-info     { background: var(--info-soft);     border-color: var(--info-border);     color: var(--text); }
+    .callout-info     .callout-title, .callout-info     .callout-icon { color: var(--info); }
+    .callout-warn     { background: var(--warn-soft);     border-color: var(--warn-border);     color: var(--text); }
+    .callout-warn     .callout-title, .callout-warn     .callout-icon { color: var(--warn); }
+    .callout-danger   { background: var(--danger-soft);   border-color: var(--danger-border);   color: var(--text); }
+    .callout-danger   .callout-title, .callout-danger   .callout-icon { color: var(--danger); }
+    .callout-success  { background: var(--success-soft);  border-color: var(--success-border);  color: var(--text); }
+    .callout-success  .callout-title, .callout-success  .callout-icon { color: var(--success); }
+    .callout-decision { background: var(--decision-soft); border-color: var(--decision-border); color: var(--text); }
+    .callout-decision .callout-title, .callout-decision .callout-icon { color: var(--decision); }
+    .callout-tip      { background: var(--accent-soft);   border-color: var(--accent-border);   color: var(--text); }
+    .callout-tip      .callout-title, .callout-tip      .callout-icon { color: var(--accent-strong); }
+
+    /* ============================================================
+       KEY-POINT HIGHLIGHT
+       ============================================================ */
+    .highlight {
+      background: linear-gradient(135deg, var(--accent-soft), var(--surface-2));
+      border-left: 4px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 var(--radius) var(--radius) 0;
+      margin: 24px 0;
+      font-size: 16px;
+      line-height: 1.65;
+      max-width: 75ch;
+    }
+    .highlight-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-strong);
+      margin-bottom: 6px;
+    }
+
+    /* ============================================================
+       MERMAID
+       ============================================================ */
+    .diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin: 24px 0;
+      box-shadow: var(--shadow-sm);
+      overflow-x: auto;
+    }
+    .diagram-caption {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      text-align: center;
+    }
+    .mermaid { text-align: center; min-height: 80px; }
+    .mermaid svg { max-width: 100%; height: auto; }
+    .mermaid:not([data-processed]) {
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-subtle);
+      white-space: pre-wrap;
+      text-align: left;
+    }
+    .diagram-caption.diagram-offline {
+      color: var(--accent-strong);
+      border-top-color: var(--accent-border);
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .diagram-caption.diagram-offline .icon { width: 15px; height: 15px; flex: none; }
+
+    /* ============================================================
+       PROS / CONS
+       ============================================================ */
+    .proscons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .proscons-col {
+      padding: 16px 20px;
+      border-radius: var(--radius);
+      border: 1px solid;
+    }
+    .proscons-col h4 {
+      margin: 0 0 12px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .proscons-col ul { margin: 0; padding-left: 18px; }
+    .proscons-col li { margin: 6px 0; }
+    .pros { background: var(--success-soft); border-color: var(--success-border); }
+    .pros h4 { color: var(--success); }
+    .cons { background: var(--danger-soft); border-color: var(--danger-border); }
+    .cons h4 { color: var(--danger); }
+
+    /* ============================================================
+       COMPARISON CARDS
+       ============================================================ */
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .compare-card {
+      padding: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+    }
+    .compare-card.recommended { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+    .compare-card.recommended::before {
+      content: var(--rec-label, "★ Recommended");
+      position: absolute; top: -10px; right: 14px;
+      background: var(--accent); color: var(--on-accent);
+      padding: 2px 10px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+    }
+    .compare-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--text); text-transform: none; letter-spacing: normal; }
+    .compare-card p { margin: 0; color: var(--text-muted); font-size: 14px; }
+
+    /* ============================================================
+       COLLAPSIBLE
+       ============================================================ */
+    details.collapsible {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      margin: 16px 0;
+      background: var(--surface);
+      overflow: hidden;
+    }
+    details.collapsible[open] { box-shadow: var(--shadow-sm); }
+    details.collapsible > summary {
+      cursor: pointer;
+      padding: 14px 18px;
+      font-weight: 500;
+      color: var(--text);
+      list-style: none;
+      display: flex; align-items: center; gap: 10px;
+      user-select: none;
+      transition: background 0.15s;
+      min-height: 44px;
+    }
+    details.collapsible > summary::-webkit-details-marker { display: none; }
+    details.collapsible > summary::before {
+      content: "›";
+      display: inline-block;
+      transition: transform 0.18s;
+      color: var(--accent);
+      font-size: 18px;
+      font-weight: 700;
+    }
+    details.collapsible[open] > summary::before { transform: rotate(90deg); }
+    .collapsible-body { padding: 4px 18px 18px; border-top: 1px solid var(--border); }
+    .collapsible-body > *:first-child { margin-top: 12px; }
+
+    /* ============================================================
+       TABLES (wrapped via .table-wrap or naturally responsive)
+       ============================================================ */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 20px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      max-width: 100%;
+    }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      background: var(--surface);
+      margin: 0;
+    }
+    /* Standalone tables (not inside .table-wrap) keep visual border */
+    .content > table {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin: 20px 0;
+      display: block;
+      overflow-x: auto;
+    }
+    .content th {
+      background: var(--surface-2);
+      color: var(--text);
+      font-weight: 600;
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+    .content td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .content tr:last-child td { border-bottom: none; }
+
+    /* ============================================================
+       BLOCKQUOTE
+       ============================================================ */
+    .content blockquote {
+      margin: 20px 0;
+      padding: 4px 20px;
+      border-left: 3px solid var(--accent-border);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .doc-footer {
+      margin-top: 80px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text-subtle);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .doc-footer a { color: var(--accent); text-decoration: none; }
+
+    /* ============================================================
+       FOCUS-VISIBLE (a11y)
+       ============================================================ */
+    *:focus { outline: none; }
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+    }
+    .toc-nav a:focus-visible { outline-offset: -2px; }
+    .icon-btn:focus-visible { outline-offset: 2px; }
+    .anchor:focus-visible { opacity: 1; outline-offset: 2px; }
+    details.collapsible > summary:focus-visible { outline-offset: -2px; }
+
+    /* ============================================================
+       HOVER (only on hover-capable devices to avoid sticky-tap on mobile)
+       ============================================================ */
+    @media (hover: hover) {
+      .icon-btn:hover { color: var(--accent); border-color: var(--accent-border); background: var(--accent-soft); }
+      .toc-nav a:hover { color: var(--accent); background: var(--accent-soft); }
+      .content a:hover { color: var(--accent-hover); border-bottom-color: var(--accent); }
+      .compare-card:hover { border-color: var(--accent-border); box-shadow: var(--shadow); }
+      .compare-card.recommended:hover { border-color: var(--accent); }
+      .content tr:hover td { background: var(--surface-2); }
+      details.collapsible > summary:hover { background: var(--surface-2); }
+      .step:hover { background: var(--surface-2); }
+      .step:hover .step-num { transform: scale(1.05); }
+      .anchor:hover { color: var(--accent); }
+      .content h2:hover .anchor,
+      .content h3:hover .anchor { opacity: 1; }
+      .copy-btn:hover { color: var(--accent); border-color: var(--accent-border); }
+      .content pre:hover .copy-btn { opacity: 1; }
+    }
+    /* On touch devices, copy-btn is always visible at low opacity */
+    @media (hover: none) {
+      .copy-btn { opacity: 0.6; }
+      .anchor { opacity: 0.4; }
+    }
+
+    /* ============================================================
+       MOBILE (≤900px) — TOC becomes off-canvas drawer
+       ============================================================ */
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: 20px 16px 80px;
+      }
+      .topbar-inner { padding: 8px 12px; }
+      .doc-header { margin-bottom: 28px; padding-bottom: 20px; }
+
+      .toc-mobile-trigger { display: inline-flex !important; }
+
+      .toc {
+        position: fixed;
+        top: 0; left: 0;
+        width: min(300px, 82vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        background: var(--surface);
+        z-index: var(--z-drawer);
+        padding: 16px 8px 24px 16px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-105%);
+        transition: transform 0.25s ease;
+      }
+      .toc-head { padding: 4px 4px 12px 8px; }
+      .toc-close {
+        display: inline-flex !important;
+        width: 36px; height: 36px;
+        align-items: center; justify-content: center;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: var(--radius-sm);
+        color: var(--text-muted);
+        cursor: pointer;
+        padding: 0;
+      }
+      .toc-close .icon { width: 18px; height: 18px; stroke-width: 2; }
+      body.toc-open .toc { transform: translateX(0); }
+      body.toc-open .toc-backdrop {
+        display: block;
+        opacity: 1;
+      }
+      .toc-backdrop {
+        display: block;
+        opacity: 0;
+        pointer-events: none;
+      }
+      body.toc-open .toc-backdrop { pointer-events: auto; }
+      body.toc-open { overflow: hidden; }
+    }
+    @media (min-width: 901px) {
+      .toc-mobile-trigger { display: none !important; }
+    }
+
+    /* ============================================================
+       REDUCED MOTION (a11y)
+       ============================================================ */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .brand-dot { animation: none; box-shadow: 0 0 0 4px var(--accent-soft); }
+    }
+
+    /* ============================================================
+       PRINT
+       ============================================================ */
+    @media print {
+      .topbar, .toc, .toc-backdrop, .icon-btn, .copy-btn, .anchor, .scroll-progress { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding: 0; max-width: 100%; }
+      body { background: #fff; color: #000; }
+      a { color: #000; }
+      .content pre, .callout, .compare-card, .step, .diagram { break-inside: avoid; }
+      .doc-footer { break-before: avoid; }
+    }
+  </style>
+  <!-- NAV-INJECT:START -->
+  <style>
+    .doc-header .back-home { display: table;
+      margin-bottom: 14px; padding: 4px 12px; font-size: 13px; font-weight: 500;
+      color: var(--accent-strong); text-decoration: none;
+      background: var(--accent-soft); border: 1px solid var(--accent-border);
+      border-bottom: 1px solid var(--accent-border); border-radius: 999px;
+      transition: color .15s, border-color .15s; }
+    .doc-header .back-home:hover { color: var(--accent-hover);
+      border-color: var(--accent); border-bottom-color: var(--accent); }
+  </style>
+  <!-- NAV-INJECT:END -->
+    <!-- SEO-INJECT:START -->
+      <meta name="description" content="引文">
+      <link rel="canonical" href="https://book-teardown.vercel.app/%E4%B8%80%E4%B9%9D%E5%85%AB%E5%9B%9B/10%EF%BD%9C%E4%B8%80%E4%B8%AA%E4%BA%BA%E6%80%8E%E4%B9%88%E8%83%BD%E5%90%8C%E6%97%B6%E7%9B%B8%E4%BF%A1%E4%B8%A4%E4%B8%AA%E7%9B%B8%E5%8F%8D%E7%9A%84%E4%BA%8B%E5%AE%9E%EF%BC%9F.html">
+      <meta property="og:type" content="article">
+      <meta property="og:site_name" content="Book Teardown · 拆书">
+      <meta property="og:title" content="10｜一个人怎么能同时相信两个相反的事实？">
+      <meta property="og:description" content="引文">
+      <meta property="og:url" content="https://book-teardown.vercel.app/%E4%B8%80%E4%B9%9D%E5%85%AB%E5%9B%9B/10%EF%BD%9C%E4%B8%80%E4%B8%AA%E4%BA%BA%E6%80%8E%E4%B9%88%E8%83%BD%E5%90%8C%E6%97%B6%E7%9B%B8%E4%BF%A1%E4%B8%A4%E4%B8%AA%E7%9B%B8%E5%8F%8D%E7%9A%84%E4%BA%8B%E5%AE%9E%EF%BC%9F.html">
+      <meta property="og:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="10｜一个人怎么能同时相信两个相反的事实？">
+      <meta name="twitter:description" content="引文">
+      <meta name="twitter:image" content="https://book-teardown.vercel.app/assets/og-cover.png">
+      <meta property="article:published_time" content="2026-10-14">
+      <meta property="article:modified_time" content="2026-10-14">
+      <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"10｜一个人怎么能同时相信两个相反的事实？","description":"引文","inLanguage":"zh-CN","datePublished":"2026-10-14","dateModified":"2026-10-14","author":{"@type":"Organization","name":"Book Teardown · 拆书"},"isPartOf":{"@type":"Book","name":"一九八四"},"mainEntityOfPage":"https://book-teardown.vercel.app/%E4%B8%80%E4%B9%9D%E5%85%AB%E5%9B%9B/10%EF%BD%9C%E4%B8%80%E4%B8%AA%E4%BA%BA%E6%80%8E%E4%B9%88%E8%83%BD%E5%90%8C%E6%97%B6%E7%9B%B8%E4%BF%A1%E4%B8%A4%E4%B8%AA%E7%9B%B8%E5%8F%8D%E7%9A%84%E4%BA%8B%E5%AE%9E%EF%BC%9F.html","image":"https://book-teardown.vercel.app/assets/og-cover.png","relatedLink":["https://book-teardown.vercel.app/%E4%B8%80%E4%B9%9D%E5%85%AB%E5%9B%9B/09%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%8F%91%E6%98%8E%E4%B8%80%E7%A7%8D%E8%AE%A9%E4%BA%BA%E6%97%A0%E6%B3%95%E9%80%A0%E5%8F%8D%E7%9A%84%E8%AF%AD%E8%A8%80%EF%BC%9F.html","https://book-teardown.vercel.app/%E4%B8%80%E4%B9%9D%E5%85%AB%E5%9B%9B/11%EF%BD%9C%E4%B8%BA%E4%BB%80%E4%B9%88%E6%83%85%E7%BB%AA%E4%B9%9F%E8%A6%81%E8%A2%AB%E5%AE%9A%E6%9C%9F%E5%AE%9A%E9%87%8F%E4%BE%9B%E5%BA%94%EF%BC%9F.html"]},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"拆书","item":"https://book-teardown.vercel.app/"},{"@type":"ListItem","position":2,"name":"一九八四","item":"https://book-teardown.vercel.app/%E4%B8%80%E4%B9%9D%E5%85%AB%E5%9B%9B/"},{"@type":"ListItem","position":3,"name":"10｜一个人怎么能同时相信两个相反的事实？","item":"https://book-teardown.vercel.app/%E4%B8%80%E4%B9%9D%E5%85%AB%E5%9B%9B/10%EF%BD%9C%E4%B8%80%E4%B8%AA%E4%BA%BA%E6%80%8E%E4%B9%88%E8%83%BD%E5%90%8C%E6%97%B6%E7%9B%B8%E4%BF%A1%E4%B8%A4%E4%B8%AA%E7%9B%B8%E5%8F%8D%E7%9A%84%E4%BA%8B%E5%AE%9E%EF%BC%9F.html"}]}]}</script>
+    <!-- SEO-INJECT:END -->
+    <link rel="icon" type="image/svg+xml" href="../assets/icon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+    <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+</head>
+<body>
+  <!-- Skip link for keyboard users -->
+  <a href="#main" class="skip-link">跳到正文</a>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- SVG icon sprite (Lucide-style) -->
+  <svg class="icon-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></symbol>
+    <symbol id="i-danger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></symbol>
+    <symbol id="i-success" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></symbol>
+    <symbol id="i-decision" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+    <symbol id="i-tip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14a5 5 0 1 0-6.18 0 4 4 0 0 1 1.59 2h2.99a4 4 0 0 1 1.6-2Z"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.68-.44-1.12a1.68 1.68 0 0 1 1.68-1.68h2.09A5.46 5.46 0 0 0 22 10.92C21.97 5.81 17.5 2 12 2z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+      <symbol id="i-github" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="currentColor" stroke="none" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+  </svg>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <button class="icon-btn toc-mobile-trigger" id="toc-toggle" onclick="openToc()" aria-label="目录" title="目录">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+        <svg class="icon" viewBox="0 0 24 24" width="18" height="18" style="color:var(--accent)" aria-hidden="true"><use href="#i-book"/></svg>
+        <span>笔记</span>
+      </div>
+      <div class="topbar-actions">
+        <a class="icon-btn" href="https://github.com/davidzhanghui/book-teardown" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-github"/></svg>
+        </a>
+
+        <button class="icon-btn" onclick="window.print()" title="打印 / 保存 PDF" aria-label="打印 / 保存 PDF">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-printer"/></svg>
+        </button>
+        <div class="theme-wrap">
+          <button class="icon-btn" id="theme-btn" onclick="toggleThemePop(event)" title="切换主题" aria-label="切换主题" aria-haspopup="true">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-palette"/></svg>
+          </button>
+          <div class="theme-pop" id="theme-pop" role="menu" aria-label="切换主题">
+            <p class="theme-group">浅色</p>
+            <button class="theme-item" data-t="light" onclick="setTheme('light')"><i style="background:#D97757"></i>暖阳 · 默认</button>
+            <button class="theme-item" data-t="moss" onclick="setTheme('moss')"><i style="background:#3d5c47"></i>墨绿</button>
+            <button class="theme-item" data-t="claret" onclick="setTheme('claret')"><i style="background:#8b3229"></i>酒红</button>
+            <button class="theme-item" data-t="indigo" onclick="setTheme('indigo')"><i style="background:#33506e"></i>藏蓝</button>
+            <button class="theme-item" data-t="umber" onclick="setTheme('umber')"><i style="background:#8a5a2b"></i>赭石</button>
+            <button class="theme-item" data-t="mulberry" onclick="setTheme('mulberry')"><i style="background:#6b4a72"></i>紫檀</button>
+            <button class="theme-item" data-t="graphite" onclick="setTheme('graphite')"><i style="background:#4a4a46"></i>松烟</button>
+            <button class="theme-item" data-t="teal" onclick="setTheme('teal')"><i style="background:#2f6367"></i>孔雀</button>
+            <p class="theme-group">深色</p>
+            <button class="theme-item" data-t="dark" onclick="setTheme('dark')"><i style="background:#E89572"></i>暗夜 · 默认</button>
+            <button class="theme-item" data-t="midnight" onclick="setTheme('midnight')"><i style="background:#a98a54"></i>夜读</button>
+            <button class="theme-item" data-t="dusk" onclick="setTheme('dusk')"><i style="background:#6f8fc4"></i>暮蓝</button>
+            <button class="theme-item" data-t="forest" onclick="setTheme('forest')"><i style="background:#7fa87f"></i>深林</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TOC drawer backdrop (mobile) -->
+  <div class="toc-backdrop" onclick="closeToc()" aria-hidden="true"></div>
+
+  <div class="layout">
+    <aside class="toc" id="toc" aria-label="目录">
+      <div class="toc-head">
+        <p class="toc-title">目录</p>
+        <button class="toc-close" onclick="closeToc()" aria-label="关闭">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x"/></svg>
+        </button>
+      </div>
+      <nav class="toc-nav" id="toc-nav">
+        <a href="#开篇一个值得思考的问题" class="lvl-2">开篇：一个值得思考的问题</a>
+        <a href="#一从故事开始" class="lvl-2">一、从故事开始</a>
+        <a href="#二真正的问题是什么" class="lvl-2">二、真正的问题是什么？</a>
+        <a href="#用三句口号试一试" class="lvl-3">用三句口号试一试</a>
+        <a href="#三人物为什么会这样选择" class="lvl-2">三、人物为什么会这样选择？</a>
+        <a href="#四作者真正想讨论什么" class="lvl-2">四、作者真正想讨论什么？</a>
+        <a href="#五把这个问题放回时代" class="lvl-2">五、把这个问题放回时代</a>
+        <a href="#六作品是怎么写出来的" class="lvl-2">六、作品是怎么写出来的？</a>
+        <a href="#七如果放到今天" class="lvl-2">七、如果放到今天</a>
+        <a href="#八小结" class="lvl-2">八、小结</a>
+        <a href="#下一篇" class="lvl-2">下一篇</a>
+      </nav>
+    </aside>
+
+    <main class="content" id="main">
+      <header class="doc-header">
+      <a class="back-home" href="index.html">← 返回《一九八四》系列目录</a>
+
+        <span class="doc-eyebrow">NOTES</span>
+        <h1 class="doc-title">10｜一个人怎么能同时相信两个相反的事实？</h1>
+        <p class="doc-subtitle">本篇核心问题：双重思想是怎么回事？它是自我欺骗，还是一种能力？</p>
+        <div class="doc-meta">
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-file"/></svg>
+            10｜一个人怎么能同时相信两个相反的事实？.md
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-calendar"/></svg>
+            更新于 2026-10-14
+          </span>
+          <span class="doc-meta-item">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-clock"/></svg>
+            ~12 分钟阅读
+          </span>
+        </div>
+      </header>
+
+      <!-- CONTENT_START -->
+<aside class="callout callout-info">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">引文</p>
+    <p><strong>剧透提示</strong>：以下内容包含关键剧情与结局。本文涉及第一部第三章与第五章、第二部中戈德斯坦的书、第三部帕森斯入狱的情节，以及书末附录。</p>
+  </div>
+</aside>
+<hr />
+<h2 id="开篇一个值得思考的问题">开篇：一个值得思考的问题</h2>
+<p>人们说起「口是心非」，通常是指一个人嘴上说一套，心里想一套，自己是知道的。双重思想不是这个。</p>
+<p>小说里最难懂的一个词，是在第三章里随着温斯顿做早操的动作冒出来的。他想起党的口号，想起「现实控制」，想起它在新话里的名字：双重思想。然后他的思路沉进一个迷宫，并且给出一份差不多是定义的清单：知道，又不知道；有意识地说着精心编造的谎，却完全相信自己诚实；同时持有两种互相抵消的意见，明知它们矛盾，却两个都信；用逻辑去对抗逻辑；一边否认道德，一边以道德自居；该忘记的就忘记，需要时再拉回记忆，用完再忘；<strong>而最重要的是，把同样的过程用在这个过程本身上</strong>。</p>
+<p>那是最精微的地方：有意识地制造无意识，然后再对自己刚刚做过的催眠行为失去意识。「甚至要理解『双重思想』这个词，也得用上双重思想。」</p>
+<p>这一篇想问的是：这到底是一种什么东西。糊涂？自欺？还是某种需要练习的本事？</p>
+<h2 id="一从故事开始">一、从故事开始</h2>
+<p>先看党自己怎么定义。在第二部里，温斯顿读到戈德斯坦的书，里面有一整段专门谈这件事。书里说，双重思想就是「同时在头脑里持有两种互相矛盾的信念，并且同时接受它们的能力」。党的知识分子知道自己的记忆该往哪个方向改，所以知道自己在对现实做手脚；但靠着双重思想，他又让自己相信现实没有受到侵犯。</p>
+<p>接下来有一句关键的话：这个过程必须是有意识的，否则做不精确；但它也必须是无意识的，否则会带来虚假感，进而产生罪恶感。</p>
+<p>这就是所谓的「循环」：要改写记忆，就得记得往哪改；改完之后，要忘记自己改过；而「忘记自己改过」这个动作本身，也得被忘记。书里的说法是「谎言总是比真相快一步」。</p>
+<p>书里还提到一个词：黑白（blackwhite）。它有两层互相矛盾的意思。用在对手身上，指无耻地硬说黑是白，与明摆着的事实相反；用在党员身上，指党的纪律要求时，忠诚地愿意说黑是白。但它还有第三层：<strong>真心相信黑是白，更进一步，知道黑是白，并且忘记自己曾经相信过相反的东西。</strong></p>
+<h2 id="二真正的问题是什么">二、真正的问题是什么？</h2>
+<aside class="callout callout-info">
+  <svg class="callout-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-info"/></svg>
+  <div class="callout-body">
+    <p class="callout-title">引文</p>
+    <p>同时相信两个相反的东西，是一个人犯的错，还是一个人学会的本事？</p>
+  </div>
+</aside>
+<p>小说的回答很明确：是本事。而且它不是天生的，是训练出来的。</p>
+<p>戈德斯坦的书讲得很具体：党员从小接受一套精神训练，围绕三个新话词展开：「罪止」（crimestop）、黑白、双重思想。最基础的一层是罪止，指像出于本能一样，在任何危险念头的门槛前停住，包括不去领会类比，不去发现逻辑错误，不去理解与英社相悖的最简单的论点，对任何可能通向异端的思路感到厌烦或抵触。书里把它概括成一个词：<strong>护身的愚蠢</strong>。但光是愚蠢不够，往上一层是黑白，要求对事实有「每时每刻、不知疲倦的灵活」。把这些统摄起来的，是双重思想。</p>
+<p>下面用一张图表示它的循环结构：</p>
+<figure class="diagram">
+  <pre class="mermaid">
+stateDiagram-v2
+    direction LR
+    S1: 相信甲
+    S2: 党改口
+    S3: 相信与甲相反的说法
+    S4: 忘记自己曾相信甲
+    S5: 忘记自己做过这件事
+    S1 --> S2
+    S2 --> S3
+    S3 --> S4
+    S4 --> S5
+    S5 --> S1: 下一次需要时
+
+</pre>
+  <figcaption class="diagram-caption">关系示意图</figcaption>
+</figure>
+<p>这条线上没有哪一步是「糊涂」。它需要的是精确，所以才要有意识；又需要不被良心打扰，所以又必须无意识。</p>
+<h3 id="用三句口号试一试">用三句口号试一试</h3>
+<p>三句口号可以当作三个练习题，看看它们在一个党员的头脑里分别怎么放。</p>
+<p><strong>战争即和平。</strong> 一个党员每天听着火箭弹的爆炸声，参加仇恨活动，同时在「和平部」的招牌下上班。这两个词不需要被调和，只需要各自在需要的时候被拉出来用。他不去问它们怎么会是一回事，这一问，就走到了罪止要求他停下的门槛。</p>
+<p><strong>无知即力量。</strong> 这是戈德斯坦的书里，谈双重思想的那一章的标题。就个人而言，它的意思是：知道自己不该知道什么，是一种本事。「护身的愚蠢」不是真的蠢，是一种会自动绕开危险问题的灵敏。</p>
+<p><strong>自由即奴役。</strong> 这句最费解，也最能说明双重思想的位置。赛姆说过，等「自由」的概念被废除，这样的口号就不会存在了，因为矛盾也不存在了。换句话说，眼下的党员之所以需要双重思想，是因为「自由」这个词还留在他们的脑子里，他们必须一边保留它，一边让它不起作用。</p>
+<p>这三个例子有一个共同点：<strong>党员并没有被要求找到一个让它们讲得通的解释，只被要求说出来、感觉到、不追问。</strong></p>
+<h2 id="三人物为什么会这样选择">三、人物为什么会这样选择？</h2>
+<p>要看这种本事在人身上是什么样子，不妨看三类人。</p>
+<p><strong>帕森斯：做得最彻底的普通党员。</strong> 他是温斯顿的邻居，三十五岁，一个长大了的少年侦察队员，浑身出汗，一脸蛙相，对党充满孩子气的热情。食堂里，他兴致勃勃地讲女儿怎么盯上一个穿奇怪鞋子的人并把他交给巡逻队。同一顿午饭里，电幕说有人游行感谢老大哥把巧克力配给「提高」到二十克，而温斯顿记得，前一天才宣布过配给要降到二十克。他在想：他们能接受吗？结论是：能。帕森斯接受得轻松，用温斯顿的话说，是「带着动物般的愚蠢」。</p>
+<p>后来，帕森斯自己进了牢房。他走进来，嘴里念叨着「思想罪」，几乎要哭出来，语气里既承认了自己有罪，又带着对这个词竟然落到自己头上的难以置信的惊恐。他说自己是睡梦中说了「打倒老大哥」，被女儿隔着钥匙孔听见，告发了。「当然我有罪！你不会以为党会逮捕一个无辜的人吧？」他还说，到了审判时他要对他们说：「谢谢你们在为时未晚之前救了我。」他为女儿感到骄傲：这证明他把她教育得正确。</p>
+<p>帕森斯是这套东西最彻底的产品：他能相信党一贯正确，<strong>并且在被党毁掉的时候仍然这样相信</strong>。</p>
+<p><strong>赛姆：看懂了，照样吞下去。</strong> 同桌的赛姆呢？温斯顿想：赛姆「也吞下去了，是以一种更复杂的方式，其中包含着双重思想」。这是更令人不安的一类：他并不蠢，他明白那是怎么回事，却也有办法让自己不去在意。</p>
+<p><strong>党的核心层：最精的练习者。</strong> 戈德斯坦的书里有一句：双重思想最精妙的实践者，是发明它的人，他们知道这是一整套精神上的欺骗系统。书里的总结是：「理解得越多，迷惑就越深；越聪明，越不清醒。」</p>
+<p>温斯顿则是这套体系里的一个失败品。一种可能的读法是：他能把双重思想描述得这么准，恰好说明他没有学会，他还看得见那个本该被遗忘的东西，还记得，所以才痛苦。</p>
+<h2 id="四作者真正想讨论什么">四、作者真正想讨论什么？</h2>
+<p><strong>文本事实</strong>：小说里，双重思想被写成一种有自我指涉的技术（它要求连使用这个词都要用到它），并且是一种被训练的、对不同人有不同程度的能力。它的功能，书里写得很清楚：让党既能坚持自己永远正确，又能随时改变说法。</p>
+<p><strong>作者没有直接说的</strong>：附录里有一个旁证，说明双重思想是新话的过渡工具。一九八四年，旧语还在通行，说话时可能想起词的原义，但一个受过良好双重思想训练的人，不难避免这一点；再过两三代，这种可能就消失了。赛姆也说过，等自由的概念被废除，就不会再有「自由即奴役」这样的口号。换句话说，<strong>双重思想是语言还没完工之前的临时脚手架</strong>。</p>
+<p><strong>常见的读法</strong>：不少读者把它读作自我欺骗的极端形态，也有人把它与认知失调联系起来。后者是心理学家费斯廷格在一九五七年提出的理论：当一个人同时持有互相冲突的认知，或者做了与自己信念相反的事，会产生一种不适，从而倾向于通过改变信念、改变行为或者给自己找理由来化解。一个常被引用的实验（费斯廷格与卡尔史密斯，一九五九年）是：受试者做完一项枯燥的任务后，被请去对下一个人说它很有趣，付他一美元的人，比付他二十美元的人，后来更倾向于说自己真觉得它有趣。一般的解释是，一美元不足以为这句谎话提供外部理由，只好改变自己的看法。</p>
+<p><strong>三者的异同</strong>，是这一篇想讲清楚的核心，一种可能的读法是：</p>
+<ul>
+<li><strong>和自我欺骗</strong>：相同的地方是欺骗者和被骗者是同一个人。不同的地方在于，自我欺骗通常是个人为了心里好受而做的，往往是被动的、不自觉的；双重思想则是被要求的、被训练的，而且是<strong>选择性开关</strong>：要用时用，不用时放下。</li>
+<li><strong>和认知失调</strong>：认知失调是对一种自发倾向的描述，人们通常通过<strong>去掉矛盾的一边</strong>来恢复平静；双重思想则要求<strong>两边都留着</strong>，同时又不觉得不适。费斯廷格的理论说明人为什么不能忍受矛盾，双重思想则是一套教人忍受矛盾的纪律。奥威尔写书比费斯廷格早八年，我们没有证据说二者之间有影响关系。</li>
+<li><strong>和虚伪</strong>：虚伪者知道自己在装。戈德斯坦的书明确说，那些矛盾「不是偶然的，也不是普通的虚伪的结果，而是有意的双重思想练习」。</li>
+</ul>
+<p><strong>另一种读法</strong>：也有读者认为，奥威尔写的是一种夸张的极限，现实中的人做不到这么彻底；真实的人更接近「分隔」，把相冲突的想法放在不同的场合，使它们不至于碰面。如果这样读，小说里那份清单不是心理学描述，而是政治讽刺。</p>
+<h2 id="五把这个问题放回时代">五、把这个问题放回时代</h2>
+<p>奥威尔在一九四五年写过一篇《民族主义札记》，谈的是一种他称为「对现实漠不关心」的心理：为了自己所认同的阵营，人们可以对明摆着的事实视而不见。这篇文章常被看作双重思想的先声。小说把这种倾向推到极致，让它从一种个人毛病变成制度所需要的技术。</p>
+<p>戈德斯坦的书里有一句话，说明党为什么需要它：统治的秘诀，是把对自己永远正确的信念，同「从过去的错误中学习」的能力结合起来。一个只会坚持的统治者会僵化，一个只会改正的统治者会失去威信，双重思想让两者并存。</p>
+<h2 id="六作品是怎么写出来的">六、作品是怎么写出来的？</h2>
+<p>这个概念的写法有两处值得看。</p>
+<p><strong>先给体验，再给定义。</strong> 第三章里，双重思想不是被解释的，而是被念出来的：一个接一个并列的短句，每个都是「知道又不知道」，句子越来越长，到最后一句话把自己绕了进去。读者读完的感觉，就是有点晕。戈德斯坦的书里是同样的内容，但换了冷静的文风。同一个概念，一次用文体，一次用论述。</p>
+<p><strong>让定义吞掉自己。</strong> 「甚至理解这个词也要用到双重思想」，这句话让读者无法把它当作外部对象来观察。你要明白它，就得进入它。这是奥威尔在小说里最聪明的一个陷阱。</p>
+<h2 id="七如果放到今天">七、如果放到今天</h2>
+<p>首先要克制：不能把所有口是心非都叫作双重思想。大部分人的言行不一，只是普通的虚伪、懒惰或者妥协，他们心里是清楚的。</p>
+<p>有一个可以核对的案例，比较接近。一九八六年挑战者号航天飞机失事后，物理学家费曼在调查委员会的附录里写到，管理层估计的发射失败概率大约是十万分之一，而一线工程师的估计大约是百分之一。同一个机构里，两个相差千倍的数字同时存在，各自被信奉，互不干扰。这不是谁在撒谎，更像是<strong>组织里的人各自选择了不去对齐两套说法</strong>。</p>
+<p>另一个更日常的例子是，人们常在一个场合批评某种行为，在另一个场合因为自己的处境而做同样的事，却并不觉得矛盾。这是心理学中「分隔」或「动机性推理」的范畴，不是双重思想，但它们是同一条谱系上的轻量版本。</p>
+<p>看清这条界线，有一个实际好处：<strong>一旦你能清楚地说出自己两个想法冲突在哪里，你就还没有被它支配</strong>。温斯顿的痛苦，在这个意义上是一个证据。</p>
+<h2 id="八小结">八、小结</h2>
+<div class="highlight">
+  <span class="highlight-label">要点</span>
+<p>双重思想不是糊涂，不是撒谎，也不是单纯的自欺。它是一种被要求、被训练、有自我指涉的精神技术，它需要的恰恰是清醒：清醒到知道往哪改，又能把这个清醒也抹掉。</p>
+<p>这也是它最令人不安的地方：<strong>它把良心的功能拿走了，却没有让人变得不聪明。</strong></p>
+</div>
+<h2 id="下一篇">下一篇</h2>
+<p>一个人的头脑可以被训练，那么情绪呢？两分钟仇恨、仇恨周、胜利杜松子酒……情绪为什么也要被定期定量供应？</p>
+<!-- CONTENT_END -->
+
+      <footer class="doc-footer">
+        <span><a href="#top">↑ 回到顶部</a></span>
+        <span>来源: 10｜一个人怎么能同时相信两个相反的事实？.md</span>
+      </footer>
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    // ---------- Theme ----------
+    const STORAGE_KEY = "md2html-theme";
+    const DARK_THEMES = new Set(["dark", "midnight", "dusk", "forest"]);
+    function currentTheme() { return document.documentElement.dataset.theme || "light"; }
+    function isDarkTheme() { return DARK_THEMES.has(currentTheme()); }
+    (function restoreTheme() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) document.documentElement.dataset.theme = saved;
+    })();
+    function markThemeItem() {
+      document.querySelectorAll(".theme-item").forEach(b =>
+        b.classList.toggle("on", b.dataset.t === currentTheme()));
+    }
+    function toggleThemePop(e) {
+      e.stopPropagation();
+      markThemeItem();
+      document.getElementById("theme-pop").classList.toggle("open");
+    }
+    function setTheme(t) {
+      document.documentElement.dataset.theme = t;
+      localStorage.setItem(STORAGE_KEY, t);
+      markThemeItem();
+      const pop = document.getElementById("theme-pop");
+      if (pop) pop.classList.remove("open");
+      renderMermaid();
+    }
+    document.addEventListener("click", e => {
+      const pop = document.getElementById("theme-pop");
+      if (pop && pop.classList.contains("open") && !e.target.closest(".theme-wrap"))
+        pop.classList.remove("open");
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") {
+        const pop = document.getElementById("theme-pop");
+        if (pop) pop.classList.remove("open");
+      }
+    });
+
+    // ---------- Mermaid ----------
+    const diagramSources = new Map();
+    function initMermaid() {
+      const isDark = isDarkTheme();
+      const cs = getComputedStyle(document.documentElement);
+      const cv = n => cs.getPropertyValue(n).trim();
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: isDark ? "dark" : "default",
+        themeVariables: {
+          primaryColor: cv("--accent-soft"),
+          primaryTextColor: cv("--text"),
+          primaryBorderColor: cv("--accent"),
+          lineColor: cv("--text-subtle"),
+          secondaryColor: cv("--surface-2"),
+          tertiaryColor: cv("--surface"),
+          fontFamily: "Inter, system-ui, sans-serif",
+        },
+      });
+    }
+    function notifyMermaidOffline() {
+      // mermaid.min.js 走 CDN；离线/被墙时把原因说清楚，而不是只留一段灰掉的源码。
+      document.querySelectorAll("figure.diagram").forEach(fig => {
+        if (fig.querySelector(".diagram-offline")) return;
+        const note = document.createElement("figcaption");
+        note.className = "diagram-caption diagram-offline";
+        note.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-warn"/></svg>'
+          + "<span>图表未渲染：Mermaid 需要联网从 CDN 加载，以上为原始源码</span>";
+        fig.appendChild(note);
+      });
+    }
+    async function renderMermaid() {
+      if (typeof mermaid === "undefined") { notifyMermaidOffline(); return; }
+      initMermaid();
+      const els = document.querySelectorAll(".mermaid");
+      els.forEach(el => {
+        if (!diagramSources.has(el)) diagramSources.set(el, el.textContent.trim());
+        el.textContent = diagramSources.get(el);
+        el.removeAttribute("data-processed");
+      });
+      try { await mermaid.run({ nodes: els }); } catch (e) { console.error(e); }
+    }
+    // ---------- TOC drawer (mobile) ----------
+    function openToc()  { document.body.classList.add("toc-open"); }
+    function closeToc() { document.body.classList.remove("toc-open"); }
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape" && document.body.classList.contains("toc-open")) closeToc();
+    });
+
+    // ---------- TOC scrollspy ----------
+    function setupTocSpy() {
+      const links = document.querySelectorAll("#toc-nav a[href^='#']");
+      if (!links.length) {
+        const toc = document.getElementById("toc");
+        if (toc) toc.style.display = "none";
+        return;
+      }
+      const map = new Map();
+      links.forEach(a => {
+        const id = a.getAttribute("href").slice(1);
+        const el = document.getElementById(id);
+        if (el) map.set(el, a);
+        a.addEventListener("click", () => {
+          if (window.matchMedia("(max-width: 900px)").matches) closeToc();
+        });
+      });
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(en => {
+          const link = map.get(en.target);
+          if (!link) return;
+          if (en.isIntersecting) {
+            links.forEach(l => l.classList.remove("active"));
+            link.classList.add("active");
+          }
+        });
+      }, { rootMargin: "-80px 0px -70% 0px", threshold: 0 });
+      map.forEach((_, el) => obs.observe(el));
+    }
+
+    // ---------- Anchor links on h2/h3 ----------
+    function injectAnchors() {
+      document.querySelectorAll(".content h2[id], .content h3[id]").forEach(h => {
+        if (h.querySelector(".anchor")) return;
+        const a = document.createElement("a");
+        a.className = "anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Permalink");
+        a.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-link"/></svg>';
+        h.appendChild(a);
+      });
+    }
+
+    // ---------- Copy-to-clipboard on <pre> ----------
+    function injectCopyButtons() {
+      document.querySelectorAll(".content pre").forEach(pre => {
+        if (pre.classList.contains("mermaid")) return;
+        if (pre.querySelector(".copy-btn")) return;
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.setAttribute("aria-label", "Copy code");
+        btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+        btn.addEventListener("click", async () => {
+          const code = pre.querySelector("code")?.textContent ?? pre.textContent;
+          try {
+            await navigator.clipboard.writeText(code);
+            btn.classList.add("copied");
+            btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-check"/></svg>';
+            setTimeout(() => {
+              btn.classList.remove("copied");
+              btn.innerHTML = '<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-copy"/></svg>';
+            }, 1500);
+          } catch (e) { console.error(e); }
+        });
+        pre.appendChild(btn);
+      });
+    }
+
+    // ---------- Scroll progress ----------
+    function setupScrollProgress() {
+      const bar = document.getElementById("scroll-progress");
+      if (!bar) return;
+      const onScroll = () => {
+        const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const p = h > 0 ? (document.documentElement.scrollTop / h * 100) : 0;
+        bar.style.width = p + "%";
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+    }
+
+    // ---------- Boot ----------
+    document.addEventListener("DOMContentLoaded", () => {
+      markThemeItem();
+      injectAnchors();
+      injectCopyButtons();
+      renderMermaid();
+      setupTocSpy();
+      setupScrollProgress();
+    });
+  </script>
+<!-- MMD-ZOOM:START v4 -->
+  <style>
+    /* mermaid 图工具栏：图表/代码切换、复制、下载、放大 */
+    .mmd-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+      margin: -8px 0 12px; font-size: 13px; }
+    .mmd-tabs { display: inline-flex; padding: 2px; border-radius: 8px;
+      background: var(--surface-2); border: 1px solid var(--border); }
+    .mmd-bar button, .mmd-ov-bar button { font: inherit; color: var(--text-subtle);
+      background: transparent; border: 0; border-radius: 6px; padding: 3px 10px;
+      cursor: pointer; line-height: 1.5; white-space: nowrap; }
+    .mmd-bar button:hover, .mmd-ov-bar button:hover { color: var(--accent-strong); }
+    .mmd-tabs button.on { background: var(--surface); color: var(--text);
+      box-shadow: var(--shadow-sm); font-weight: 600; }
+    .mmd-bar .mmd-gap { flex: 1; }
+    .mmd-bar button[disabled] { opacity: .4; cursor: not-allowed; }
+    .mmd-src { margin: 0; padding: 14px 16px; overflow: auto; text-align: left;
+      font: 12.5px/1.65 var(--font-mono); background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 8px; white-space: pre; }
+    .mmd-src[hidden] { display: none; }
+    .mermaid[data-processed] { cursor: zoom-in; }
+    /* 放大视图：滚轮缩放、拖动平移 */
+    .mmd-ov { position: fixed; inset: 0; z-index: 9999; display: none;
+      background: rgba(22, 20, 16, 0.9); }
+    .mmd-ov.open { display: block; }
+    .mmd-ov-view { position: absolute; inset: 0; overflow: hidden; cursor: grab;
+      touch-action: none; user-select: none; }
+    .mmd-ov-view.drag { cursor: grabbing; }
+    .mmd-ov-stage { position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+      transform-origin: 0 0; }
+    .mmd-ov-stage svg { width: 100%; height: 100%; pointer-events: none;
+      background: var(--surface); }
+    .mmd-ov-bar { position: absolute; top: 14px; right: 14px; display: flex; gap: 2px;
+      align-items: center; padding: 4px; border-radius: 10px; font-size: 13px;
+      background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .mmd-ov-bar .pct { min-width: 46px; text-align: center; color: var(--text-subtle);
+      font-variant-numeric: tabular-nums; }
+    @media (max-width: 640px) {
+      .mmd-bar { gap: 4px; }
+      .mmd-bar button { padding: 4px 8px; }
+      .mmd-ov-bar { top: auto; bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+        right: 50%; transform: translateX(50%); }
+      .mmd-ov-bar button { padding: 8px 10px; }
+    }
+    @media print { .mmd-bar, .mmd-ov { display: none !important; } }
+  </style>
+  <div id="mmd-ov" class="mmd-ov" role="dialog" aria-modal="true" aria-label="图表放大视图">
+    <div class="mmd-ov-view"><div class="mmd-ov-stage"></div></div>
+    <div class="mmd-ov-bar">
+      <button type="button" data-a="out" title="缩小 (-)">－</button>
+      <span class="pct">100%</span>
+      <button type="button" data-a="in" title="放大 (+)">＋</button>
+      <button type="button" data-a="reset" title="适应窗口 (0 / 双击)">重置</button>
+      <button type="button" data-a="dl" title="下载 SVG">下载</button>
+      <button type="button" data-a="close" title="关闭 (Esc)">关闭</button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var figs = document.querySelectorAll('figure.diagram');
+      if (!figs.length) return;
+
+      // 渲染前先留一份源码：mermaid.run 会把 <pre> 内容替换成 SVG
+      function srcOf(el) {
+        if (el.dataset.mmdSrc == null) el.dataset.mmdSrc = el.textContent.trim();
+        return el.dataset.mmdSrc;
+      }
+      function svgOf(fig) { return fig.querySelector('.mermaid svg'); }
+      function flash(btn, text) {
+        var old = btn.textContent; btn.textContent = text;
+        setTimeout(function () { btn.textContent = old; }, 1200);
+      }
+      function save(blob, name) {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+      }
+      function svgText(svg, bg) {
+        var c = svg.cloneNode(true), vb = (svg.getAttribute('viewBox') || '').split(/\s+/);
+        c.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        c.removeAttribute('style');
+        if (vb.length === 4) { c.setAttribute('width', Math.ceil(vb[2])); c.setAttribute('height', Math.ceil(vb[3])); }
+        if (bg) c.setAttribute('style', 'background:' + bg);
+        return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(c);
+      }
+      function bgOf(el) { return getComputedStyle(el).backgroundColor; }
+      function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext)
+          return navigator.clipboard.writeText(text);
+        return new Promise(function (ok, no) {
+          var t = document.createElement('textarea');
+          t.value = text; t.style.cssText = 'position:fixed;opacity:0';
+          document.body.appendChild(t); t.select();
+          try { document.execCommand('copy') ? ok() : no(); } catch (e) { no(e); }
+          t.remove();
+        });
+      }
+
+      // ---------- 放大视图：滚轮缩放 / 拖动平移 ----------
+      var ov = document.getElementById('mmd-ov'), view = ov.querySelector('.mmd-ov-view'),
+          stage = ov.querySelector('.mmd-ov-stage'), pct = ov.querySelector('.pct');
+      var S = { k: 1, x: 0, y: 0, svg: null, bg: '' };
+      function apply() {
+        stage.style.transform = 'translate(' + S.x + 'px,' + S.y + 'px) scale(' + S.k + ')';
+        pct.textContent = Math.round(S.k * 100) + '%';
+      }
+      function zoomAt(f, cx, cy) {
+        var k = Math.min(12, Math.max(0.2, S.k * f)); f = k / S.k;
+        S.x = cx - (cx - S.x) * f; S.y = cy - (cy - S.y) * f; S.k = k; apply();
+      }
+      function center() { var r = view.getBoundingClientRect(); return [r.width / 2, r.height / 2]; }
+      function reset() { S.k = 1; S.x = 0; S.y = 0; apply(); }
+      function openOv(fig) {
+        var svg = svgOf(fig); if (!svg) return;
+        var c = svg.cloneNode(true);
+        ['width', 'height', 'style'].forEach(function (a) { c.removeAttribute(a); });
+        stage.innerHTML = ''; stage.appendChild(c);
+        S.svg = svg; S.bg = bgOf(fig); reset();
+        ov.classList.add('open'); document.documentElement.style.overflow = 'hidden';
+      }
+      function closeOv() {
+        ov.classList.remove('open'); stage.innerHTML = '';
+        document.documentElement.style.overflow = '';
+      }
+      view.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        var r = view.getBoundingClientRect();
+        zoomAt(Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0015)), e.clientX - r.left, e.clientY - r.top);
+      }, { passive: false });
+      // 单指拖动平移，双指捏合缩放（pointer 事件，鼠标/触屏通用）
+      var ptrs = {}, pinch = null;
+      function pts() { return Object.keys(ptrs).map(function (k) { return ptrs[k]; }); }
+      function startGesture() {
+        var p = pts();
+        if (p.length === 1) pinch = { mode: 'pan', x: p[0].x - S.x, y: p[0].y - S.y };
+        else if (p.length >= 2) {
+          var dx = p[1].x - p[0].x, dy = p[1].y - p[0].y;
+          pinch = { mode: 'zoom', d: Math.hypot(dx, dy) || 1, k: S.k, x: S.x, y: S.y,
+                    cx: (p[0].x + p[1].x) / 2, cy: (p[0].y + p[1].y) / 2 };
+        } else pinch = null;
+      }
+      view.addEventListener('pointerdown', function (e) {
+        ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+        try { view.setPointerCapture(e.pointerId); } catch (_) {}
+        view.classList.add('drag'); startGesture();
+      });
+      view.addEventListener('pointermove', function (e) {
+        if (!ptrs[e.pointerId]) return;
+        ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+        var p = pts();
+        if (!pinch) return;
+        if (pinch.mode === 'pan' && p.length === 1) {
+          S.x = p[0].x - pinch.x; S.y = p[0].y - pinch.y; apply();
+        } else if (pinch.mode === 'zoom' && p.length >= 2) {
+          var r = view.getBoundingClientRect();
+          var k = Math.min(12, Math.max(0.2, pinch.k * Math.hypot(p[1].x - p[0].x, p[1].y - p[0].y) / pinch.d));
+          var f = k / pinch.k, cx = pinch.cx - r.left, cy = pinch.cy - r.top;
+          var mx = (p[0].x + p[1].x) / 2 - pinch.cx, my = (p[0].y + p[1].y) / 2 - pinch.cy;
+          S.k = k; S.x = cx - (cx - pinch.x) * f + mx; S.y = cy - (cy - pinch.y) * f + my; apply();
+        }
+      });
+      function endPtr(e) {
+        delete ptrs[e.pointerId]; startGesture();
+        if (!pts().length) view.classList.remove('drag');
+      }
+      view.addEventListener('pointerup', endPtr);
+      view.addEventListener('pointercancel', endPtr);
+      view.addEventListener('dblclick', reset);
+      ov.querySelector('.mmd-ov-bar').addEventListener('click', function (e) {
+        var a = e.target.dataset && e.target.dataset.a, c = center();
+        if (a === 'in') zoomAt(1.25, c[0], c[1]);
+        else if (a === 'out') zoomAt(0.8, c[0], c[1]);
+        else if (a === 'reset') reset();
+        else if (a === 'close') closeOv();
+        else if (a === 'dl' && S.svg) save(new Blob([svgText(S.svg, S.bg)], { type: 'image/svg+xml' }), 'diagram.svg');
+      });
+      document.addEventListener('keydown', function (e) {
+        if (!ov.classList.contains('open')) return;
+        var c = center();
+        if (e.key === 'Escape') closeOv();
+        else if (e.key === '+' || e.key === '=') zoomAt(1.25, c[0], c[1]);
+        else if (e.key === '-') zoomAt(0.8, c[0], c[1]);
+        else if (e.key === '0') reset();
+      });
+
+      // ---------- 每张图的工具栏 ----------
+      var n = 0;
+      figs.forEach(function (fig) {
+        var mer = fig.querySelector('.mermaid'); if (!mer) return;
+        var src = srcOf(mer); n++;
+        var bar = document.createElement('div'); bar.className = 'mmd-bar';
+        bar.innerHTML = '<span class="mmd-tabs"><button type="button" class="on" data-a="chart">图表</button>'
+          + '<button type="button" data-a="code">代码</button></span><span class="mmd-gap"></span>'
+          + '<button type="button" data-a="copy">复制代码</button>'
+          + '<button type="button" data-a="dl">下载</button>'
+          + '<button type="button" data-a="zoom">放大</button>';
+        var pre = document.createElement('pre'); pre.className = 'mmd-src'; pre.hidden = true;
+        pre.textContent = src;
+        fig.insertBefore(bar, fig.firstChild); mer.after(pre);
+        var tabs = bar.querySelectorAll('.mmd-tabs button');
+        function show(code) {
+          mer.hidden = code; pre.hidden = !code;
+          tabs[0].classList.toggle('on', !code); tabs[1].classList.toggle('on', code);
+          bar.querySelector('[data-a=zoom]').disabled = code;
+        }
+        bar.addEventListener('click', function (e) {
+          var b = e.target.closest('button'); if (!b) return;
+          var a = b.dataset.a, code = !pre.hidden;
+          if (a === 'chart') show(false);
+          else if (a === 'code') show(true);
+          else if (a === 'copy') copyText(src).then(function () { flash(b, '已复制'); }, function () { flash(b, '复制失败'); });
+          else if (a === 'zoom') openOv(fig);
+          else if (a === 'dl') {
+            var svg = svgOf(fig);
+            if (code || !svg) save(new Blob([src + '\n'], { type: 'text/plain' }), 'diagram-' + n + '.mmd');
+            else save(new Blob([svgText(svg, bgOf(fig))], { type: 'image/svg+xml' }), 'diagram-' + n + '.svg');
+          }
+        });
+        mer.addEventListener('click', function () { openOv(fig); });
+      });
+    })();
+  </script>
+<!-- MMD-ZOOM:END -->
+</body>
+</html>
