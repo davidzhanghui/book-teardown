@@ -1493,5 +1493,228 @@ flowchart TD
       setupScrollProgress();
     });
   </script>
+<!-- MMD-ZOOM:START v4 -->
+  <style>
+    /* mermaid 图工具栏：图表/代码切换、复制、下载、放大 */
+    .mmd-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+      margin: -8px 0 12px; font-size: 13px; }
+    .mmd-tabs { display: inline-flex; padding: 2px; border-radius: 8px;
+      background: var(--surface-2); border: 1px solid var(--border); }
+    .mmd-bar button, .mmd-ov-bar button { font: inherit; color: var(--text-subtle);
+      background: transparent; border: 0; border-radius: 6px; padding: 3px 10px;
+      cursor: pointer; line-height: 1.5; white-space: nowrap; }
+    .mmd-bar button:hover, .mmd-ov-bar button:hover { color: var(--accent-strong); }
+    .mmd-tabs button.on { background: var(--surface); color: var(--text);
+      box-shadow: var(--shadow-sm); font-weight: 600; }
+    .mmd-bar .mmd-gap { flex: 1; }
+    .mmd-bar button[disabled] { opacity: .4; cursor: not-allowed; }
+    .mmd-src { margin: 0; padding: 14px 16px; overflow: auto; text-align: left;
+      font: 12.5px/1.65 var(--font-mono); background: var(--surface-2);
+      border: 1px solid var(--border); border-radius: 8px; white-space: pre; }
+    .mmd-src[hidden] { display: none; }
+    .mermaid[data-processed] { cursor: zoom-in; }
+    /* 放大视图：滚轮缩放、拖动平移 */
+    .mmd-ov { position: fixed; inset: 0; z-index: 9999; display: none;
+      background: rgba(22, 20, 16, 0.9); }
+    .mmd-ov.open { display: block; }
+    .mmd-ov-view { position: absolute; inset: 0; overflow: hidden; cursor: grab;
+      touch-action: none; user-select: none; }
+    .mmd-ov-view.drag { cursor: grabbing; }
+    .mmd-ov-stage { position: absolute; left: 0; top: 0; width: 100%; height: 100%;
+      transform-origin: 0 0; }
+    .mmd-ov-stage svg { width: 100%; height: 100%; pointer-events: none;
+      background: var(--surface); }
+    .mmd-ov-bar { position: absolute; top: 14px; right: 14px; display: flex; gap: 2px;
+      align-items: center; padding: 4px; border-radius: 10px; font-size: 13px;
+      background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+    .mmd-ov-bar .pct { min-width: 46px; text-align: center; color: var(--text-subtle);
+      font-variant-numeric: tabular-nums; }
+    @media (max-width: 640px) {
+      .mmd-bar { gap: 4px; }
+      .mmd-bar button { padding: 4px 8px; }
+      .mmd-ov-bar { top: auto; bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+        right: 50%; transform: translateX(50%); }
+      .mmd-ov-bar button { padding: 8px 10px; }
+    }
+    @media print { .mmd-bar, .mmd-ov { display: none !important; } }
+  </style>
+  <div id="mmd-ov" class="mmd-ov" role="dialog" aria-modal="true" aria-label="图表放大视图">
+    <div class="mmd-ov-view"><div class="mmd-ov-stage"></div></div>
+    <div class="mmd-ov-bar">
+      <button type="button" data-a="out" title="缩小 (-)">－</button>
+      <span class="pct">100%</span>
+      <button type="button" data-a="in" title="放大 (+)">＋</button>
+      <button type="button" data-a="reset" title="适应窗口 (0 / 双击)">重置</button>
+      <button type="button" data-a="dl" title="下载 SVG">下载</button>
+      <button type="button" data-a="close" title="关闭 (Esc)">关闭</button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var figs = document.querySelectorAll('figure.diagram');
+      if (!figs.length) return;
+
+      // 渲染前先留一份源码：mermaid.run 会把 <pre> 内容替换成 SVG
+      function srcOf(el) {
+        if (el.dataset.mmdSrc == null) el.dataset.mmdSrc = el.textContent.trim();
+        return el.dataset.mmdSrc;
+      }
+      function svgOf(fig) { return fig.querySelector('.mermaid svg'); }
+      function flash(btn, text) {
+        var old = btn.textContent; btn.textContent = text;
+        setTimeout(function () { btn.textContent = old; }, 1200);
+      }
+      function save(blob, name) {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = name;
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+      }
+      function svgText(svg, bg) {
+        var c = svg.cloneNode(true), vb = (svg.getAttribute('viewBox') || '').split(/\s+/);
+        c.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+        c.removeAttribute('style');
+        if (vb.length === 4) { c.setAttribute('width', Math.ceil(vb[2])); c.setAttribute('height', Math.ceil(vb[3])); }
+        if (bg) c.setAttribute('style', 'background:' + bg);
+        return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(c);
+      }
+      function bgOf(el) { return getComputedStyle(el).backgroundColor; }
+      function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext)
+          return navigator.clipboard.writeText(text);
+        return new Promise(function (ok, no) {
+          var t = document.createElement('textarea');
+          t.value = text; t.style.cssText = 'position:fixed;opacity:0';
+          document.body.appendChild(t); t.select();
+          try { document.execCommand('copy') ? ok() : no(); } catch (e) { no(e); }
+          t.remove();
+        });
+      }
+
+      // ---------- 放大视图：滚轮缩放 / 拖动平移 ----------
+      var ov = document.getElementById('mmd-ov'), view = ov.querySelector('.mmd-ov-view'),
+          stage = ov.querySelector('.mmd-ov-stage'), pct = ov.querySelector('.pct');
+      var S = { k: 1, x: 0, y: 0, svg: null, bg: '' };
+      function apply() {
+        stage.style.transform = 'translate(' + S.x + 'px,' + S.y + 'px) scale(' + S.k + ')';
+        pct.textContent = Math.round(S.k * 100) + '%';
+      }
+      function zoomAt(f, cx, cy) {
+        var k = Math.min(12, Math.max(0.2, S.k * f)); f = k / S.k;
+        S.x = cx - (cx - S.x) * f; S.y = cy - (cy - S.y) * f; S.k = k; apply();
+      }
+      function center() { var r = view.getBoundingClientRect(); return [r.width / 2, r.height / 2]; }
+      function reset() { S.k = 1; S.x = 0; S.y = 0; apply(); }
+      function openOv(fig) {
+        var svg = svgOf(fig); if (!svg) return;
+        var c = svg.cloneNode(true);
+        ['width', 'height', 'style'].forEach(function (a) { c.removeAttribute(a); });
+        stage.innerHTML = ''; stage.appendChild(c);
+        S.svg = svg; S.bg = bgOf(fig); reset();
+        ov.classList.add('open'); document.documentElement.style.overflow = 'hidden';
+      }
+      function closeOv() {
+        ov.classList.remove('open'); stage.innerHTML = '';
+        document.documentElement.style.overflow = '';
+      }
+      view.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        var r = view.getBoundingClientRect();
+        zoomAt(Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0015)), e.clientX - r.left, e.clientY - r.top);
+      }, { passive: false });
+      // 单指拖动平移，双指捏合缩放（pointer 事件，鼠标/触屏通用）
+      var ptrs = {}, pinch = null;
+      function pts() { return Object.keys(ptrs).map(function (k) { return ptrs[k]; }); }
+      function startGesture() {
+        var p = pts();
+        if (p.length === 1) pinch = { mode: 'pan', x: p[0].x - S.x, y: p[0].y - S.y };
+        else if (p.length >= 2) {
+          var dx = p[1].x - p[0].x, dy = p[1].y - p[0].y;
+          pinch = { mode: 'zoom', d: Math.hypot(dx, dy) || 1, k: S.k, x: S.x, y: S.y,
+                    cx: (p[0].x + p[1].x) / 2, cy: (p[0].y + p[1].y) / 2 };
+        } else pinch = null;
+      }
+      view.addEventListener('pointerdown', function (e) {
+        ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+        try { view.setPointerCapture(e.pointerId); } catch (_) {}
+        view.classList.add('drag'); startGesture();
+      });
+      view.addEventListener('pointermove', function (e) {
+        if (!ptrs[e.pointerId]) return;
+        ptrs[e.pointerId] = { x: e.clientX, y: e.clientY };
+        var p = pts();
+        if (!pinch) return;
+        if (pinch.mode === 'pan' && p.length === 1) {
+          S.x = p[0].x - pinch.x; S.y = p[0].y - pinch.y; apply();
+        } else if (pinch.mode === 'zoom' && p.length >= 2) {
+          var r = view.getBoundingClientRect();
+          var k = Math.min(12, Math.max(0.2, pinch.k * Math.hypot(p[1].x - p[0].x, p[1].y - p[0].y) / pinch.d));
+          var f = k / pinch.k, cx = pinch.cx - r.left, cy = pinch.cy - r.top;
+          var mx = (p[0].x + p[1].x) / 2 - pinch.cx, my = (p[0].y + p[1].y) / 2 - pinch.cy;
+          S.k = k; S.x = cx - (cx - pinch.x) * f + mx; S.y = cy - (cy - pinch.y) * f + my; apply();
+        }
+      });
+      function endPtr(e) {
+        delete ptrs[e.pointerId]; startGesture();
+        if (!pts().length) view.classList.remove('drag');
+      }
+      view.addEventListener('pointerup', endPtr);
+      view.addEventListener('pointercancel', endPtr);
+      view.addEventListener('dblclick', reset);
+      ov.querySelector('.mmd-ov-bar').addEventListener('click', function (e) {
+        var a = e.target.dataset && e.target.dataset.a, c = center();
+        if (a === 'in') zoomAt(1.25, c[0], c[1]);
+        else if (a === 'out') zoomAt(0.8, c[0], c[1]);
+        else if (a === 'reset') reset();
+        else if (a === 'close') closeOv();
+        else if (a === 'dl' && S.svg) save(new Blob([svgText(S.svg, S.bg)], { type: 'image/svg+xml' }), 'diagram.svg');
+      });
+      document.addEventListener('keydown', function (e) {
+        if (!ov.classList.contains('open')) return;
+        var c = center();
+        if (e.key === 'Escape') closeOv();
+        else if (e.key === '+' || e.key === '=') zoomAt(1.25, c[0], c[1]);
+        else if (e.key === '-') zoomAt(0.8, c[0], c[1]);
+        else if (e.key === '0') reset();
+      });
+
+      // ---------- 每张图的工具栏 ----------
+      var n = 0;
+      figs.forEach(function (fig) {
+        var mer = fig.querySelector('.mermaid'); if (!mer) return;
+        var src = srcOf(mer); n++;
+        var bar = document.createElement('div'); bar.className = 'mmd-bar';
+        bar.innerHTML = '<span class="mmd-tabs"><button type="button" class="on" data-a="chart">图表</button>'
+          + '<button type="button" data-a="code">代码</button></span><span class="mmd-gap"></span>'
+          + '<button type="button" data-a="copy">复制代码</button>'
+          + '<button type="button" data-a="dl">下载</button>'
+          + '<button type="button" data-a="zoom">放大</button>';
+        var pre = document.createElement('pre'); pre.className = 'mmd-src'; pre.hidden = true;
+        pre.textContent = src;
+        fig.insertBefore(bar, fig.firstChild); mer.after(pre);
+        var tabs = bar.querySelectorAll('.mmd-tabs button');
+        function show(code) {
+          mer.hidden = code; pre.hidden = !code;
+          tabs[0].classList.toggle('on', !code); tabs[1].classList.toggle('on', code);
+          bar.querySelector('[data-a=zoom]').disabled = code;
+        }
+        bar.addEventListener('click', function (e) {
+          var b = e.target.closest('button'); if (!b) return;
+          var a = b.dataset.a, code = !pre.hidden;
+          if (a === 'chart') show(false);
+          else if (a === 'code') show(true);
+          else if (a === 'copy') copyText(src).then(function () { flash(b, '已复制'); }, function () { flash(b, '复制失败'); });
+          else if (a === 'zoom') openOv(fig);
+          else if (a === 'dl') {
+            var svg = svgOf(fig);
+            if (code || !svg) save(new Blob([src + '\n'], { type: 'text/plain' }), 'diagram-' + n + '.mmd');
+            else save(new Blob([svgText(svg, bgOf(fig))], { type: 'image/svg+xml' }), 'diagram-' + n + '.svg');
+          }
+        });
+        mer.addEventListener('click', function () { openOv(fig); });
+      });
+    })();
+  </script>
+<!-- MMD-ZOOM:END -->
 </body>
 </html>
